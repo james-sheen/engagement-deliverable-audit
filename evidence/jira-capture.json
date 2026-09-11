@@ -1,0 +1,1499 @@
+{
+ "format": "engagement-deliverable-audit/capture/1",
+ "captured_at": "2021-09-12T09:53:19Z",
+ "exporter": {
+  "export_sha256": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+ },
+ "complete": true,
+ "points": [
+  {
+   "name": "ZOOKEEPER-1015",
+   "owner": "<<|author_name|91d7ee20-0628-4187-bd3f-82160ba25b6d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2698
+  },
+  {
+   "name": "ZOOKEEPER-102",
+   "owner": "<<|author_name|7d7d7182-a584-451f-a938-22852cb90d40|>>",
+   "state": "Reopened",
+   "days_since_transition": 2660
+  },
+  {
+   "name": "ZOOKEEPER-1054",
+   "owner": "<<|author_name|b5927d8b-7123-4378-a97b-2773b8448a8b|>>",
+   "state": "Open",
+   "days_since_transition": 2740
+  },
+  {
+   "name": "ZOOKEEPER-1106",
+   "owner": "<<|author_name|8a05c6cb-6b11-475a-bb67-a327d5f1fba5|>>",
+   "state": "Open",
+   "days_since_transition": 2003
+  },
+  {
+   "name": "ZOOKEEPER-1130",
+   "owner": "<<|author_name|fa960ccb-fe39-4286-9558-121fb0d13ceb|>>",
+   "state": "Open",
+   "days_since_transition": 3545
+  },
+  {
+   "name": "ZOOKEEPER-1133",
+   "owner": "<<|author_name|bcb7543e-9e66-48bf-bed2-e0ba87770a97|>>",
+   "state": "Open",
+   "days_since_transition": 3704
+  },
+  {
+   "name": "ZOOKEEPER-1137",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1158",
+   "owner": "<<|author_name|57ad95e6-c952-46b8-9731-4fafc3c7aa3a|>>",
+   "state": "Open",
+   "days_since_transition": 3659
+  },
+  {
+   "name": "ZOOKEEPER-1167",
+   "owner": "<<|author_name|4951f3c4-a9e2-4491-b9b2-45b14b7f0ea2|>>",
+   "state": "Reopened",
+   "days_since_transition": 2740
+  },
+  {
+   "name": "ZOOKEEPER-1172",
+   "owner": "<<|author_name|d218a3f4-ed34-475a-a5f1-015555d09ec7|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3652
+  },
+  {
+   "name": "ZOOKEEPER-1178",
+   "owner": "<<|author_name|70e47af0-b7f7-411d-9713-99047e418d16|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3315
+  },
+  {
+   "name": "ZOOKEEPER-1183",
+   "owner": "<<|author_name|8b69747a-2f49-40a9-9100-723897cddb42|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2893
+  },
+  {
+   "name": "ZOOKEEPER-119",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 4765
+  },
+  {
+   "name": "ZOOKEEPER-1198",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3609
+  },
+  {
+   "name": "ZOOKEEPER-1199",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1202",
+   "owner": "<<|author_name|1bcd8d39-e4f0-4044-b31f-86d71e8a308a|>>",
+   "state": "Open",
+   "days_since_transition": 2726
+  },
+  {
+   "name": "ZOOKEEPER-1204",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1209",
+   "owner": "<<|author_name|d5d709e2-0206-40f5-a6bc-e8784b82b04d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3629
+  },
+  {
+   "name": "ZOOKEEPER-1217",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3606
+  },
+  {
+   "name": "ZOOKEEPER-1218",
+   "owner": "<<|author_name|014e10b0-7b59-4478-834a-a826fbad493d|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1225",
+   "owner": "<<|author_name|d5d709e2-0206-40f5-a6bc-e8784b82b04d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3621
+  },
+  {
+   "name": "ZOOKEEPER-1234",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1235",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2670
+  },
+  {
+   "name": "ZOOKEEPER-1240",
+   "owner": "<<|author_name|70a62652-e3f3-4f93-b18f-d72a3a1a19f9|>>",
+   "state": "Open",
+   "days_since_transition": 3565
+  },
+  {
+   "name": "ZOOKEEPER-1242",
+   "owner": "<<|author_name|70a62652-e3f3-4f93-b18f-d72a3a1a19f9|>>",
+   "state": "Open",
+   "days_since_transition": 3566
+  },
+  {
+   "name": "ZOOKEEPER-1248",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3559
+  },
+  {
+   "name": "ZOOKEEPER-1251",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3591
+  },
+  {
+   "name": "ZOOKEEPER-1255",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1258",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3607
+  },
+  {
+   "name": "ZOOKEEPER-1259",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1266",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3606
+  },
+  {
+   "name": "ZOOKEEPER-1274",
+   "owner": "<<|author_name|c981bea4-9028-4616-844f-a0fdfc84d245|>>",
+   "state": "Open",
+   "days_since_transition": 2442
+  },
+  {
+   "name": "ZOOKEEPER-1284",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3601
+  },
+  {
+   "name": "ZOOKEEPER-1296",
+   "owner": "<<|author_name|b2959b90-9f23-4439-af41-9cff06f290fa|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1306",
+   "owner": "<<|author_name|8398b238-631b-4428-851e-45e689663ef7|>>",
+   "state": "Open",
+   "days_since_transition": 3574
+  },
+  {
+   "name": "ZOOKEEPER-1314",
+   "owner": "<<|author_name|89a18a81-5ffa-4f07-9033-8ddf1df687b0|>>",
+   "state": "Open",
+   "days_since_transition": 3559
+  },
+  {
+   "name": "ZOOKEEPER-1350",
+   "owner": "<<|author_name|7d7d7182-a584-451f-a938-22852cb90d40|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2647
+  },
+  {
+   "name": "ZOOKEEPER-1383",
+   "owner": "<<|author_name|a4cbf42b-e405-49c0-a9c0-4b129dd90fc6|>>",
+   "state": "Open",
+   "days_since_transition": 3154
+  },
+  {
+   "name": "ZOOKEEPER-1398",
+   "owner": "<<|author_name|3c2cee3f-4593-476a-a9c8-04021dd78adc|>>",
+   "state": "Open",
+   "days_since_transition": 2543
+  },
+  {
+   "name": "ZOOKEEPER-1418",
+   "owner": "<<|author_name|940e440e-6001-459c-bd3b-8d417924b22d|>>",
+   "state": "Open",
+   "days_since_transition": 3460
+  },
+  {
+   "name": "ZOOKEEPER-1436",
+   "owner": "<<|author_name|a4cbf42b-e405-49c0-a9c0-4b129dd90fc6|>>",
+   "state": "Open",
+   "days_since_transition": 3426
+  },
+  {
+   "name": "ZOOKEEPER-1442",
+   "owner": "<<|author_name|999306e6-1d91-4c62-9e54-d044611e60bf|>>",
+   "state": "Open",
+   "days_since_transition": 3427
+  },
+  {
+   "name": "ZOOKEEPER-1445",
+   "owner": "<<|author_name|a4cbf42b-e405-49c0-a9c0-4b129dd90fc6|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1452",
+   "owner": "<<|author_name|2e54100e-6c21-4505-abc2-ea132de268af|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3431
+  },
+  {
+   "name": "ZOOKEEPER-146",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 4733
+  },
+  {
+   "name": "ZOOKEEPER-1469",
+   "owner": "<<|author_name|bcb7543e-9e66-48bf-bed2-e0ba87770a97|>>",
+   "state": "Reopened",
+   "days_since_transition": 3392
+  },
+  {
+   "name": "ZOOKEEPER-1473",
+   "owner": "<<|author_name|a4cbf42b-e405-49c0-a9c0-4b129dd90fc6|>>",
+   "state": "Open",
+   "days_since_transition": 2723
+  },
+  {
+   "name": "ZOOKEEPER-1480",
+   "owner": "<<|author_name|f27cf307-cd9f-48d3-9a23-026a1e319bb1|>>",
+   "state": "Open",
+   "days_since_transition": 3190
+  },
+  {
+   "name": "ZOOKEEPER-1488",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3190
+  },
+  {
+   "name": "ZOOKEEPER-1519",
+   "owner": "<<|author_name|89a18a81-5ffa-4f07-9033-8ddf1df687b0|>>",
+   "state": "Open",
+   "days_since_transition": 2902
+  },
+  {
+   "name": "ZOOKEEPER-1520",
+   "owner": "<<|author_name|3b7e49f2-6337-46e4-a7ef-24da415d4a73|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1567",
+   "owner": "<<|author_name|7a834e9f-5de8-498d-bb3f-99dc609b5346|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3251
+  },
+  {
+   "name": "ZOOKEEPER-1569",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3191
+  },
+  {
+   "name": "ZOOKEEPER-1586",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 3219
+  },
+  {
+   "name": "ZOOKEEPER-1595",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3196
+  },
+  {
+   "name": "ZOOKEEPER-1607",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2955
+  },
+  {
+   "name": "ZOOKEEPER-1621",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2671
+  },
+  {
+   "name": "ZOOKEEPER-1623",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3046
+  },
+  {
+   "name": "ZOOKEEPER-168",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 4721
+  },
+  {
+   "name": "ZOOKEEPER-1681",
+   "owner": "<<|author_name|bdfe2ce4-1a34-41ca-9430-ef3e996fa5f9|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2567
+  },
+  {
+   "name": "ZOOKEEPER-1716",
+   "owner": "<<|author_name|724584c5-3e14-4720-bfde-f010e613f9d7|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2499
+  },
+  {
+   "name": "ZOOKEEPER-1724",
+   "owner": "<<|author_name|59052134-7c0a-40da-bf62-f14e8537dcc6|>>",
+   "state": "Open",
+   "days_since_transition": 2896
+  },
+  {
+   "name": "ZOOKEEPER-1737",
+   "owner": "<<|author_name|e3ac11b2-2f9d-4c72-a93f-b7659742b819|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2959
+  },
+  {
+   "name": "ZOOKEEPER-1742",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "Open",
+   "days_since_transition": 2721
+  },
+  {
+   "name": "ZOOKEEPER-1749",
+   "owner": "<<|author_name|7c956f1d-de61-4d4e-879b-13aafece1f92|>>",
+   "state": "Open",
+   "days_since_transition": 2729
+  },
+  {
+   "name": "ZOOKEEPER-1757",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 2921
+  },
+  {
+   "name": "ZOOKEEPER-1767",
+   "owner": "<<|author_name|3bad410c-2b25-4e69-b322-58e856422d0b|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2901
+  },
+  {
+   "name": "ZOOKEEPER-1777",
+   "owner": "<<|author_name|7b33c42e-e9b3-4379-aacc-dfd2b8de5d4b|>>",
+   "state": "Open",
+   "days_since_transition": 2897
+  },
+  {
+   "name": "ZOOKEEPER-1787",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2853
+  },
+  {
+   "name": "ZOOKEEPER-1794",
+   "owner": "<<|author_name|7b33c42e-e9b3-4379-aacc-dfd2b8de5d4b|>>",
+   "state": "Open",
+   "days_since_transition": 2718
+  },
+  {
+   "name": "ZOOKEEPER-1804",
+   "owner": "<<|author_name|f27cf307-cd9f-48d3-9a23-026a1e319bb1|>>",
+   "state": "Open",
+   "days_since_transition": 2724
+  },
+  {
+   "name": "ZOOKEEPER-1814",
+   "owner": "<<|author_name|9c6ebc4c-33d4-40b1-b5c8-d88869767f64|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2509
+  },
+  {
+   "name": "ZOOKEEPER-1816",
+   "owner": "<<|author_name|fdc63f3c-cf9b-4362-8707-09ac3053c4a7|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1769
+  },
+  {
+   "name": "ZOOKEEPER-1842",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 2826
+  },
+  {
+   "name": "ZOOKEEPER-1848",
+   "owner": "<<|author_name|6dcab405-adeb-4282-8b68-e04f36d19d5e|>>",
+   "state": "Open",
+   "days_since_transition": 2718
+  },
+  {
+   "name": "ZOOKEEPER-1856",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2740
+  },
+  {
+   "name": "ZOOKEEPER-1865",
+   "owner": "<<|author_name|cc83d2f0-8aed-4360-85d6-1a972b9bce81|>>",
+   "state": "Reopened",
+   "days_since_transition": 2372
+  },
+  {
+   "name": "ZOOKEEPER-1875",
+   "owner": "<<|author_name|7363dbcd-8672-41ac-96d9-c3c9028787cc|>>",
+   "state": "Open",
+   "days_since_transition": 2604
+  },
+  {
+   "name": "ZOOKEEPER-1881",
+   "owner": "<<|author_name|fe10ca71-e718-452e-b563-861fbefca021|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2711
+  },
+  {
+   "name": "ZOOKEEPER-1884",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Open",
+   "days_since_transition": 1844
+  },
+  {
+   "name": "ZOOKEEPER-1914",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Open",
+   "days_since_transition": 2606
+  },
+  {
+   "name": "ZOOKEEPER-1915",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "In Progress",
+   "days_since_transition": 2702
+  },
+  {
+   "name": "ZOOKEEPER-1916",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2702
+  },
+  {
+   "name": "ZOOKEEPER-1951",
+   "owner": null,
+   "state": "In Progress",
+   "days_since_transition": 2629
+  },
+  {
+   "name": "ZOOKEEPER-1954",
+   "owner": null,
+   "state": "In Progress",
+   "days_since_transition": 2623
+  },
+  {
+   "name": "ZOOKEEPER-1956",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 2019
+  },
+  {
+   "name": "ZOOKEEPER-1971",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1858
+  },
+  {
+   "name": "ZOOKEEPER-1983",
+   "owner": "<<|author_name|ec1ba23c-3610-4e9e-95d0-d966b80bb3a3|>>",
+   "state": "In Progress",
+   "days_since_transition": 2420
+  },
+  {
+   "name": "ZOOKEEPER-1985",
+   "owner": "<<|author_name|3daa8967-7aeb-4ffb-8393-9a5c13b9c96e|>>",
+   "state": "Open",
+   "days_since_transition": 2539
+  },
+  {
+   "name": "ZOOKEEPER-2000",
+   "owner": "<<|author_name|99f79023-501a-4a58-a0e7-88833c6145e9|>>",
+   "state": "Open",
+   "days_since_transition": 2378
+  },
+  {
+   "name": "ZOOKEEPER-2001",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 2578
+  },
+  {
+   "name": "ZOOKEEPER-2011",
+   "owner": "<<|author_name|266a8105-1309-46dc-85e2-a775287e7a9a|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2585
+  },
+  {
+   "name": "ZOOKEEPER-2012",
+   "owner": "<<|author_name|266a8105-1309-46dc-85e2-a775287e7a9a|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2585
+  },
+  {
+   "name": "ZOOKEEPER-2016",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "Open",
+   "days_since_transition": 1775
+  },
+  {
+   "name": "ZOOKEEPER-2019",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2574
+  },
+  {
+   "name": "ZOOKEEPER-2023",
+   "owner": "<<|author_name|d68e52b2-64ef-483c-9223-3b170f856ab2|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2571
+  },
+  {
+   "name": "ZOOKEEPER-2028",
+   "owner": "<<|author_name|266a8105-1309-46dc-85e2-a775287e7a9a|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2551
+  },
+  {
+   "name": "ZOOKEEPER-2031",
+   "owner": "<<|author_name|9ce2630f-f4db-4e42-9f69-a9031e76a393|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2559
+  },
+  {
+   "name": "ZOOKEEPER-2045",
+   "owner": "<<|author_name|b38e51b1-16d8-4652-85d4-14e4e900af35|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2546
+  },
+  {
+   "name": "ZOOKEEPER-2053",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 2536
+  },
+  {
+   "name": "ZOOKEEPER-2055",
+   "owner": "<<|author_name|41e29669-40f2-4add-8e92-196963daf5c0|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2531
+  },
+  {
+   "name": "ZOOKEEPER-2063",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 2508
+  },
+  {
+   "name": "ZOOKEEPER-2067",
+   "owner": "<<|author_name|a4d5cb53-9963-48fa-b44d-7753c8811840|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2514
+  },
+  {
+   "name": "ZOOKEEPER-2086",
+   "owner": "<<|author_name|45a4f0c5-bafb-44d1-b9a5-c7b0ff05234c|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2461
+  },
+  {
+   "name": "ZOOKEEPER-2089",
+   "owner": "<<|author_name|a983ecf5-8446-4af0-8cf7-e0af30a59082|>>",
+   "state": "Open",
+   "days_since_transition": 2018
+  },
+  {
+   "name": "ZOOKEEPER-2091",
+   "owner": "<<|author_name|d5d709e2-0206-40f5-a6bc-e8784b82b04d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2467
+  },
+  {
+   "name": "ZOOKEEPER-2093",
+   "owner": "<<|author_name|85ac10cf-44f9-4191-b0a2-0c80cc2c7343|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2473
+  },
+  {
+   "name": "ZOOKEEPER-2097",
+   "owner": "<<|author_name|2c625979-6649-4e72-b560-3174747a872d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2458
+  },
+  {
+   "name": "ZOOKEEPER-2099",
+   "owner": "<<|author_name|c71d84c2-b368-42b1-8b0c-713cc87c6fb9|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1787
+  },
+  {
+   "name": "ZOOKEEPER-2115",
+   "owner": "<<|author_name|17db679f-0b58-4008-a1cf-eee5b21301a1|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2158
+  },
+  {
+   "name": "ZOOKEEPER-2128",
+   "owner": "<<|author_name|98dfeff4-d9aa-4e1e-a0c3-df40507e89e8|>>",
+   "state": "Open",
+   "days_since_transition": 2003
+  },
+  {
+   "name": "ZOOKEEPER-2136",
+   "owner": "<<|author_name|a983ecf5-8446-4af0-8cf7-e0af30a59082|>>",
+   "state": "Open",
+   "days_since_transition": 2017
+  },
+  {
+   "name": "ZOOKEEPER-2162",
+   "owner": "<<|author_name|66e23514-244a-42ed-8e7d-f4dd577a9e84|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2106
+  },
+  {
+   "name": "ZOOKEEPER-2170",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2329
+  },
+  {
+   "name": "ZOOKEEPER-2192",
+   "owner": "<<|author_name|7d7d7182-a584-451f-a938-22852cb90d40|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2307
+  },
+  {
+   "name": "ZOOKEEPER-2202",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2175
+  },
+  {
+   "name": "ZOOKEEPER-2218",
+   "owner": "<<|author_name|14292488-2d77-4c46-a6a3-34bd6ccbab1e|>>",
+   "state": "Reopened",
+   "days_since_transition": 1829
+  },
+  {
+   "name": "ZOOKEEPER-2230",
+   "owner": "<<|author_name|6dcab405-adeb-4282-8b68-e04f36d19d5e|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1810
+  },
+  {
+   "name": "ZOOKEEPER-2255",
+   "owner": "<<|author_name|90218efe-b336-46ba-8966-1683e1e1c29d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2214
+  },
+  {
+   "name": "ZOOKEEPER-2260",
+   "owner": "<<|author_name|088fe7a7-3f90-4398-9dc6-1f98db603436|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2192
+  },
+  {
+   "name": "ZOOKEEPER-2263",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2204
+  },
+  {
+   "name": "ZOOKEEPER-2266",
+   "owner": "<<|author_name|4c4b0087-efb5-4d5a-905d-bf1c943e7e13|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2013
+  },
+  {
+   "name": "ZOOKEEPER-2274",
+   "owner": "<<|author_name|7d7d7182-a584-451f-a938-22852cb90d40|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2192
+  },
+  {
+   "name": "ZOOKEEPER-2276",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2189
+  },
+  {
+   "name": "ZOOKEEPER-2277",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2137
+  },
+  {
+   "name": "ZOOKEEPER-2280",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 1816
+  },
+  {
+   "name": "ZOOKEEPER-2285",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2175
+  },
+  {
+   "name": "ZOOKEEPER-2288",
+   "owner": "<<|author_name|c981bea4-9028-4616-844f-a0fdfc84d245|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2163
+  },
+  {
+   "name": "ZOOKEEPER-2290",
+   "owner": "<<|author_name|88c8e82d-c58a-4f37-9d1e-0d734acce636|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2162
+  },
+  {
+   "name": "ZOOKEEPER-2320",
+   "owner": "<<|author_name|fa065dc6-ff94-4c9f-8ca8-d617aff4c5b5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1907
+  },
+  {
+   "name": "ZOOKEEPER-2332",
+   "owner": "<<|author_name|88c8e82d-c58a-4f37-9d1e-0d734acce636|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2113
+  },
+  {
+   "name": "ZOOKEEPER-2342",
+   "owner": "<<|author_name|c981bea4-9028-4616-844f-a0fdfc84d245|>>",
+   "state": "Open",
+   "days_since_transition": 1999
+  },
+  {
+   "name": "ZOOKEEPER-2346",
+   "owner": "<<|author_name|d99f9eb4-43fb-4db3-8f19-d1737d9ac8d1|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1748
+  },
+  {
+   "name": "ZOOKEEPER-2354",
+   "owner": "<<|author_name|38ac3e01-656b-409c-876c-759db98f507d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2069
+  },
+  {
+   "name": "ZOOKEEPER-2358",
+   "owner": "<<|author_name|2c625979-6649-4e72-b560-3174747a872d|>>",
+   "state": "Open",
+   "days_since_transition": 2053
+  },
+  {
+   "name": "ZOOKEEPER-2365",
+   "owner": "<<|author_name|17db679f-0b58-4008-a1cf-eee5b21301a1|>>",
+   "state": "Open",
+   "days_since_transition": 1999
+  },
+  {
+   "name": "ZOOKEEPER-2377",
+   "owner": "<<|author_name|56e69a45-049e-48ff-9476-e7e67d03f0c8|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2025
+  },
+  {
+   "name": "ZOOKEEPER-2391",
+   "owner": "<<|author_name|9b732c63-d095-4294-9b6f-d845b6bc833c|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1966
+  },
+  {
+   "name": "ZOOKEEPER-2394",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1998
+  },
+  {
+   "name": "ZOOKEEPER-2397",
+   "owner": "<<|author_name|a983ecf5-8446-4af0-8cf7-e0af30a59082|>>",
+   "state": "Open",
+   "days_since_transition": 1998
+  },
+  {
+   "name": "ZOOKEEPER-2407",
+   "owner": "<<|author_name|84ac7d1b-1c4c-420b-a71c-12641049f313|>>",
+   "state": "Open",
+   "days_since_transition": 1928
+  },
+  {
+   "name": "ZOOKEEPER-2414",
+   "owner": "<<|author_name|d99f9eb4-43fb-4db3-8f19-d1737d9ac8d1|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1748
+  },
+  {
+   "name": "ZOOKEEPER-2422",
+   "owner": "<<|author_name|e225a093-2f8c-4e4f-9568-2cdbea8a4c04|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1958
+  },
+  {
+   "name": "ZOOKEEPER-2430",
+   "owner": "<<|author_name|03f6ad8c-fbb7-421a-914c-6b3e2de10c41|>>",
+   "state": "Open",
+   "days_since_transition": 1928
+  },
+  {
+   "name": "ZOOKEEPER-2438",
+   "owner": "<<|author_name|11f213da-275a-4a82-ab63-1447c39c4bdb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1928
+  },
+  {
+   "name": "ZOOKEEPER-2440",
+   "owner": "<<|author_name|332c5af5-0e34-471e-97c7-46e69660ee3d|>>",
+   "state": "Open",
+   "days_since_transition": 1859
+  },
+  {
+   "name": "ZOOKEEPER-2447",
+   "owner": "<<|author_name|95706dd9-d1f6-41d3-a94e-d4d38ff3c3c9|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1796
+  },
+  {
+   "name": "ZOOKEEPER-2466",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1859
+  },
+  {
+   "name": "ZOOKEEPER-2468",
+   "owner": "<<|author_name|3b6688e2-6758-41a1-84e7-10301cbfd4c6|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1867
+  },
+  {
+   "name": "ZOOKEEPER-2469",
+   "owner": "<<|author_name|fdffd924-aa7e-4dc5-b2bf-72576055a99d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1892
+  },
+  {
+   "name": "ZOOKEEPER-2471",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "In Progress",
+   "days_since_transition": 1494
+  },
+  {
+   "name": "ZOOKEEPER-2487",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "Open",
+   "days_since_transition": 1861
+  },
+  {
+   "name": "ZOOKEEPER-2492",
+   "owner": "<<|author_name|6e4f5f9c-fe58-47f6-ab31-b595d548e4eb|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1872
+  },
+  {
+   "name": "ZOOKEEPER-2504",
+   "owner": "<<|author_name|cbf25cd5-116d-4399-bf53-a5887ff3dcab|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1856
+  },
+  {
+   "name": "ZOOKEEPER-2509",
+   "owner": "<<|author_name|94d941da-747d-400b-93f2-45be019e8749|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1822
+  },
+  {
+   "name": "ZOOKEEPER-2510",
+   "owner": "<<|author_name|94d941da-747d-400b-93f2-45be019e8749|>>",
+   "state": "Open",
+   "days_since_transition": 1829
+  },
+  {
+   "name": "ZOOKEEPER-2519",
+   "owner": "<<|author_name|b6c3d22d-85fd-4815-ba46-e3a46ee42cae|>>",
+   "state": "In Progress",
+   "days_since_transition": 1815
+  },
+  {
+   "name": "ZOOKEEPER-2521",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 1818
+  },
+  {
+   "name": "ZOOKEEPER-2532",
+   "owner": "<<|author_name|9fdbb2fa-720c-45e0-8c90-4c40371b1adc|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1811
+  },
+  {
+   "name": "ZOOKEEPER-2549",
+   "owner": "<<|author_name|daf61a8d-32b4-45c5-8220-f082cf0352b4|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1835
+  },
+  {
+   "name": "ZOOKEEPER-2590",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 539
+  },
+  {
+   "name": "ZOOKEEPER-2643",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1737
+  },
+  {
+   "name": "ZOOKEEPER-2654",
+   "owner": "<<|author_name|2012db5a-6d69-464e-a32c-2a1630caa167|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1724
+  },
+  {
+   "name": "ZOOKEEPER-2738",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1621
+  },
+  {
+   "name": "ZOOKEEPER-2748",
+   "owner": "<<|author_name|088fe7a7-3f90-4398-9dc6-1f98db603436|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1618
+  },
+  {
+   "name": "ZOOKEEPER-2770",
+   "owner": "<<|author_name|e9518e7c-05ef-460a-ba69-4797ed6ed2ec|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1593
+  },
+  {
+   "name": "ZOOKEEPER-2773",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 1334
+  },
+  {
+   "name": "ZOOKEEPER-2832",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 1532
+  },
+  {
+   "name": "ZOOKEEPER-2881",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1480
+  },
+  {
+   "name": "ZOOKEEPER-2882",
+   "owner": "<<|author_name|715c3a63-6891-43a0-957b-7c77948472f6|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1480
+  },
+  {
+   "name": "ZOOKEEPER-2883",
+   "owner": "<<|author_name|715c3a63-6891-43a0-957b-7c77948472f6|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1480
+  },
+  {
+   "name": "ZOOKEEPER-2925",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1415
+  },
+  {
+   "name": "ZOOKEEPER-2937",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1403
+  },
+  {
+   "name": "ZOOKEEPER-2945",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 1384
+  },
+  {
+   "name": "ZOOKEEPER-2965",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 1341
+  },
+  {
+   "name": "ZOOKEEPER-297",
+   "owner": "<<|author_name|61086677-c2fb-4ca1-9c1e-b8e95aa3cb5f|>>",
+   "state": "Reopened",
+   "days_since_transition": 2715
+  },
+  {
+   "name": "ZOOKEEPER-2977",
+   "owner": "<<|author_name|613c4b2f-7505-4fd0-bb0b-df91bea30710|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1290
+  },
+  {
+   "name": "ZOOKEEPER-3100",
+   "owner": "<<|author_name|ff44777a-f2e6-4fea-b769-6778fcc0aecc|>>",
+   "state": "Open",
+   "days_since_transition": 1074
+  },
+  {
+   "name": "ZOOKEEPER-3141",
+   "owner": null,
+   "state": "Reopened",
+   "days_since_transition": 1004
+  },
+  {
+   "name": "ZOOKEEPER-3170",
+   "owner": "<<|author_name|ff44777a-f2e6-4fea-b769-6778fcc0aecc|>>",
+   "state": "In Progress",
+   "days_since_transition": 778
+  },
+  {
+   "name": "ZOOKEEPER-3282",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 935
+  },
+  {
+   "name": "ZOOKEEPER-3283",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 741
+  },
+  {
+   "name": "ZOOKEEPER-3290",
+   "owner": "<<|author_name|f3bb7f8f-1d84-4465-8541-bc829450a19c|>>",
+   "state": "In Progress",
+   "days_since_transition": 749
+  },
+  {
+   "name": "ZOOKEEPER-3318",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 774
+  },
+  {
+   "name": "ZOOKEEPER-3337",
+   "owner": "<<|author_name|fcd202e5-eb6a-4d08-a84d-3ef48962302d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 899
+  },
+  {
+   "name": "ZOOKEEPER-3376",
+   "owner": "<<|author_name|cd2f987d-1579-4041-b9a3-cad9f596de5e|>>",
+   "state": "In Progress",
+   "days_since_transition": 827
+  },
+  {
+   "name": "ZOOKEEPER-3413",
+   "owner": null,
+   "state": "Reopened",
+   "days_since_transition": 824
+  },
+  {
+   "name": "ZOOKEEPER-3486",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 772
+  },
+  {
+   "name": "ZOOKEEPER-3499",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 766
+  },
+  {
+   "name": "ZOOKEEPER-3521",
+   "owner": "<<|author_name|f3bb7f8f-1d84-4465-8541-bc829450a19c|>>",
+   "state": "In Progress",
+   "days_since_transition": 749
+  },
+  {
+   "name": "ZOOKEEPER-3578",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 698
+  },
+  {
+   "name": "ZOOKEEPER-3583",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 696
+  },
+  {
+   "name": "ZOOKEEPER-3584",
+   "owner": "<<|author_name|aad4ea4b-ccbc-4e6a-b1a9-c1cc45a5aa3d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 695
+  },
+  {
+   "name": "ZOOKEEPER-3585",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 688
+  },
+  {
+   "name": "ZOOKEEPER-3587",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 695
+  },
+  {
+   "name": "ZOOKEEPER-3598",
+   "owner": "<<|author_name|eda6bd5b-3063-4685-9910-ae09525eaa40|>>",
+   "state": "Reopened",
+   "days_since_transition": 666
+  },
+  {
+   "name": "ZOOKEEPER-3600",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 675
+  },
+  {
+   "name": "ZOOKEEPER-3611",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 670
+  },
+  {
+   "name": "ZOOKEEPER-3612",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 632
+  },
+  {
+   "name": "ZOOKEEPER-3616",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 667
+  },
+  {
+   "name": "ZOOKEEPER-3617",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 539
+  },
+  {
+   "name": "ZOOKEEPER-3643",
+   "owner": "<<|author_name|6acd1010-b9f4-4772-a40f-abf17d1cb995|>>",
+   "state": "In Progress",
+   "days_since_transition": 641
+  },
+  {
+   "name": "ZOOKEEPER-3732",
+   "owner": "<<|author_name|5272720c-8588-40b7-bf12-ed473d2e1d5d|>>",
+   "state": "In Progress",
+   "days_since_transition": 571
+  },
+  {
+   "name": "ZOOKEEPER-3768",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 539
+  },
+  {
+   "name": "ZOOKEEPER-3775",
+   "owner": "<<|author_name|62b83164-6b31-4fd4-b90b-2d1e434eb91b|>>",
+   "state": "In Progress",
+   "days_since_transition": 521
+  },
+  {
+   "name": "ZOOKEEPER-3787",
+   "owner": "<<|author_name|307fc0da-f288-44e7-86a1-52d5d41a6f59|>>",
+   "state": "In Progress",
+   "days_since_transition": 522
+  },
+  {
+   "name": "ZOOKEEPER-3789",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 521
+  },
+  {
+   "name": "ZOOKEEPER-3816",
+   "owner": "<<|author_name|ecaad3e1-e39e-4666-a41d-1d30af826fba|>>",
+   "state": "Open",
+   "days_since_transition": 489
+  },
+  {
+   "name": "ZOOKEEPER-3823",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 456
+  },
+  {
+   "name": "ZOOKEEPER-3851",
+   "owner": "<<|author_name|5272720c-8588-40b7-bf12-ed473d2e1d5d|>>",
+   "state": "Patch Available",
+   "days_since_transition": 443
+  },
+  {
+   "name": "ZOOKEEPER-3982",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 310
+  },
+  {
+   "name": "ZOOKEEPER-4005",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 294
+  },
+  {
+   "name": "ZOOKEEPER-4234",
+   "owner": "<<|author_name|55084888-d091-4ec1-80e6-8abfcd17a60f|>>",
+   "state": "Reopened",
+   "days_since_transition": 185
+  },
+  {
+   "name": "ZOOKEEPER-4250",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 179
+  },
+  {
+   "name": "ZOOKEEPER-4352",
+   "owner": null,
+   "state": "Patch Available",
+   "days_since_transition": 11
+  },
+  {
+   "name": "ZOOKEEPER-4375",
+   "owner": "<<|author_name|de6645fb-f65b-45f1-9efa-15c024215841|>>",
+   "state": "In Progress",
+   "days_since_transition": 0
+  },
+  {
+   "name": "ZOOKEEPER-458",
+   "owner": "<<|author_name|cb772103-8097-45f0-982b-3faead2ebc8e|>>",
+   "state": "Open",
+   "days_since_transition": 4294
+  },
+  {
+   "name": "ZOOKEEPER-474",
+   "owner": "<<|author_name|a00b677f-5658-4d71-8ea9-b37b1ff5af35|>>",
+   "state": "Open",
+   "days_since_transition": 4422
+  },
+  {
+   "name": "ZOOKEEPER-575",
+   "owner": "<<|author_name|c86a3c0e-e330-4aa4-864f-3667e9386362|>>",
+   "state": "Open",
+   "days_since_transition": 2732
+  },
+  {
+   "name": "ZOOKEEPER-645",
+   "owner": "<<|author_name|cb772103-8097-45f0-982b-3faead2ebc8e|>>",
+   "state": "Open",
+   "days_since_transition": 4257
+  },
+  {
+   "name": "ZOOKEEPER-679",
+   "owner": "<<|author_name|46aa1b79-a040-4543-84ec-9baffc5a7487|>>",
+   "state": "Open",
+   "days_since_transition": 4148
+  },
+  {
+   "name": "ZOOKEEPER-702",
+   "owner": "<<|author_name|afe6f4ea-82f2-4636-a115-f71e0096786d|>>",
+   "state": "Open",
+   "days_since_transition": 3566
+  },
+  {
+   "name": "ZOOKEEPER-770",
+   "owner": "<<|author_name|7847a95d-2735-465c-9cea-14ae0debb139|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2674
+  },
+  {
+   "name": "ZOOKEEPER-776",
+   "owner": "<<|author_name|8d02afbf-77b2-46b1-afc4-b762f022c5a5|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2277
+  },
+  {
+   "name": "ZOOKEEPER-779",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 4126
+  },
+  {
+   "name": "ZOOKEEPER-781",
+   "owner": "<<|author_name|c2fc18cb-0d10-4709-843b-673f4bb8519d|>>",
+   "state": "Open",
+   "days_since_transition": 3707
+  },
+  {
+   "name": "ZOOKEEPER-80",
+   "owner": "<<|author_name|42886a7c-0a5c-431e-bcae-7a41febc9487|>>",
+   "state": "Open",
+   "days_since_transition": 4798
+  },
+  {
+   "name": "ZOOKEEPER-802",
+   "owner": "<<|author_name|38ff2a30-c984-445a-aca1-8d24dea83f0a|>>",
+   "state": "Open",
+   "days_since_transition": 4078
+  },
+  {
+   "name": "ZOOKEEPER-823",
+   "owner": "<<|author_name|42886a7c-0a5c-431e-bcae-7a41febc9487|>>",
+   "state": "Open",
+   "days_since_transition": 3876
+  },
+  {
+   "name": "ZOOKEEPER-847",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3656
+  },
+  {
+   "name": "ZOOKEEPER-849",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3042
+  },
+  {
+   "name": "ZOOKEEPER-851",
+   "owner": null,
+   "state": "Open",
+   "days_since_transition": 3666
+  },
+  {
+   "name": "ZOOKEEPER-860",
+   "owner": "<<|author_name|eb19485c-a2e1-44bb-bf58-0d8228c9738b|>>",
+   "state": "Open",
+   "days_since_transition": 4018
+  },
+  {
+   "name": "ZOOKEEPER-872",
+   "owner": "<<|author_name|a969e209-453d-4203-b2df-4c0c5250b0eb|>>",
+   "state": "Open",
+   "days_since_transition": 3545
+  },
+  {
+   "name": "ZOOKEEPER-878",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3931
+  },
+  {
+   "name": "ZOOKEEPER-88",
+   "owner": "<<|author_name|c9f6c704-41d2-4490-9e16-66b8cae41633|>>",
+   "state": "Open",
+   "days_since_transition": 4797
+  },
+  {
+   "name": "ZOOKEEPER-892",
+   "owner": "<<|author_name|014e10b0-7b59-4478-834a-a826fbad493d|>>",
+   "state": "Open",
+   "days_since_transition": 3042
+  },
+  {
+   "name": "ZOOKEEPER-896",
+   "owner": "<<|author_name|6658441e-1409-4a77-a009-28b827e4cf65|>>",
+   "state": "Patch Available",
+   "days_since_transition": 1860
+  },
+  {
+   "name": "ZOOKEEPER-900",
+   "owner": "<<|author_name|c71d84c2-b368-42b1-8b0c-713cc87c6fb9|>>",
+   "state": "Open",
+   "days_since_transition": 1939
+  },
+  {
+   "name": "ZOOKEEPER-906",
+   "owner": "<<|author_name|f5db6a2a-d99f-4aa8-8fef-1290ca014360|>>",
+   "state": "Open",
+   "days_since_transition": 3959
+  },
+  {
+   "name": "ZOOKEEPER-910",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2696
+  },
+  {
+   "name": "ZOOKEEPER-911",
+   "owner": "<<|author_name|aea4bc95-a7ae-4ed4-b4e6-cef939666398|>>",
+   "state": "Open",
+   "days_since_transition": 3853
+  },
+  {
+   "name": "ZOOKEEPER-912",
+   "owner": "<<|author_name|43ba4626-1da5-42e1-894a-2451b9b3f7ca|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2676
+  },
+  {
+   "name": "ZOOKEEPER-915",
+   "owner": "<<|author_name|0c1902ce-a886-49e6-9433-6335e0261603|>>",
+   "state": "In Progress",
+   "days_since_transition": 1474
+  },
+  {
+   "name": "ZOOKEEPER-922",
+   "owner": "<<|author_name|39ffffe7-edb9-42a9-9f00-2d2b349d4071|>>",
+   "state": "Open",
+   "days_since_transition": 3958
+  },
+  {
+   "name": "ZOOKEEPER-932",
+   "owner": "<<|author_name|a969e209-453d-4203-b2df-4c0c5250b0eb|>>",
+   "state": "Open",
+   "days_since_transition": 3832
+  },
+  {
+   "name": "ZOOKEEPER-935",
+   "owner": "<<|author_name|f9800435-b77e-4f48-984b-615381a174a3|>>",
+   "state": "Open",
+   "days_since_transition": 3566
+  },
+  {
+   "name": "ZOOKEEPER-954",
+   "owner": "<<|author_name|44d73b6e-cdb3-4fb7-86cc-0070a1fc1531|>>",
+   "state": "Patch Available",
+   "days_since_transition": 2045
+  }
+ ],
+ "errors": []
+}

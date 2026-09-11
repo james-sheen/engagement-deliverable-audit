@@ -22,9 +22,18 @@ export in this package's format or a `qa-memory/1` harness snapshot, so a scenar
 can make a deliverable stall, lose its owner or vanish and do it the same way
 twice.
 
-What is not here yet: **any run against real tracker data.** That is the
-acceptance that matters and it has not happened, so nothing here is evidence about
-a real engagement. `examples/` is invented in full and says so on its face.
+It has now been run against **real tracker data**: 248 unresolved Apache ZooKeeper
+issues from a published CC BY 4.0 dataset, of which **one** had moved inside a
+fortnight. The artifacts, the numbers, the attribution and the two halves of the
+acceptance this does *not* meet are in `evidence/README.md`; the corpus is
+re-derivable with `battery/fetch_jira_corpus.py`, which range-fetches a bounded
+prefix of the 5.8 GB source rather than downloading it.
+
+What that run does not establish: the declaration there is derived from the same
+source as the capture, because a tracker export contains no statement of work. One
+source and two fields is weaker than two instruments, and this package says so
+rather than counting it as met. `examples/` is invented in full and says so on its
+face.
 
 `FINDINGS.md` records where building against the shared contracts produced a wrong
 answer.

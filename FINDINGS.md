@@ -85,3 +85,38 @@ The rule was in a docstring and nowhere else. Found by mutating the source rathe
 than by reading it, which is the argument for running that pass on every slice
 rather than on the ones that feel risky -- this was the least risky-feeling change
 in the set.
+
+## 7. A typed reference date made a real run look like a working audit
+
+The first run against real data dated staleness from the dataset's publication
+date, 2025-06-23. Every one of the 248 issues came back stalled, 100%, and the
+output looked exactly like an audit finding a great deal.
+
+It was measuring the distance between a calendar and the data. The prefix of the
+dump that was read tops out at a status transition in September 2021, so every
+issue in it is three and a half years past a 14-day window no matter what the
+tracker says.
+
+The reference is now DERIVED: the newest transition in the captured set, because
+an export cannot know about anything after its own newest record, so the
+high-water mark is its clock. With that, 1 of 248 is moving and 247 are not --
+which is a finding about ZooKeeper's open issues rather than about my clock.
+
+The tell was the 100%. A verdict that is unanimous over a real corpus is usually a
+statement about the instrument.
+
+## 8. The acceptance could not be fully met by the dataset it names
+
+The plan asked for the three-valued diff on the Public Jira Dataset, at least one
+real stalled deliverable reported as present and not reading, and `declare`
+finding a real anomaly in a real statement of work.
+
+The first two are met. The third cannot be met from this dataset at all: a Jira
+export is a tracker and contains no contract. So the declaration here is derived
+from the same source as the capture -- one source, two different fields -- which is
+weaker than two instruments and much weaker than two organisations.
+
+That is the same objection this package's design notes raise against a sibling
+domain, and it applies to this evidence. It is recorded in `evidence/README.md`
+beside the numbers rather than only here, because that is the file somebody
+reading the result will open.

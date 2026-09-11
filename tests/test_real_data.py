@@ -1,0 +1,89 @@
+"""The acceptance, against committed real data rather than a fixture.
+
+A fixture can be built to show anything. These assertions run over 248 unresolved
+Apache ZooKeeper issues from a published dataset, reduced to keys, owners, statuses
+and day counts. `evidence/README.md` carries the attribution the licence requires
+and says plainly which half of the acceptance this does not meet.
+"""
+
+from __future__ import annotations
+
+import json
+import pathlib
+
+import pytest
+
+from engagement_deliverable_audit import capture, declaration, exit_contract
+from engagement_deliverable_audit.vertical import register
+
+EVIDENCE = pathlib.Path(__file__).resolve().parent.parent / "evidence"
+
+
+@pytest.fixture()
+def compared():
+    from presence_audit import diff, vocabulary
+
+    engagement = declaration.load(json.loads(
+        (EVIDENCE / "jira-declaration.json").read_text(encoding="utf-8")))
+    export = capture.load(
+        json.loads((EVIDENCE / "jira-capture.json").read_text(encoding="utf-8")),
+        stall_window_days=engagement.stall_window_days)
+    vocabulary.reset()
+    register()
+    yield diff.compare(engagement, export), engagement, export
+    vocabulary.reset()
+
+
+def test_the_corpus_is_real_and_large_enough_to_mean_something(compared) -> None:
+    """NON-VACUITY. Two hundred points agreeing proves more than two, and a file
+    that had been truncated would make every assertion below pass over almost
+    nothing."""
+    _report, engagement, export = compared
+    assert len(engagement.points) > 200
+    assert len(export.points) == len(engagement.points)
+    assert all(p.name.startswith("ZOOKEEPER-") for p in engagement.points)
+
+
+def test_a_real_stalled_deliverable_is_present_and_not_reading(compared) -> None:
+    """The acceptance's own wording. Not *a finding exists* -- the three-valued
+    answer specifically, with the stalled ones inside the middle state."""
+    report, _engagement, _export = compared
+    counts = report.counts()
+    assert counts["present_not_reading"] > 0
+    assert counts["reading"] > 0, ("every point landing in one state is what a "
+                                   "broken window would also produce")
+    stalled = [f for f in report.findings if f.kind == "stalled_deliverable"]
+    assert stalled, "no real deliverable was reported as owned and not moving"
+    assert counts["present_not_reading"] == len(report.findings)
+
+
+def test_real_orphans_are_separated_from_real_stalls(compared) -> None:
+    """Both are present-and-not-moving; only one of them has somebody to ask. On
+    this corpus both occur, which a fixture had to be built to achieve."""
+    report, _e, _x = compared
+    kinds = {f.kind for f in report.findings}
+    assert {"stalled_deliverable", "orphaned_deliverable"} <= kinds
+
+
+def test_absence_is_zero_here_by_construction_and_not_by_good_news(compared) -> None:
+    """Recorded as an assertion so the reason survives. An issue that was never
+    created leaves nothing to declare, so a single dump cannot produce absence."""
+    report, _e, _x = compared
+    assert report.counts()["declared_absent"] == 0
+
+
+def test_the_core_reports_clean_over_two_hundred_real_findings(compared) -> None:
+    """The upstream gap, reproduced on real data. Filed as `presence-audit` #7.
+
+    EXPECTED TO FAIL when that is resolved, and that is the point: if the core
+    starts scoring a vertical's own findings, this test fails and says so, rather
+    than this package carrying a workaround nobody revisits.
+    """
+    report, _e, _x = compared
+    kinds = [f.kind for f in report.findings]
+    assert len(report.findings) > 200
+    assert report.exit_code == exit_contract.CLEAN, (
+        "the core now scores this domain's own findings; presence-audit #7 may be "
+        "resolved, and this package's floor table should be re-read against it")
+    assert exit_contract.code_for(kinds) == exit_contract.FINDINGS
+    assert report.counts()["regressions"] == 0
