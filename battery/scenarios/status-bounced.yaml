@@ -1,0 +1,51 @@
+# What changed between two exports, which is a different question from what is true
+# in one.
+#
+# `presence` answers *which deliverables are moving*. `regression` answers *what
+# moved since last time*, and the faults it can see are the ones that are invisible
+# to a single export: an owner who left, a deliverable that stopped moving, a ticket
+# sent back to an earlier status. A bounce inside the window is not a presence
+# finding at all -- `reassigned.yaml` asserts that silence -- and it IS a regression
+# finding, because the thing that changed is the status.
+#
+# The first phase takes TWO captures because a regression needs two exports to
+# compare. With one, `judge_argv` refuses rather than comparing a capture with
+# itself, which would report nothing and read as agreement.
+format: qa-scenario/2
+name: an owner leaves and a ticket bounces, seen only by comparing two exports
+substrate: engagement
+referee: engagement-deliverable-audit
+mode: regression
+config: ../../examples/engagement.fixture.json
+
+setup:
+  entities:
+    - {name: D-1, value: 2, owner: ana, state: In Progress}
+    - {name: D-2, value: 2, owner: ben, state: In Progress}
+    - {name: D-3, value: 2, owner: cam, state: In Progress}
+    - {name: D-4, value: 2, owner: dee, state: In Progress}
+
+phases:
+  - note: two exports of an unchanged tracker -- nothing moved
+    captures: 2
+    expect:
+      referee: {exit: 0}
+      substrate: {D-1: reading, D-3: reading}
+
+  - note: D-3 goes back to an earlier status while still owned and still moving
+    captures: 1
+    action: {bounce: {entity: D-3, to: Reopened}}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "Reopened", names: [D-3], not_names: [D-1, D-2, D-4]}
+      substrate: {D-3: reading}
+
+  - note: D-2 loses its owner, which the comparison names twice for two reasons
+    captures: 1
+    action: {orphan: D-2}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "now nobody is", names: [D-2], not_names: [D-1, D-4]}
+      substrate: {D-2: disabled}

@@ -1,0 +1,44 @@
+# THIS SCENARIO IS WRONG ON PURPOSE AND MUST FAIL. Do not fix it.
+#
+# Every other scenario here passes, and a suite where everything passes cannot tell
+# a working comparator from one that compares nothing. This repository has already
+# met that failure twice in one day: a report schema whose key the tool did not
+# carry would make every text expectation match nothing and pass, and a referee
+# whose JSON could not be parsed leaves the harness with NO report -- at which
+# point every expectation that names the absence of a finding is true of an empty
+# list.
+#
+# So this asserts two things the run will contradict, one in each channel:
+#
+#   * the REFEREE channel -- exit 0, where an orphaned deliverable returns 1;
+#   * the SUBSTRATE channel -- D-2 reading in the very phase that orphaned it.
+#
+# `probe_qa_vertical.py` runs this and requires BOTH named mismatches. Requiring
+# only that it fails would be satisfied by a scenario broken in some unrelated way
+# -- an unknown substrate, a typo'd verb, a missing config -- which proves nothing
+# about whether anything is being compared.
+format: qa-scenario/2
+name: WRONG ON PURPOSE -- both expectations are false and both must be caught
+substrate: engagement
+referee: engagement-deliverable-audit
+mode: presence
+config: ../../examples/engagement.fixture.json
+
+setup:
+  entities:
+    - {name: D-1, value: 2, owner: ana, state: In Progress}
+    - {name: D-2, value: 2, owner: ben, state: In Progress}
+    - {name: D-3, value: 2, owner: cam, state: In Progress}
+    - {name: D-4, value: 2, owner: dee, state: In Progress}
+
+phases:
+  - note: D-2 is orphaned, and both expectations deny it
+    captures: 1
+    action: {orphan: D-2}
+    expect:
+      # An orphaned deliverable is a finding, so the tool returns 1. Asserting 0
+      # is the deliberate error.
+      referee: {exit: 0}
+      substrate:
+        # Orphaned in this very phase. Asserting it still reads is the other one.
+        D-2: reading

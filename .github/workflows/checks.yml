@@ -42,7 +42,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m pip install --upgrade pip
-          python3 -m pip install -e '.[detect]' pytest
+          python3 -m pip install -e '.[detect,grade]' pytest
 
       - name: Suite
         # `-p no:randomly` is deliberately absent: order dependence is a defect
@@ -163,3 +163,36 @@ jobs:
 
       - name: Every release each pin claims
         run: python3 battery/probe_pin.py
+
+  # THE GRADER, RUN. `battery/qa_vertical.py` registers this tool with
+  # `qa-orchestrator` as a referee and a tier, and `battery/scenarios/` drives a
+  # tracker through the three answers this package exists to keep apart. The probe
+  # requires all of it, including that the wrong-on-purpose scenario fails for BOTH
+  # of its own reasons -- a suite where everything passes cannot tell a working
+  # comparator from one that compares nothing.
+  #
+  # The tool has to be on PATH because the harness runs it as a subprocess, which
+  # is the point: this is the only leg that exercises the executable a consumer
+  # installs rather than the modules the suite imports.
+  grader:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: |
+          set -euo pipefail
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -e '.[detect,grade]' pytest
+
+      - name: Scenarios parse
+        run: |
+          set -euo pipefail
+          qa-orchestrator --plugin battery/qa_vertical.py check battery/scenarios/*.yaml
+
+      - name: The grader probe
+        run: python3 battery/probe_qa_vertical.py

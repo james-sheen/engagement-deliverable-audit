@@ -99,6 +99,33 @@ written so that removing its rule turns its own tests red.
 `model_gate` deliberately permits MONOTONICITY with no `monotonicity` block,
 because the reversal arm answers without one.
 
+### The grader
+
+This package registers with `qa-orchestrator` as a referee and a tier, so a scenario
+can make a deliverable stall, lose its owner or vanish and do it the same way twice.
+It lives in `battery/` rather than in the wheel, because a package that audits
+deliverables should not make every consumer install a test harness:
+
+    qa-orchestrator --plugin battery/qa_vertical.py check battery/scenarios/*.yaml
+    qa-orchestrator --plugin battery/qa_vertical.py run battery/scenarios/orphaned-deliverable.yaml
+    python3 battery/probe_qa_vertical.py            # every claim above, as one leg each
+
+Four verbs are added -- `orphan`, `reassign`, `slip`, `bounce` -- because an entity's
+value in the harness's snapshot is days since the last transition, so `remove` and
+`set` already say *absent* and *moving* without help, and what they cannot say is
+anything about an owner or a status. Every phase asserts both channels: the
+referee's verdict and the substrate's own state. If an injection silently failed,
+the substrate expectation is the only thing that could show the referee was right to
+stay quiet.
+
+`must-fail.yaml` is wrong on purpose and must stay wrong. The probe requires it to
+fail in BOTH channels, and requires each of its two errors to fail on its own --
+two mismatches from one cause would look the same from outside.
+
+Pointing it at the tool found two defects no test and no real-data run had:
+`regression --json` printed a document and then a prose line, and the document named
+one deliverable two ways. Both are in `FINDINGS.md`.
+
 ## Licence
 
 Apache-2.0. See `LICENSE` and `NOTICE`.

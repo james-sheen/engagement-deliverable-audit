@@ -13,6 +13,7 @@ from typing import Any, Mapping
 DECLARATION = "engagement-deliverable-audit/declaration/1"
 CAPTURE = "engagement-deliverable-audit/capture/1"
 PRESENCE = "engagement-deliverable-audit/presence/1"
+REGRESSION = "engagement-deliverable-audit/regression/1"
 
 #: Every declared type a point may carry. `ceremony` and `assumption` are
 #: deliberately inside the enumeration rather than outside it: a status call is a

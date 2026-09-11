@@ -1,0 +1,89 @@
+# The three answers this package exists to keep apart, made one at a time.
+#
+# A deliverable can be moving, tracked and stalled, or absent, and the response to
+# each is different. This drives a tracker through all three and asserts both
+# channels every phase: the REFEREE's verdict and the SUBSTRATE's own state. The
+# substrate half is not redundancy -- if an injection silently failed, it is the
+# only thing that could show the referee was right to stay quiet. Without it a
+# broken injector and a blind referee look identical from here.
+#
+# The stalled phase is the one the harness's own memory tier would get wrong: it
+# calls anything carrying a number `reading`, and a transition sixty days old is a
+# number. `EngagementSubstrate.state` grades with this tool's reader instead, so
+# `D-3: disabled` below passes only because that override exists.
+#
+# Phases are cumulative: each injection rides on the one before it.
+format: qa-scenario/2
+name: a deliverable orphaned, one stalled, one absent, then an export that did not finish
+substrate: engagement
+referee: engagement-deliverable-audit
+mode: presence
+config: ../../examples/engagement.fixture.json
+
+setup:
+  # D-5 is descoped in that declaration, so a tracker still carrying it is the
+  # separate finding `disabled_in_config_but_live`. It is left out here on purpose:
+  # this scenario is about the three presence answers, and a fourth finding in
+  # every phase would make the baseline noisy rather than clean.
+  entities:
+    - {name: D-1, value: 2, owner: ana, state: In Progress}
+    - {name: D-2, value: 2, owner: ben, state: In Progress}
+    - {name: D-3, value: 2, owner: cam, state: In Progress}
+    - {name: D-4, value: 2, owner: dee, state: In Progress}
+
+phases:
+  - note: everything declared is tracked, owned and moving inside the window
+    captures: 1
+    expect:
+      referee: {exit: 0}
+      substrate: {D-1: reading, D-2: reading, D-3: reading, D-4: reading}
+
+  - note: D-2 loses its owner -- tracked, and nobody is going to move it
+    captures: 1
+    action: {orphan: D-2}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "nobody owns it", names: [D-2], not_names: [D-1, D-3, D-4]}
+      substrate: {D-2: disabled, D-1: reading}
+
+  - note: D-3 is owned and its last transition ages past the declared window
+    captures: 1
+    action: {slip: {entity: D-3, days: 60}}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "owned and not moving", names: [D-3], not_names: [D-1, D-4]}
+      # Present and not reading, asserted through the substrate and not only
+      # through the referee. This is the answer a tool that collapsed the three
+      # into not-ok would lose.
+      substrate: {D-3: disabled, D-1: reading}
+
+  - note: D-4 leaves the tracker entirely -- declared, and nowhere in the export
+    captures: 1
+    action: {remove: D-4}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "not present in the capture", names: [D-4], not_names: [D-1]}
+      substrate: {D-4: absent, D-1: reading}
+
+  # THE INCOMPLETE-CAPTURE EXIT IS A CHOICE AND THIS IS IT: 1, not 2. The profile
+  # does not pass `--require-complete`, so a partial export is reported as the
+  # findings that did come back rather than as a run that could not be made. Both
+  # are defensible and the tool supports both; what is not defensible is leaving it
+  # to whichever the harness happened to produce. With `--require-complete` in
+  # `judge_argv` every expectation below would read `exit: 2`.
+  #
+  # The load-bearing assertion is `not_names: [D-4]`. D-4 was reported absent in
+  # the phase before, and an incomplete export must WITHHOLD absence rather than
+  # report a deliverable missing because a page of the export failed. So the
+  # finding that was there a moment ago has to disappear.
+  - note: a page of the export failed, so absence is withheld and D-4 goes unnamed
+    captures: 1
+    action: {fail: {region: "tracker-export-page-2", status: "export truncated"}}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "withheld", not_names: [D-4]}
+      substrate: {D-4: absent, D-1: reading}

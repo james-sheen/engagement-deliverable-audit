@@ -1,0 +1,40 @@
+# A reassignment is not a finding, and that is the other half of every claim above.
+#
+# Driving faults in and watching a tool report them proves it is noisy, not that it
+# is right. This changes the owner of a deliverable -- a real event in any
+# engagement, and not a fault -- and requires silence. A tool that reported this
+# would make its orphan finding worthless, because nobody could tell the two apart.
+format: qa-scenario/2
+name: a deliverable changes hands and stays owned, which is not a finding
+substrate: engagement
+referee: engagement-deliverable-audit
+mode: presence
+config: ../../examples/engagement.fixture.json
+
+setup:
+  entities:
+    - {name: D-1, value: 2, owner: ana, state: In Progress}
+    - {name: D-2, value: 2, owner: ben, state: In Progress}
+    - {name: D-3, value: 2, owner: cam, state: In Progress}
+    - {name: D-4, value: 2, owner: dee, state: In Progress}
+
+phases:
+  - note: the baseline this scenario has to keep
+    captures: 1
+    expect:
+      referee: {exit: 0}
+      substrate: {D-2: reading}
+
+  - note: D-2 moves from ben to erin and is still owned and still moving
+    captures: 1
+    action: {reassign: {entity: D-2, to: erin}}
+    expect:
+      referee: {exit: 0}
+      substrate: {D-2: reading, D-1: reading}
+
+  - note: and a status bounce inside the window is not a presence finding either
+    captures: 1
+    action: {bounce: {entity: D-3, to: Reopened}}
+    expect:
+      referee: {exit: 0}
+      substrate: {D-3: reading}

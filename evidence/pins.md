@@ -47,8 +47,16 @@ be measuring. This sweep was monotonic; that is a result, not a premise.
 |---|---|---|---|
 | `presence-audit>=0.1.7,<0.2` | 0.1.7 | 0.1.6 fails | floor holds |
 | `arbiter-engine>=0.1.10,<0.2` | 0.1.10, 0.1.11, 0.1.12, 0.1.13 | 0.1.9 fails | floor holds |
+| `qa-orchestrator>=0.3.0,<0.4` | 0.3.0, 0.3.1, 0.3.2 | 0.2.0 fails, and so does every release below it | floor holds |
 
-Five in-range releases installed and passing; both releases below the floor fail.
+Eight in-range releases installed and passing; every release below every floor fails.
+
+The third pin arrived with the grader vertical and was declared provisional, the same
+way the other two were. Sweeping it found the declared number already correct:
+`actions`, `substrate`, `substrates.memory` and `vocabulary` do not exist before
+0.3.0, the release that made the harness domain-free, so nothing below it can import
+the vertical at all. A floor that survives its own measurement earns the same
+sentence as one that does not -- until it was run it was a guess.
 
 `presence-audit` fails at 0.1.6 on `test_nothing_produced_is_clean_and_that_differs_from_the_core_on_purpose`,
 because `presence_audit.exit_contract` does not exist in 0.1.6 -- the module this

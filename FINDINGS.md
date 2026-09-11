@@ -58,9 +58,14 @@ A finding the core raises about a declared point names it by `display_name` --
 because `capture_findings` is handed the capture and a captured point has no
 display name to reach for. Both appear as subjects in the same artifact.
 
-Consequence for anything downstream: match the key as a substring, never for
-equality. Asserting equality passes on this package's own findings and fails on
-the core's.
+**The document was since fixed; the prose was not, deliberately.** The JSON now
+carries the declared key for every subject, because anything joining rows by
+subject saw two deliverables where there is one -- and the grader matches subjects
+for EQUALITY, so neither spelling could match the other. The prose still prints the
+declared title, because a person reading a list of findings is helped by it.
+
+So: inside the document, match the key for equality. Reading the prose, match it as
+a substring. Finding 13 records what found this.
 
 ## 5. A second implementation costs more than the dependency it saves
 
@@ -203,3 +208,48 @@ word for it. A deliberate non-fix for now -- inventing a grouping the core's dif
 does not have would put a second model of the relationship inside a vertical, which
 is the thing finding 5 paid a dependency to avoid. It is recorded as a real limit
 found by running against a real engagement rather than as a design note.
+
+## 12. Two verbs of one tool disagreed about whether stdout is a document
+
+`presence --json` returns before it prints any prose, so its whole stdout is the
+report. `regression --json` printed the report and then the `OUTCOME` line, because
+it fell through to the shared ending.
+
+Nothing in this repository could see that, and it took pointing a harness at the
+tool to find it. The harness parses the WHOLE of stdout as JSON, catches the decode
+error, and carries on **with no report**. Then: an expectation naming a finding
+fails, which looks like the tool missing a fault; an expectation naming the ABSENCE
+of a finding passes, because it is true of an empty list. Half the assertions go
+quiet and the other half blame the wrong thing.
+
+Fixed by making the regression document a document -- a `format` of its own, the
+same `exit_code` and `verdict` keys its sibling carries, and an early return. The
+guard is in `tests/test_cli.py` and it parses the entire stream for every verb that
+has a `--json`, because a test that sliced the JSON out first would have passed
+throughout. Reverting the fix reddens it.
+
+The findings key was renamed too, from `changes` to `findings`.
+`ReportSchema.findings` is a single key and is read with a plain `.get()`; one name
+for one thing across both verbs is what lets one profile describe either mode.
+`changes` remains the word the prose uses.
+
+## 13. The grader found the subject spelling, by matching for equality
+
+Finding 4 recorded that one report named a deliverable two ways and advised
+downstream readers to match the key as a substring. That advice is fine for a
+reader you control. The harness is not one: it collects the subject of each finding
+and compares sets, so `D-4` never matches `D-4 steering sign-off`.
+
+The scenario failed on exactly that phase, and the cheap repair was to write the
+display name into the scenario. That would have pinned the inconsistency in place
+and left the next consumer to rediscover it -- and it would have broken the day
+somebody edited the fixture's title, which is a guard with an expiry date.
+
+So the document was fixed instead: subjects are the declared key, and the prose
+keeps the title. Two things now detect a regression of it -- a unit test on the
+document and the scenario itself -- and reverting the fix reddens both.
+
+What this says about the other direction: a report is an interface, and the reader
+that finds its defects is the one you did not write. Two real runs and a review
+could not see this; a harness that joins rows by subject saw it on the fourth phase
+of the first scenario.

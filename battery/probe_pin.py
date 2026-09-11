@@ -89,6 +89,23 @@ def declared_pins() -> dict[str, SpecifierSet]:
     return pins
 
 
+def declared_extras() -> tuple[str, ...]:
+    """Every extra this package declares, read from the file that declares them.
+
+    The environments below install all of them. A hardcoded list here would go on
+    installing yesterday's extras, and the suite would fail in every probed
+    environment for a reason that is about this probe -- which reads, from the
+    outside, exactly like a floor that does not hold.
+    """
+    try:
+        import tomllib as toml_reader
+    except ModuleNotFoundError:
+        import tomli as toml_reader  # type: ignore[no-redef]
+    with (REPO_ROOT / "pyproject.toml").open("rb") as handle:
+        project = toml_reader.load(handle).get("project", {})
+    return tuple(sorted(project.get("optional-dependencies") or {}))
+
+
 def released(dist: str) -> list[Version]:
     """Every version the index serves for `dist`, oldest first."""
     request = urllib.request.Request(
@@ -137,9 +154,12 @@ def exercise(dist: str, version: Version, root: Path) -> dict[str, object]:
                         f"{made.stderr.strip()[:300]}")
     python = home / "bin" / "python"
 
-    # This package, as a consumer installs it, with the extra its guards need.
-    built = _run([str(python), "-m", "pip", "install", "-q", ".[detect]", "pytest"],
-                 cwd=REPO_ROOT)
+    # This package, as a consumer installs it, with every extra it declares --
+    # the guards need one and the grader vertical needs another, and the suite
+    # imports both.
+    extras = ",".join(declared_extras())
+    built = _run([str(python), "-m", "pip", "install", "-q",
+                  f".[{extras}]" if extras else ".", "pytest"], cwd=REPO_ROOT)
     if built.returncode != 0:
         raise CannotRun(f"cannot install this package for {dist} {version}: "
                         f"{built.stderr.strip()[-400:]}")

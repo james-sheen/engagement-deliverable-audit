@@ -17,6 +17,35 @@ def _outcomes(text: str) -> list[str]:
     return [l for l in text.splitlines() if l.startswith("OUTCOME")]
 
 
+def test_with_json_stdout_is_a_document_and_nothing_else(tmp_path, capsys) -> None:
+    """Every verb that has a `--json`, and the whole of stdout parsed, not a slice.
+
+    `regression` printed its document and then an OUTCOME line, while `presence`
+    returned before prose. One verb of one tool, disagreeing with its sibling about
+    whether stdout is a document. A harness pointed at it parses the WHOLE of
+    stdout, catches the decode error, and carries on with no report -- so the
+    expectations that name a finding fail, and every expectation that names the
+    absence of one passes for having nothing to look at.
+
+    Asserting on the parse of the entire stream is the whole point: a test that
+    sliced the JSON out first would have passed throughout.
+    """
+    out = tmp_path / "c.json"
+    main(["capture", "--source", f"qa-memory:{SNAP}", "--out", str(out)])
+    capsys.readouterr()
+    for argv in (["presence", "--declaration", DECL, "--capture", str(out)],
+                 ["regression", "--before", str(out), "--after", str(out),
+                  "--stall-window-days", "14"]):
+        main([*argv, "--json"])
+        captured = capsys.readouterr().out
+        payload = json.loads(captured)          # raises if a prose line rode along
+        assert payload["format"].startswith("engagement-deliverable-audit/")
+        assert "findings" in payload, argv
+        assert payload["exit_code"] == main([*argv, "--json"]), argv
+        capsys.readouterr()
+        assert not _outcomes(captured), f"{argv} put an OUTCOME line in a document"
+
+
 def test_capture_prints_exactly_one_outcome_line(tmp_path, capsys) -> None:
     """A caller parsing output needs one place to look. Two OUTCOME lines is two
     answers; prose that might be the answer will be parsed wrongly."""

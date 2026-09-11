@@ -56,6 +56,19 @@ dependencies = ["presence-audit>=0.1.7,<0.2"]
 # all four were installed and run rather than reasoned about.
 detect = ["arbiter-engine>=0.1.10,<0.2"]
 
+# The grader's own need, and it is an extra because the grader is in `battery/`:
+# a package that audits deliverables should not make every consumer install a
+# test harness.
+#
+# MEASURED FLOOR, and unlike the one above it was already right. 0.3.0 through
+# 0.3.2 all pass; 0.2.0 and below fail, and they fail on the IMPORTS rather than on
+# a behaviour -- `actions`, `substrate`, `substrates.memory` and `vocabulary` do not
+# exist before 0.3.0, the release that made the harness domain-free. A floor at a
+# rewrite needs no argument, and it was still worth the run: it was declared before
+# anything had been installed, so until then it was a guess that happened to be
+# correct.
+grade = ["qa-orchestrator>=0.3.0,<0.4"]
+
 [project.scripts]
 engagement-deliverable-audit = "engagement_deliverable_audit.cli:main"
 
