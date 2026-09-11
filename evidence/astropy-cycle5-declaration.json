@@ -1,8 +1,8 @@
 {
   "format": "engagement-deliverable-audit/declaration/1",
   "engagement": "astropy-cycle-5",
-  "reviewed_by": "the Astropy SPOC and Finance Committee, per the Cycle 5 call: the SPOC and Finance Committee will work together to select funding requests and allocate budgets",
-  "reviewed_on": "2025-12-19",
+  "reviewed_by": "DERIVED -- not signed by anybody. Built by battery/fetch_astropy_cycle5.py from astropy/astropy-project@74af2fa4. The Astropy SPOC and Finance Committee selected these funding requests on a nominal date of 2025-12-19 and did not review this declaration",
+  "reviewed_on": "2026-09-11",
   "change_order": 0,
   "stall_window_days": 90.0,
   "sources": [

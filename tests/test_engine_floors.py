@@ -81,7 +81,7 @@ def test_what_was_not_measured_is_named(measured) -> None:
 
 
 def test_the_probe_recorded_where_it_ran(measured) -> None:
-    for key in ("measured_on", "engine_file", "python", "probes"):
+    for key in ("measured_on", "engine_module", "python", "probes"):
         assert measured.get(key), f"the record carries no {key}"
 
 
@@ -91,12 +91,24 @@ def test_the_burn_in_document_agrees_with_the_measurement(measured) -> None:
     Derived from the record rather than typed here, so raising the engine's floor
     fails this by making the document wrong rather than by leaving it agreeing with
     a number nothing holds any more.
+
+    **IT PINNED THE PROBE'S NUMBER, NOT THE TOOL'S.** The probe feeds the engine
+    observations directly and reaches the floor at ten; the tool feeds captures and
+    derives one point each, dropping the first, so it reaches the floor at eleven. This
+    asserted `capture 10` and the document said `capture 10`, and both were wrong about
+    the thing a reader sizing a burn-in needs. The record now carries both numbers and
+    this asserts the one the document is about.
     """
     text = BURN_IN.read_text(encoding="utf-8")
-    stability = measured["floors"]["STABILITY"]["captures"]
+    stability = measured["floors"]["STABILITY"]["captures_through_the_feeder"]
     assert f"capture {stability}" in text, (
-        f"the record says STABILITY answers from {stability} captures and the "
-        f"burn-in document does not say so")
+        f"the record says STABILITY answers from {stability} captures through the "
+        f"feeder and the burn-in document does not say so")
+    observations = measured["floors"]["STABILITY"]["observations"]
+    assert stability == observations + 1, (
+        "the feeder drops the first capture, so the tool's floor is the engine's plus "
+        "one; if that stops holding, the derivation changed and this document is about "
+        "a different number")
     learned = measured["floors"]["HOMEOSTASIS_learned"]["by_cadence"]
     assert learned["daily"]["unreachable at this rate"] is True, (
         "the document's central claim is that a daily collector cannot reach the "

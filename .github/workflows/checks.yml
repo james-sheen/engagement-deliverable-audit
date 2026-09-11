@@ -202,25 +202,74 @@ jobs:
         # Writes to a temp path on purpose: a check must not rewrite the thing it is
         # checking, and refreshing the floors is a deliberate act on a pin change.
         #
-        # Red here means the engine behaves differently from what the record says, at
-        # the version the record names. That is either a bad record or a changed
-        # engine, and both want a person rather than a re-run.
+        # TWO QUESTIONS, AND THIS STEP USED TO ANSWER THEM WITH ONE EXIT CODE.
+        #
+        #   1. Do the recorded measurements still reproduce AT THE VERSION THE RECORD
+        #      NAMES? That is a behaviour claim about this package, it is what the
+        #      record is for, and it is a hard failure.
+        #   2. Has a newer release appeared inside the pin? That is news from upstream.
+        #      Nothing in this repository changed, nobody here did anything wrong, and
+        #      the right response is to re-run the probe when somebody is ready to.
+        #
+        # Installing the newest in-range release and then failing on any difference
+        # made every push red the day `arbiter-engine` published, with a message
+        # telling the author to re-run a probe they had no reason to think about. The
+        # red was scheduled by upstream, not earned by a commit -- and because it fired
+        # on the version string before comparing anything, a genuine reproduction
+        # failure and a routine upstream release were indistinguishable.
+        #
+        # So the reproduction runs PINNED to the recorded version, and the newer
+        # release is reported as a notice. The `floors` job separately sweeps every
+        # release the pin admits, so a new one is still exercised -- it is just not
+        # this step's business.
         run: |
           set -euo pipefail
+          RECORDED=$(python3 -c "import json; print(json.load(open('src/engagement_deliverable_audit/engine_floors.json'))['engine_version'])")
+          python3 -m pip install --quiet "arbiter-engine==${RECORDED}"
           EDA_ENGINE_FLOORS_OUT=/tmp/floors-now.json python3 battery/probe_engine.py > /dev/null
           python3 - <<'PY'
           import json, sys
           now = json.load(open("/tmp/floors-now.json"))
           shipped = json.load(open("src/engagement_deliverable_audit/engine_floors.json"))
+          # Now an invariant rather than a race: the install above pinned it. If this
+          # ever fires, the pin did not take and the comparison below is meaningless.
           if now["engine_version"] != shipped["engine_version"]:
-              sys.exit(f"::error::the record names {shipped['engine_version']} and the "
-                       f"engine resolved to {now['engine_version']}; re-run the probe")
+              sys.exit(f"::error::asked for {shipped['engine_version']} and the probe "
+                       f"ran against {now['engine_version']}; the pinned install did "
+                       f"not take, so nothing below was compared at the right version")
           drifted = [name for name in shipped["floors"]
                      if now["floors"].get(name) != shipped["floors"][name]]
           drifted += [f"probe {k}" for k, v in shipped["probes"].items()
                       if now["probes"].get(k, {}).get("measured") != v["measured"]]
           if drifted:
-              sys.exit(f"::error::these measurements no longer reproduce: {drifted}")
+              sys.exit(f"::error::these measurements no longer reproduce at "
+                       f"{shipped['engine_version']}: {drifted}")
           print(f"{len(shipped['probes'])} probe(s) reproduced against "
                 f"{shipped['engine_version']}")
+          PY
+
+      - name: Is there a newer engine inside the pin
+        # ADVISORY, and deliberately the last thing in the job. A newer release is
+        # information, not a defect in this commit, so it annotates and does not fail.
+        # `continue-on-error` is not used because nothing here exits non-zero: the
+        # distinction is in what the step DOES, not in whether its failure is ignored.
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess, sys
+          shipped = json.load(open("src/engagement_deliverable_audit/engine_floors.json"))
+          recorded = shipped["engine_version"]
+          sys.path.insert(0, "battery")
+          from packaging.version import Version
+          import probe_pin
+          pin = probe_pin.declared_pins()["arbiter-engine"]
+          in_range, _below = probe_pin.candidates("arbiter-engine", pin)
+          newer = [str(v) for v in in_range if v > Version(recorded)]
+          if newer:
+              print(f"::notice::the record was measured against {recorded}; "
+                    f"{', '.join(newer)} now also satisfy {pin}. Re-run "
+                    f"battery/probe_engine.py and commit the record when convenient. "
+                    f"The floors job already runs the suite against every one of them.")
+          else:
+              print(f"{recorded} is the newest release {pin} admits")
           PY

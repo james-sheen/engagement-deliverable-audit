@@ -97,5 +97,28 @@ def load(payload: Mapping[str, Any], *, stall_window_days: float) -> Export:
         captured_at=payload.get("captured_at"),
         complete=bool(payload.get("complete", True)),
         errors=tuple(tuple(e) for e in payload.get("errors") or ()),
-        exporter=(payload.get("exporter") or {}).get("export_sha256"),
+        exporter=_exporter_identity(payload.get("exporter") or {}),
     )
+
+
+def _exporter_identity(exporter: Mapping[str, Any]) -> Any:
+    """Whatever identifies the exporter, under either key.
+
+    This value is only ever compared for EQUALITY, to decide whether two exports came
+    from the same exporter and may be compared at all. It was read from
+    `export_sha256` alone, and the committed Jira corpus carried sixty-four `z`
+    characters there -- a field named as a digest holding a placeholder, in published
+    evidence. `id` is the honest key for an identity that is not a hash; the digest key
+    is still read, because it is the right name when the value really is one and
+    because a capture written by 0.1.0 has to keep loading.
+
+    Worth recording why this is not simply a content hash: two captures of the same
+    engagement differ in content by design, so digesting the points would make every
+    pair incomparable and turn every regression into a SKIP. The identity is of the
+    EXPORTER, not of the export.
+    """
+    for key in ("id", "export_sha256"):
+        value = exporter.get(key)
+        if value:
+            return value
+    return None

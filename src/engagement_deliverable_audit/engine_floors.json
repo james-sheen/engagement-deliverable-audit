@@ -1,5 +1,5 @@
 {
- "engine_file": "/tmp/claude-0/-root-w/591c7f45-863b-4c41-868d-93b7c2e72686/scratchpad/edaenv/lib/python3.10/site-packages/arbiter_engine",
+ "engine_module": "arbiter_engine",
  "engine_version": "0.1.13",
  "floors": {
   "CONNECTIVITY": {
@@ -56,7 +56,9 @@
   },
   "STABILITY": {
    "captures": 10,
-   "note": "expect_variation arm on a flat series; the window is a ceiling, so the floor is a count INSIDE it",
+   "captures_through_the_feeder": 11,
+   "note": "expect_variation arm on a flat series; the window is a ceiling, so the floor is a count INSIDE it. `observations` is what this probe feeds directly; `captures_through_the_feeder` is what the tool needs, because the first capture yields no derived point",
+   "observations": 10,
    "window_and_cadence": {
     "window 14d, daily capture": {
      "fired": true,
@@ -151,12 +153,12 @@
    }
   }
  },
- "measured_on": "2026-09-11T08:53:55.088377+00:00",
+ "measured_on": "2026-09-11T13:45:07.472895+00:00",
  "not_measured": [
   "CONSERVATION -- this vertical declares no flow, so no arm of it is exercised",
   "RESPONSIVENESS -- no deliverable has a declared deadline as a latency role",
   "CONSISTENCY -- no two surfaces report the same deliverable here",
-  "CAUSALITY and the remaining axioms -- not declared by this model"
+  "BOUNDEDNESS, HOMEOSTASIS, MONOTONICITY -- probed above (C4-C10) and declared by no indicator in this model; the manifest carries the reason for each"
  ],
  "probes": {
   "C1": {

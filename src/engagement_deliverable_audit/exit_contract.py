@@ -111,9 +111,63 @@ FLOORS: Mapping[str, tuple[int, str]] = {
         INCOMPLETE, "an indicator never declared what it IS to the axiom reading it, "
                     "so somebody owes a declaration"),
 
+    # THE SIX REMAINING MEMBERS OF THE ENGINE'S DECLINE ENUM, each decided rather than
+    # left to fall through.
+    #
+    # They were absent, and absence gave them the right ANSWER for the wrong REASON:
+    # `UNCLASSIFIED` is 2, which is the safe direction, so nothing was broken -- but a
+    # reader could not tell a reason this package had decided from one it had never
+    # heard of, and `unclassified` reported them as unscored. The engine's
+    # `NotEvaluatedReason` is a closed enum of twelve; six had rows and six did not.
+    # `test_the_table_covers_the_engines_whole_decline_vocabulary` now derives the set
+    # from that enum, so a thirteenth member fails a test instead of quietly landing in
+    # the unclassified bucket.
+    "no_current_value": (
+        INCOMPLETE, "the property is declared and carries no value right now. For this "
+                    "domain that is the feeder's omission rather than the tracker's, "
+                    "because every indicator here is either read from the capture or "
+                    "derived in this package"),
+    "wrong_indicator_type": (
+        INCOMPLETE, "the model declares a type the axiom cannot read. A defect in the "
+                    "model, and the gates are supposed to catch it before a run"),
+    "precondition_unmet": (
+        INCOMPLETE, "the axiom states a precondition and the model does not meet it, "
+                    "so the declaration was never judgeable as written"),
+    "undefined_for_values": (
+        INCOMPLETE, "the arithmetic is undefined over the values fed -- a ratio over "
+                    "zero, a direction over one point. The numbers reached the engine "
+                    "and nothing could be concluded, which is not a clean run"),
+    "checker_error": (
+        INCOMPLETE, "the engine raised inside a checker. Whatever else is true, this "
+                    "run did not complete, and it is the one decline that is nobody's "
+                    "declaration to fix"),
+    # THE ONLY ONE OF THESE SIX THAT IS NOT 2, and the reason it needed deciding rather
+    # than defaulting. (It is not the only CLEAN row in the table -- `insufficient_samples`
+    # and `no_threshold` are the other two, for their own reasons.) `not_applicable` is the engine saying the axiom does not apply to
+    # this subject -- which is a declared gap, like `no_threshold`, not a failure to
+    # answer. Floored at 0 DELIBERATELY: if it ever appears in a run here it means this
+    # model declared an axiom against a subject the engine excludes, and the manifest
+    # is where that belongs. Recorded as a decision so that a future reader knows the
+    # 0 was chosen; the other five are 2 for the same reason stated five ways.
+    "not_applicable": (
+        CLEAN, "the engine says this axiom does not apply to this subject, which is a "
+               "declared gap rather than an unanswered question. If it appears, the "
+               "model is declaring something the engine excludes and the manifest "
+               "should say so -- but the run itself found nothing wrong"),
+
     "config_unreadable": (
         FINDINGS, "every deliverable this document declares is unverifiable rather "
                   "than absent; 2 under --require-complete"),
+
+    # Not a decline and not a finding: the engine did not read part of the model.
+    "model_not_read": (
+        INCOMPLETE, "the engine dropped a declaration instead of judging it -- an "
+                    "unknown axiom, a field nothing reads, a property nobody fed. "
+                    "Measured: a model whose only axiom the engine did not recognise "
+                    "produced no findings and no declines, and an empty answer is "
+                    "CLEAN, so a model none of which was applied reported as a clean "
+                    "run. A model defect is never findings, and silence about it is "
+                    "worse than either"),
 }
 
 #: Raised to 2 when the caller asked for a complete answer and did not get one.

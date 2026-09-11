@@ -45,8 +45,31 @@ def problems(described: Mapping[str, Any]) -> tuple[Problem, ...]:
 
     Takes the dictionary rather than a session so the caller can hand over a
     stored one, and so this is testable without an engine installed.
+
+    **A model that declares NOTHING is reported here too, and that is not the same
+    question as the silence lists.** Measured: `something: else` loads as a valid
+    `DomainModel` with no entity types and no indicators, `is_domain_model` returns
+    True, and every list below is legitimately empty -- there is nothing unread
+    because nothing was declared. So the three silence checks all pass and a run
+    against that model judges nothing and scores CLEAN. Pointing a verb at the wrong
+    YAML file was a clean audit.
     """
     out: list[Problem] = []
+    model = described.get("model")
+    # PRESENT AND EMPTY, not merely absent. A live engine always emits
+    # `declared_axioms`, so gating on presence costs nothing against a real session --
+    # and it keeps this rule out of the way of a hand-written payload that carries only
+    # the keys under test. Treating an absent key as *declares nothing* made the two
+    # path-nesting tests fail for a reason that had nothing to do with their subject.
+    if (isinstance(model, Mapping) and "declared_axioms" in model
+            and not (model.get("declared_axioms") or ())):
+        out.append(Problem(
+            where="model.declared_axioms",
+            what="is empty, so this model declares no axiom and judging anything "
+                 "against it can only come back clean",
+            remedy="declare an indicator with an axiom, or do not pass this file as "
+                   "a model; `generate` writes an empty model on purpose and it is a "
+                   "template to fill in rather than one to judge with"))
     for label, path in PATHS.items():
         found, value = _walk(described, path)
         if not found:

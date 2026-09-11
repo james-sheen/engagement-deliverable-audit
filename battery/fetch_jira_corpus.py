@@ -29,6 +29,7 @@ import argparse
 import collections
 import datetime
 import json
+import hashlib
 import struct
 import urllib.request
 import zlib
@@ -93,10 +94,18 @@ def _member_data_offset(total: int) -> int:
     raise RuntimeError(f"{MEMBER} is not in this archive")
 
 
+#: The SHA-256 of the deflate prefix `issues` actually fetched, set when it runs.
+#: Module-level rather than returned because `issues` is a generator and the digest is
+#: known before the first document is yielded -- and the capture needs it after the walk.
+PREFIX_SHA256: str | None = None
+
+
 def issues(prefix_bytes: int):
     """Real issue documents from a bounded prefix of the dump."""
+    global PREFIX_SHA256
     start = _member_data_offset(_total())
     deflated = _range(start, start + prefix_bytes - 1)
+    PREFIX_SHA256 = "sha256:" + hashlib.sha256(deflated).hexdigest()
     gzipped = zlib.decompressobj(-15).decompress(deflated)
     archive = zlib.decompressobj(16 + 15).decompress(gzipped)
     if struct.unpack_from("<I", archive, 0)[0] != ARCHIVE_MAGIC:
@@ -199,7 +208,15 @@ def main() -> int:
                               "quote": row["key"]}} for row in rows]}
     capture = {"format": "engagement-deliverable-audit/capture/1",
                "captured_at": reference.isoformat() + "Z",
-               "exporter": {"export_sha256": "derived-from-zenodo-" + str(RECORD)},
+               # A REAL DIGEST OF THE BYTES ACTUALLY FETCHED, under the key that
+               # claims to be one. This wrote a label into a field named
+               # `export_sha256`, and the committed corpus carried sixty-four
+               # `z` characters there. The prefix is what this script reads, so
+               # it is what there is to hash -- and two runs over the same
+               # archive hash the same, which is the equality the field is for.
+               "exporter": {"id": f"zenodo:{RECORD} JiraReposAnon, "
+                                  f"range-fetched prefix",
+                            "export_sha256": PREFIX_SHA256},
                "complete": True, "errors": [],
                "points": [{"name": row["key"], "owner": row["owner"],
                            "state": row["status"],

@@ -171,12 +171,28 @@ def declaration_for(sha: str, names: list[str], titles: dict[str, str],
     declaration = {
         "format": "engagement-deliverable-audit/declaration/1",
         "engagement": "astropy-cycle-5",
-        # The date the call itself names for selection. The call also says its
-        # dates are nominal, which is recorded rather than smoothed over.
-        "reviewed_by": "the Astropy SPOC and Finance Committee, per the Cycle 5 "
-                       "call: the SPOC and Finance Committee will work together "
-                       "to select funding requests and allocate budgets",
-        "reviewed_on": "2025-12-19",
+        # NOT A SIGNATURE, AND THIS FIELD USED TO READ LIKE ONE.
+        #
+        # It said "the Astropy SPOC and Finance Committee" with the call's nominal
+        # selection date, because that committee is who a real Cycle 5 contract would
+        # be signed by. But the committee selected funding requests; it did not read --
+        # and could not have read -- a JSON document this script generates. The date was
+        # the selection date wearing a review date's field name, the explanation lived
+        # here rather than in the artifact, and `Engagement.reviewed` is
+        # `bool(who) and bool(when)`, so nothing downstream could tell the difference. A
+        # reader of `evidence/` saw a signed statement of work naming real people.
+        #
+        # The two other declarations in this repository already disclosed themselves in
+        # this field. This one now does the same, and `DISCLOSURE_MARKERS` makes the
+        # convention something callers can report rather than a habit.
+        "reviewed_by": (
+            f"DERIVED -- not signed by anybody. Built by "
+            f"battery/fetch_astropy_cycle5.py from {OWNER_REPO}@{sha[:8]}. The "
+            f"Astropy SPOC and Finance Committee selected these funding requests on "
+            f"a nominal date of 2025-12-19 and did not review this declaration"),
+        # The date the DERIVATION ran, which is the only review-shaped act that
+        # happened. The call's 2025-12-19 is named above as what it is.
+        "reviewed_on": captured.strftime("%Y-%m-%d"),
         "change_order": 0,
         "sources": [{
             "path": f"https://github.com/{OWNER_REPO}/tree/{sha}/{CYCLE_DIR}",

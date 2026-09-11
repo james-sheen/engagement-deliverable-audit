@@ -90,6 +90,40 @@ class Engagement:
     def reviewed(self) -> bool:
         return bool(self.reviewed_by) and bool(self.reviewed_on)
 
+    @property
+    def disclosure(self) -> str | None:
+        """The marker word if this signature discloses itself, else `None`.
+
+        **A GATE THAT ONLY ASKS WHETHER THE FIELD IS FILLED CANNOT TELL A SIGNATURE
+        FROM AN ATTRIBUTION.** `reviewed` is `bool(who) and bool(when)` and that is all
+        it can be -- a corpus derived from public documents has to fill those fields to
+        be usable at all, and so does a fixture. Two of the three declarations in this
+        repository disclose that in the field itself (`FIXTURE --`, `DERIVED FROM A
+        PUBLIC DATASET --`); the third named a real committee and a date on which that
+        committee selected funding requests, and a reader of the artifact, or of
+        `declare`'s output, saw a signed statement of work.
+
+        So the convention is made legible rather than left to whoever writes the next
+        corpus. A `reviewed_by` beginning with one of these words is still ADMITTED --
+        nothing here weakens the gate, and a disclosed declaration remains usable --
+        but callers print *disclosed as* instead of *reviewed by*, so the distinction
+        reaches a reader instead of living in a fetch script's comment.
+        """
+        first = (self.reviewed_by or "").strip().split(maxsplit=1)
+        head = first[0].rstrip(":,").upper() if first else ""
+        if head in DISCLOSURE_MARKERS:
+            return head
+        if (self.reviewed_by or "").strip().upper().startswith("NOT SIGNED"):
+            return "NOT SIGNED"
+        return None
+
+
+#: Words that mark a `reviewed_by` as a disclosure rather than a person's signature.
+#: Deliberately a closed, short set: a marker nobody recognises is not a disclosure,
+#: it is prose, and a long list would let any sentence beginning with the right word
+#: read as one.
+DISCLOSURE_MARKERS = frozenset({"FIXTURE", "DERIVED", "SYNTHETIC", "UNSIGNED"})
+
 
 class DeclarationError(ValueError):
     """A declaration this package will not act on, and why."""

@@ -173,6 +173,136 @@ def test_an_attestation_round_trips_through_the_front_door(tmp_path, capsys) -> 
         "a finding with no statement reads as one nobody could describe")
 
 
+def _unowned_capture(tmp_path) -> tuple[str, str]:
+    """A declaration and a capture where NOBODY owns anything.
+
+    The shape every other test in this file avoids, and the one the attest defect hid
+    in: with no owner anywhere there is no Consultant in the graph, so CONNECTIVITY
+    declines `missing_entity_type` instead of naming orphans. Zero findings, and a
+    decline that floors the run at 2.
+    """
+    decl = tmp_path / "nobody.declaration.json"
+    decl.write_text(json.dumps({
+        "format": "engagement-deliverable-audit/declaration/1",
+        "engagement": "NOBODY-OWNS-ANYTHING",
+        "reviewed_by": "FIXTURE -- invented for this test; no engagement or person",
+        "reviewed_on": "2026-09-11",
+        "change_order": 1, "stall_window_days": 14,
+        "sources": [{"path": "tests", "derived_from": "invented for this test"}],
+        "points": [{"id": f"D-{n}", "declared_type": "deliverable", "text": str(n)}
+                   for n in (1, 2, 3)],
+    }), encoding="utf-8")
+    cap = tmp_path / "nobody.capture.json"
+    cap.write_text(json.dumps({
+        "format": "engagement-deliverable-audit/capture/1",
+        "captured_at": "2026-09-01T00:00:00Z", "complete": True,
+        "points": [{"name": f"D-{n}", "path": f"t/{n}", "owner": None,
+                    "state": "In Progress", "days_since_transition": n}
+                   for n in (1, 2, 3)],
+    }), encoding="utf-8")
+    return str(decl), str(cap)
+
+
+def test_an_attestation_of_a_could_not_complete_run_is_never_clean(
+        tmp_path, capsys) -> None:
+    """The one outcome this package says it must not produce, reached through `attest`.
+
+    `attest` scored `FINDINGS if findings else CLEAN`, which reads only one of the two
+    lists the artifact carries. Measured before the fix: `detect` exited 2 on this
+    capture and `attest` exited 0 over the artifact it had just written.
+
+    Asserted on BOTH ends of the round trip on purpose. Pinning only `attest` would
+    pass if `detect` stopped producing a 2 here, and pinning only `detect` is the test
+    that already existed.
+
+    **The exit code alone does not pin the fix, and this test said it did.** Reverting
+    the scoring left this green: `detect` records its own code, and composing it with
+    `max` recovered the 2 without any scoring happening. So the decline that carries
+    the floor has to be named in the output too -- that line exists only if the
+    artifact was scored. Found by reverting the fix and watching this stay green.
+    """
+    decl, cap = _unowned_capture(tmp_path)
+    artifact = tmp_path / "att.json"
+    assert main(["detect", "--declaration", decl, "--model", MODEL,
+                 "--capture", cap, "--attest-out", str(artifact)]) == 2, (
+        "this capture is supposed to reach a could-not-complete; if it stops doing so "
+        "the rest of this test proves nothing")
+    capsys.readouterr()
+
+    stored = json.loads(artifact.read_text(encoding="utf-8"))
+    assert not stored["findings"], (
+        "the defect needed ZERO findings to show; with a finding present the old "
+        "scoring returned 1 and nothing looked wrong")
+    assert any(d.get("reason") == "missing_entity_type" for d in stored["not_checked"])
+
+    assert main(["attest", str(artifact)]) == 2
+    printed = capsys.readouterr().out
+    assert "could-not-complete" in printed
+    assert "missing_entity_type floors this run at 2" in printed, (
+        "the verdict must come from scoring the artifact, not only from the code the "
+        "writing run happened to record in it")
+
+
+def test_attest_scores_an_artifact_that_records_no_verdict_of_its_own(
+        tmp_path, capsys) -> None:
+    """Artifacts written by 0.1.0 carry no `exit_code`, and must still score correctly.
+
+    The fix records this run's code in the artifact, which would be a fix only for
+    files written after it. A recipient holding an older artifact is the case that
+    matters, so the recorded key is REMOVED here and the verdict has to come from the
+    floors alone.
+    """
+    decl, cap = _unowned_capture(tmp_path)
+    artifact = tmp_path / "att.json"
+    assert main(["detect", "--declaration", decl, "--model", MODEL,
+                 "--capture", cap, "--attest-out", str(artifact)]) == 2
+    capsys.readouterr()
+
+    stored = json.loads(artifact.read_text(encoding="utf-8"))
+    assert stored.pop("exit_code") == 2, "detect did not record its own code"
+    stored.pop("verdict")
+    artifact.write_text(json.dumps(stored), encoding="utf-8")
+
+    assert main(["attest", str(artifact)]) == 2, (
+        "scored from the artifact's own lists, an unowned run is still a 2")
+    capsys.readouterr()
+
+
+def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
+        tmp_path, capsys) -> None:
+    """The composition rule, exercised in both directions.
+
+    The artifact cannot carry `floor_unreachable_at_this_rate`, so a run that exited 1
+    on `warmup_unreachable` re-scores as 0 from the lists alone. The recorded code is
+    what recovers it -- and the same mechanism must not let a recorded 0 talk a
+    scored 2 down.
+    """
+    decl, cap = _unowned_capture(tmp_path)
+    artifact = tmp_path / "att.json"
+    assert main(["detect", "--declaration", decl, "--model", MODEL,
+                 "--capture", cap, "--attest-out", str(artifact)]) == 2
+    capsys.readouterr()
+    stored = json.loads(artifact.read_text(encoding="utf-8"))
+
+    lowered = dict(stored, exit_code=0, verdict="clean")
+    (tmp_path / "lowered.json").write_text(json.dumps(lowered), encoding="utf-8")
+    assert main(["attest", str(tmp_path / "lowered.json")]) == 2, (
+        "a recorded clean must not lower a run the floors score at 2")
+    printed = capsys.readouterr().out
+    assert "reporting the worse of the two" in printed, (
+        "the disagreement was resolved silently")
+
+    # The other direction: nothing in the lists floors this, and the recorded code is
+    # the only thing that knows better.
+    raised = {**stored, "findings": [], "evidence": [], "not_checked": [
+        {"sensor": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
+         "detail": "too few observations"}], "exit_code": 1, "verdict": "findings"}
+    (tmp_path / "raised.json").write_text(json.dumps(raised), encoding="utf-8")
+    assert main(["attest", str(tmp_path / "raised.json")]) == 1, (
+        "a recorded 1 must survive lists that score 0")
+    capsys.readouterr()
+
+
 def test_an_attestation_that_does_not_validate_is_never_clean(tmp_path, capsys) -> None:
     broken = tmp_path / "broken.json"
     broken.write_text(json.dumps({"format": "presence-audit/attestation/1",

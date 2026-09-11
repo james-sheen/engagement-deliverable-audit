@@ -6,13 +6,80 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+Answers an outside verification report that read the whole tree statically and ran
+none of it. Every item it raised was reproduced before anything was changed; three were
+wrong in detail and one was considerably worse than filed, which only running them
+showed. `FINDINGS.md` 21-30 records each one.
+
 ### Fixed
 
+- **`attest` turned a could-not-complete run into a clean one.** It scored from
+  `findings` alone, and the artifact carries two lists. Measured: a capture where
+  nobody owns anything exits 2 from `detect` and exited 0 from `attest` over the
+  artifact `detect` had just written. It now scores the artifact with the same floor
+  table, and `detect` records its own code beside the core's keys -- the core's format
+  carries no verdict and drops `floor_unreachable_at_this_rate`, so
+  `warmup_unreachable` cannot be recovered from the artifact alone. The two compose
+  with `max`: a recorded verdict can raise a score, never lower one, and a
+  disagreement is printed.
+- **`detect` never asked whether the engine had read the model.** A model declaring an
+  axiom the engine does not recognise loads, is skipped with a line on stderr, and
+  judges nothing -- and an empty answer is clean, so a model none of which was applied
+  reported exit 0. `gate` already caught this and `detect` did not call it. The silence
+  gate now runs in `detect` too, floored at 2 under a new `model_not_read` row. A model
+  that declares no axiom at all is refused by both verbs for the same reason.
+- **A malformed model exited 1, which this package's contract reads as findings.**
+  `yaml.YAMLError` is not a `ValueError`, so an unparseable model, one that parses to a
+  list, and one the engine refuses structurally all escaped as tracebacks with no
+  OUTCOME line. Every way a model can fail to load now arrives as `FeedError`, raised
+  where the engine is imported.
+- **Six of the engine's twelve decline reasons had no floor row.** They fell to the
+  unclassified floor, which is 2 and is the safe direction -- so the answer was right
+  and the run reported them as unscorable rather than decided. All twelve have rows,
+  derived from the engine's closed enum so a thirteenth fails a test.
+- **A deliverable that vanished between captures kept its owner and its ownership
+  edge**, asserting that a consultant owns something the tracker no longer holds. It is
+  no longer fed; absence is Stage 1's finding and has its own word for it. Guarded on
+  the latest capture being complete, so a partial export is not read as a departure.
+- **The burn-in was published off by one.** The engine's floor is ten observations and
+  the feeder derives one point per capture while dropping the first, so the tool needs
+  eleven captures. Measured by sweeping, not by arithmetic. The record now carries both
+  numbers and the documents cite the one they are about.
+- **The Astropy declaration's numbers were Stage 1's**, attributed to the Stage 2 run:
+  18 deliverables are fed and 14 orphans reported, where three passages said 19 and 15.
 - `[project.urls]`, so the published page links to its own source, issues and the
   findings beside them. 0.1.0 shipped without them and a release's metadata is
   immutable, so the gap stands on that version. Three of the five published siblings
   carry these and two did not, which is an omission rather than a choice -- and nothing
   in the parity test that wires a new repository looks for it.
+
+### Changed
+
+- **The Astropy declaration no longer names a real committee as its reviewer.** It
+  signed as the Astropy SPOC and Finance Committee with the funding call's nominal
+  selection date; that committee selected funding requests and never read a document
+  this repository generates. It now discloses itself the way the fixture and the Jira
+  corpus already did. `Engagement.disclosure` makes the convention reportable --
+  `declare` and `gate` print *NOT SIGNED, disclosed as DERIVED* rather than *reviewed
+  by* -- and a disclosed declaration stays admitted, because a derived corpus has to
+  fill those fields to be usable at all.
+- **The grader job no longer goes red because upstream published.** It installed the
+  newest in-range engine and failed on any difference, so the day `arbiter-engine`
+  0.1.14 lands every push reddens over nothing this repository did. The reproduction is
+  now pinned to the recorded version -- which is the question that step is really about
+  -- and a newer release is reported as an advisory notice.
+- `exporter.export_sha256` is read as `exporter.id` where the value is an identity
+  rather than a hash; the digest key is still read, so captures written by 0.1.0 keep
+  loading. A content hash would have been wrong here: two captures of one engagement
+  differ by design, so hashing contents would make every pair incomparable and turn
+  every regression into a SKIP.
+- The hygiene sweep has two new rules, for an absolute scratch path and for a
+  placeholder under a digest-named key. Both were proven against the published 0.1.0
+  files, which carried one of each in fields nothing reads.
+- `engine_floors.json` records the engine's module name rather than the absolute path
+  it was imported from, and no longer lists `CAUSALITY` among the axioms this model
+  leaves undeclared -- the engine has eight declarable families and that is not one of
+  them.
 
 ## 0.1.0 -- 2026-09-11
 

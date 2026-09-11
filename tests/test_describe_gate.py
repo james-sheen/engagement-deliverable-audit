@@ -61,6 +61,29 @@ def test_the_live_gate_sees_a_field_no_declared_axiom_reads() -> None:
 
 def test_the_live_gate_is_silent_on_a_model_with_nothing_unread() -> None:
     """CONTROL. Before believing the positive above, prove this gate can report
-    nothing -- otherwise it might be reporting on every model alike."""
+    nothing -- otherwise it might be reporting on every model alike.
+
+    **The control used to declare no axiom at all, and so was silent for the wrong
+    reason.** A model with `axioms: []` has nothing unread because it has nothing
+    declared, which is the degenerate silence rather than the real one -- and that
+    model is now itself refused, because a run against it can only come back clean.
+    So the control declares an axiom and is silent because the engine read all of it,
+    which is the state a real model is supposed to be in.
+    """
     assert guard.silence(_session(_model([
-        {"name": "coverage_b", "type": "NUMERIC", "axioms": []}]))) == ()
+        {"name": "coverage_b", "type": "NUMERIC", "axioms": ["STABILITY"],
+         "expect_variation": True, "window": "30d"}]))) == ()
+
+
+def test_a_model_that_declares_no_axiom_is_refused_by_the_live_gate() -> None:
+    """A model the engine loads, reads entirely, and judges nothing with.
+
+    `something: else` is a valid `DomainModel` to this engine: `is_domain_model` says
+    True, there are no entity types and no indicators, and every silence list is
+    honestly empty. So all three checks above pass and a `detect` run against it
+    scores CLEAN, because no findings and no declines is the clean case. Pointing a
+    verb at the wrong YAML file was a clean audit.
+    """
+    found = guard.silence(_session({"something": "else"}))
+    assert [p for p in found if p.where == "model.declared_axioms"], (
+        f"a model declaring no axiom has to be refused, and the gate said {found}")

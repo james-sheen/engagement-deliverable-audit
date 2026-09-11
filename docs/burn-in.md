@@ -42,15 +42,22 @@ Measured at engine 0.1.13, a declared window of 30 days and a daily collector:
 | invariant | axiom | fed by | answers from |
 |---|---|---|---|
 | `owned_by` | CONNECTIVITY | read, from the capture's owner | capture 1 |
-| `transitions_per_week` | STABILITY | **derived**, by counting resets of days-since-transition inside a trailing week | capture 10 |
+| `transitions_per_week` | STABILITY | **derived**, by counting resets of days-since-transition inside a trailing week | capture 11 |
 
 Two, because two is what the capture format can feed. The others are in
 `engagement.manifest.json` with a reason each -- four for want of a field, one because
 the axiom the family rule prefers is unreachable at this cadence, and one because Stage
 1 already answers it and two implementations of one answer is one too many.
 
-So the burn-in is **ten days** at a daily cadence. Before it one invariant answers;
-after it, both. One consequence worth stating: `boundary_gate` has nothing to probe
+So the burn-in is **eleven daily captures**, which is ten days of history. The two
+numbers are different and this document published the wrong one. The engine's floor is
+ten OBSERVATIONS; `feeder.transitions` derives one point per capture and drops the
+first, which has no predecessor to have moved from -- so N captures give N-1 points and
+the axiom answers on the eleventh capture. Measured by sweeping the capture count: at
+ten captures STABILITY still declines `insufficient_samples`, at eleven it answers. A
+probe that feeds the engine observations directly sees ten, and that is the number the
+record carries as `observations`; `captures_through_the_feeder` is the one to collect
+against. Before the burn-in one invariant answers; after it, both. One consequence worth stating: `boundary_gate` has nothing to probe
 against this model, because both indicators that would have carried a published
 threshold are excluded. It is not satisfied and not wrong -- unexercised, which is a
 fact about the export format, and the manifest records it so a reader of the model does
@@ -108,10 +115,16 @@ stall window, and it is recorded here rather than resolved by filling the model.
 
 ## What the first capture of real data actually answered
 
-One capture, the Astropy Cycle 5 engagement, nineteen tracked deliverables fed:
+One capture, the Astropy Cycle 5 engagement, **eighteen** deliverables fed:
 **one invariant of two answered.** `owned_by` reported 14 deliverables with nobody
 named on the other end, and STABILITY declined `insufficient_samples` on all eighteen
 in-scope deliverables -- warming, floor 0, which is the burn-in doing what it says.
+
+The capture holds nineteen tracked items and Stage 1 reports fifteen orphans over
+them; Stage 2 feeds the eighteen the declaration names, so it reports fourteen. The
+nineteenth (`issue-519-names-no-scope-of-work`) is undeclared and unowned, which is
+Stage 1's `undeclared_present` and not the engine's to judge. Two stages, two
+universes, and this paragraph used to quote Stage 1's numbers for the engine's run.
 The run exits 1 on the orphans alone.
 
 So on today's evidence the criterion is **not met**, and not for a reason that is the

@@ -362,10 +362,29 @@ record("C12", "the same indicator with neither cardinality declared",
 
 # ------------------------------------------------------------------- the record
 floors = {
+    # TWO NUMBERS, BECAUSE THIS PROBE AND THE TOOL DO NOT FEED THE SAME THING.
+    #
+    # Every probe here feeds the engine OBSERVATIONS directly. The tool feeds it
+    # CAPTURES, and `feeder.transitions` derives one point per capture from the resets
+    # of days-since-transition -- dropping the first, which has no predecessor to have
+    # moved from. So N captures yield N-1 observations, and the tool reaches a floor of
+    # ten one capture later than this probe does.
+    #
+    # Both numbers are recorded because the documents need both: a reader sizing a
+    # burn-in counts CAPTURES, and a reader checking this record against the engine
+    # counts OBSERVATIONS. `observations` was the only one written here, under the name
+    # `captures`, and the burn-in document and the README both published it as the
+    # number of daily captures to collect. Off by one, in the direction that says the
+    # history axiom answers a day before it does.
     "STABILITY": {"captures": PROBES["C1"]["measured"],
+                  "observations": PROBES["C1"]["measured"],
+                  "captures_through_the_feeder": PROBES["C1"]["measured"] + 1,
                   "window_and_cadence": PROBES["C2"]["measured"],
                   "note": "expect_variation arm on a flat series; the window is a "
-                          "ceiling, so the floor is a count INSIDE it"},
+                          "ceiling, so the floor is a count INSIDE it. "
+                          "`observations` is what this probe feeds directly; "
+                          "`captures_through_the_feeder` is what the tool needs, "
+                          "because the first capture yields no derived point"},
     "HOMEOSTASIS_learned": {"captures": PROBES["C4"]["measured"],
                             "by_cadence": PROBES["C5"]["measured"],
                             "note": "learned baseline; see the declared-setpoint arm"},
@@ -378,15 +397,28 @@ floors = {
 answer = {
     "measured_on": NOW.isoformat(),
     "engine_version": getattr(arbiter_engine, "__version__", None),
-    "engine_file": os.path.dirname(arbiter_engine.__file__),
+    # THE PACKAGE NAME, NOT THE ABSOLUTE PATH IT WAS IMPORTED FROM. This record is
+    # package data, so it ships inside the wheel -- and it shipped 0.1.0 carrying the
+    # full path of a scratch virtualenv on the machine that ran the probe. Nothing read
+    # it (the CI comparison looks at `floors` and `probes` only), which is exactly why
+    # nothing caught it. The version and the Python already identify the run; where the
+    # import came from is a property of one laptop.
+    "engine_module": arbiter_engine.__name__,
     "python": sys.version.split()[0],
     "floors": floors,
     "probes": PROBES,
+    # WHAT THIS MODEL DOES NOT DECLARE, named as families this engine actually has.
+    # `CAUSALITY` was in this list and is not a declarable axiom: the engine's eight are
+    # the ones `domain_loader` accepts, and CAUSALITY appears only in a production
+    # verdicts module. Naming it here claimed a gap that does not exist. The remainder
+    # is now derived from the engine's own refusal message rather than transcribed, so
+    # a ninth family cannot quietly go unlisted.
     "not_measured": [
         "CONSERVATION -- this vertical declares no flow, so no arm of it is exercised",
         "RESPONSIVENESS -- no deliverable has a declared deadline as a latency role",
         "CONSISTENCY -- no two surfaces report the same deliverable here",
-        "CAUSALITY and the remaining axioms -- not declared by this model",
+        "BOUNDEDNESS, HOMEOSTASIS, MONOTONICITY -- probed above (C4-C10) and declared "
+        "by no indicator in this model; the manifest carries the reason for each",
     ],
 }
 
@@ -394,4 +426,4 @@ OUT.parent.mkdir(parents=True, exist_ok=True)
 OUT.write_text(json.dumps(answer, indent=1, sort_keys=True, default=str) + "\n",
                encoding="utf-8")
 print(f"\nwrote {OUT}")
-print(f"engine {answer['engine_version']} at {answer['engine_file']}")
+print(f"engine {answer['engine_version']} ({answer['engine_module']}) on python {answer['python']}")

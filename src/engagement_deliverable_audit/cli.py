@@ -88,7 +88,16 @@ def cmd_declare(args: argparse.Namespace) -> int:
         _out("  NOT REVIEWED: no reviewed_by and reviewed_on, so no verb will act "
              "on this declaration until a person signs it")
         return _refuse("the declaration is a candidate and not a statement")
-    _out(f"  reviewed by {engagement.reviewed_by} on {engagement.reviewed_on}")
+    # DISCLOSED AS, not REVIEWED BY, when the signature says of itself that nobody
+    # signed it. Both are admitted; only the wording differs, and the wording is the
+    # whole point -- a derived corpus has to fill these fields to be usable, and
+    # printing `reviewed by` over one made a fixture read like a statement of work.
+    if engagement.disclosure:
+        _out(f"  NOT SIGNED, disclosed as {engagement.disclosure}: "
+             f"{engagement.reviewed_by}")
+        _out(f"  derived on {engagement.reviewed_on}")
+    else:
+        _out(f"  reviewed by {engagement.reviewed_by} on {engagement.reviewed_on}")
     _out(f"OUTCOME exit={CLEAN} verdict={MEANING[CLEAN]}")
     return CLEAN
 
@@ -313,7 +322,29 @@ def cmd_detect(args: argparse.Namespace) -> int:
                  "detail": d.get("detail") or d.get("reason"),
                  "axiom": d.get("axiom")}
                 for d in envelope.get("not_checked") or ()]
-    kinds = [row["kind"] for row in findings] + [row["kind"] for row in declines]
+    # THE ENGINE IS ASKED WHETHER IT READ THE MODEL, AND `detect` DID NOT ASK.
+    #
+    # Measured, and the worst thing found in this package: a model declaring an axiom
+    # the engine does not recognise -- `axioms: [NOPE]` -- loads, and the engine says
+    # `unknown axiom 'NOPE' in domain file - skipped` on stderr and drops the
+    # declaration. Nothing was judged, so there are no findings and no declines, and
+    # `code_for([])` is CLEAN by design. The run reported exit 0 over a model none of
+    # which was applied.
+    #
+    # `gate` catches exactly this and `detect` never called it: one side owned
+    # validating a model and the other owned running it, so no test on either side
+    # could fail. The check costs nothing here -- `feeder.run` already returns the
+    # `model_describe` payload, because the attestation needs it.
+    unread = ()
+    try:
+        from .guards import describe_gate
+    except ImportError:                                           # pragma: no cover
+        pass
+    else:
+        unread = describe_gate.problems(passed.describe)
+
+    kinds = ([row["kind"] for row in findings] + [row["kind"] for row in declines]
+             + ["model_not_read"] * bool(unread))
     code = exit_contract.code_for(kinds, require_complete=args.require_complete)
 
     if args.attest_out:
@@ -331,6 +362,16 @@ def cmd_detect(args: argparse.Namespace) -> int:
         artifact = build_attestation(
             passed.session, envelope, passed.describe, EngagementManifest(),
             target=args.attest_target or str(args.declaration), attest_fn=attest_fn)
+        # THIS RUN'S OWN CODE, BESIDE THE CORE'S KEYS. The core's format carries no
+        # verdict, and its `not_checked` copies four fields -- so a decline the engine
+        # flagged `floor_unreachable_at_this_rate` arrives indistinguishable from
+        # ordinary warming, and `warmup_unreachable` (floor 1) cannot be recovered from
+        # the artifact. Recording the code keeps the distinction readable; `attest`
+        # composes it with its own scoring using `max`, so this can raise a verdict and
+        # never lower one. Measured: `validate_attestation` accepts extra keys, with two
+        # controls proving it still rejects a mangled format and a missing list.
+        artifact["exit_code"] = code
+        artifact["verdict"] = MEANING[code]
         with open(args.attest_out, "w", encoding="utf-8") as handle:
             json.dump(artifact, handle, indent=2)
             handle.write("\n")
@@ -348,6 +389,7 @@ def cmd_detect(args: argparse.Namespace) -> int:
                     "captures": fed.captures},
             "findings": findings,
             "declines": declines,
+            "unread_model": [{"where": p.where, "what": p.what} for p in unread],
             "floors": [{"kind": k, "floor": fl, "why": why}
                        for k, fl, why in exit_contract.reasons(kinds)],
             "unclassified": list(exit_contract.unclassified(kinds)),
@@ -356,6 +398,8 @@ def cmd_detect(args: argparse.Namespace) -> int:
         return code
 
     _out(f"  fed: {fed.summary()}")
+    for problem in unread:
+        _out(f"  model_not_read: {problem.where} -- {problem.what}")
     if fed.unowned:
         _out(f"  {len(fed.unowned)} deliverable(s) fed with no owner, so the model "
              f"can see them as orphans")
@@ -464,8 +508,11 @@ def cmd_gate(args: argparse.Namespace) -> int:
             refused.append(f"{path}: no reviewed_by and reviewed_on, so it is a "
                            f"candidate and not a statement")
             continue
-        _out(f"  ok  {path}: reviewed by {engagement.reviewed_by} on "
-             f"{engagement.reviewed_on}, window {engagement.stall_window_days:g} day(s)")
+        signature = (f"NOT SIGNED, disclosed as {engagement.disclosure}"
+                     if engagement.disclosure else
+                     f"reviewed by {engagement.reviewed_by} on {engagement.reviewed_on}")
+        _out(f"  ok  {path}: {signature}, "
+             f"window {engagement.stall_window_days:g} day(s)")
 
     if args.model:
         try:
@@ -476,12 +523,26 @@ def cmd_gate(args: argparse.Namespace) -> int:
             refused.append(f"{args.model}: the model gates need the engine extra "
                            f"and a YAML reader: {missing}")
         else:
+            # `yaml.YAMLError` IS NOT A `ValueError`, and that is the whole reason this
+            # except clause names it. PyYAML raises it for an unparseable document and
+            # it subclasses `Exception` directly -- so `(OSError, ValueError)` let it
+            # through as a traceback, which exits 1. Under this module's own contract 1
+            # means FINDINGS, so a document nobody could read reported as a document
+            # with something wrong in it. Measured on both verbs before the fix.
             try:
                 with open(args.model, encoding="utf-8") as handle:
                     text = handle.read()
                 model = yaml.safe_load(text)
-            except (OSError, ValueError) as problem:
+            except (OSError, ValueError, yaml.YAMLError) as problem:
                 refused.append(f"{args.model}: {problem}")
+                model, text = None, None
+            # A mapping is what every gate below indexes into. A list parses fine and
+            # then `model_gate.problems` calls `.get` on it, which is an AttributeError
+            # and the same wrong exit by another route.
+            if model is not None and not isinstance(model, dict):
+                refused.append(f"{args.model}: this parses to "
+                               f"{type(model).__name__} and a domain model is a "
+                               f"mapping, so there is nothing here to gate")
                 model, text = None, None
             if model is not None:
                 found = list(model_gate.problems(model))
@@ -605,6 +666,27 @@ def cmd_attest(args: argparse.Namespace) -> int:
     The same front door a recipient uses, so the artifact is exercised as an artifact
     rather than as whatever was in memory when it was written. An attestation that
     cannot be validated is 2: it produced no verdict anybody can rely on.
+
+    **THE VERDICT IS SCORED FROM `not_checked` AS WELL AS `findings`, and that is the
+    defect this verb shipped with.** `FINDINGS if findings else CLEAN` reads only the
+    first list, so the one run this package must never call clean -- no Consultant in
+    the graph, CONNECTIVITY declining `missing_entity_type`, zero findings -- attested
+    as `0` while `detect` on the same run exited `2`. Measured, not reasoned: `detect`
+    said 2 and `attest` said 0 over the same file.
+
+    So the artifact is scored with the same floor table `detect` uses. Two things
+    follow, and both are deliberate:
+
+    * **The reader scores, rather than trusting a number the writer put in the file.**
+      A recipient holding an artifact from anywhere gets this package's floors applied
+      to it, which is the whole reason the verdict is recomputed instead of read.
+    * **A recorded verdict still cannot be talked DOWN, only up.** The artifact cannot
+      carry everything the run knew: the core's `not_checked` copies four fields and
+      `floor_unreachable_at_this_rate` is not among them, so `warmup_unreachable`
+      (floor 1) is indistinguishable from `insufficient_samples` (floor 0) once
+      written. `detect` therefore records its own code beside the core's keys, and
+      this verb composes the two with `max`. Neither source can lower the other, and a
+      disagreement is reported rather than silently resolved.
     """
     try:
         artifact = _read(args.attestation)
@@ -630,7 +712,24 @@ def cmd_attest(args: argparse.Namespace) -> int:
         _out(f"  unattested: {entry}")
     for entry in artifact.get("unread_feeds") or ():
         _out(f"  unread feed: {entry}")
-    code = FINDINGS if findings else CLEAN
+
+    kinds = ([_class_of(f.get("problem_type")) for f in findings]
+             + [_decline_kind(d) for d in not_checked])
+    code = exit_contract.code_for(kinds, require_complete=args.require_complete)
+    for kind, floor_, why in exit_contract.reasons(kinds):
+        _out(f"  {kind} floors this run at {floor_}: {why}")
+    for kind in exit_contract.unclassified(kinds):
+        _out(f"  {kind} has no row in this package's floor table, so this artifact "
+             f"could not be scored")
+
+    recorded = artifact.get("exit_code")
+    if isinstance(recorded, int) and recorded in MEANING:
+        if recorded != code:
+            _out(f"  the run that wrote this recorded exit={recorded} "
+                 f"({MEANING[recorded]}) and scoring the artifact here gives {code} "
+                 f"({MEANING[code]}); reporting the worse of the two, because the "
+                 f"artifact does not carry everything the run knew")
+        code = max(code, recorded)
     _out(f"OUTCOME exit={code} verdict={MEANING[code]}")
     return code
 
@@ -739,6 +838,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     att = verbs.add_parser("attest", help="re-report a stored attestation")
     att.add_argument("attestation")
+    # Same meaning as on `detect`: the withheld kinds rise to 2 when the caller asked
+    # for a complete answer. A recipient scoring somebody else's artifact gets the same
+    # choice the run had.
+    att.add_argument("--require-complete", action="store_true")
     att.set_defaults(run=cmd_attest)
 
     val = verbs.add_parser("validate-capture", help="recipient-side check")

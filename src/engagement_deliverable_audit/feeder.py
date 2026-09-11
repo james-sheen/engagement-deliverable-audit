@@ -145,6 +145,33 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
             # two captures found it on the first run.
             owners[point.name] = str(point.owner) if point.owner else None
 
+    # A DELIVERABLE THE LATEST CAPTURE NO LONGER HOLDS IS NOT FED AT ALL.
+    #
+    # The rule above handles a point that is still there with `owner: null`. It does
+    # NOT handle a point that has gone: nothing overwrites an entry for a name no
+    # capture after it mentions, so a deliverable owned in capture 1 and absent from
+    # capture 2 was fed as an owned entity with a live `owned_by` edge -- an edge to a
+    # consultant, for something the tracker no longer shows. That is the phantom
+    # topology the `dangling_relationship` floor exists to refuse, arrived at from the
+    # other direction.
+    #
+    # Not fed rather than fed-as-an-orphan, and that is the decision. Feeding it with
+    # no edge would report `missing_relationship`, which says *nobody owns this* about
+    # something that is gone -- and Stage 1 already reports it as `declared_absent`,
+    # with its own floor and the right word. Stage 2 judges the current state of things
+    # that exist; absence is the other stage's finding.
+    #
+    # ONLY WHEN THE LATEST CAPTURE IS COMPLETE. A partial export withheld absence
+    # rather than reporting it, so dropping a name missing from one would turn *we did
+    # not look* into *it is gone*. With an incomplete latest capture the older state
+    # stands, which is the conservative reading and the one Stage 1 takes.
+    latest = exports[-1]
+    if bool(getattr(latest, "complete", True)):
+        present_now = {point.name for point in latest.points}
+        for name in [n for n in readings if n not in present_now]:
+            del readings[name]
+            owners.pop(name, None)
+
     deliverables = tuple(sorted(readings))
     series = {name: transitions(points) for name, points in readings.items()}
     series = {name: points for name, points in series.items() if points}
@@ -183,7 +210,21 @@ def run(engagement: Any, exports: Sequence[Any], model_text: str) -> Run:
 
     fed = plan(engagement, exports)
     session = EngineSession()
-    session.load_model(model_text)
+    # EVERY WAY A MODEL CAN FAIL TO LOAD ARRIVES AS `FeedError`, so the CLI's exception
+    # table stays in one place. `load_domain` calls `yaml.safe_load` unwrapped and
+    # raises a bare `ValueError` for a non-mapping, and `yaml.YAMLError` does NOT
+    # subclass `ValueError` -- so an unparseable model escaped `detect` as a traceback
+    # and exited 1, which this package's contract reads as FINDINGS rather than as a
+    # document it could not read. Caught here rather than in the CLI because the
+    # engine is imported here and nowhere else, and the set of exceptions it can raise
+    # is therefore this module's to know.
+    try:
+        session.load_model(model_text)
+    except FeedError:
+        raise
+    except Exception as problem:                                  # noqa: BLE001
+        raise FeedError(
+            f"the engine would not load this model: {problem}") from problem
     for name in fed.deliverables:
         properties = {}
         points = fed.series.get(name)

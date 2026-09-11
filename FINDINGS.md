@@ -303,8 +303,9 @@ would ship and everybody supports.
 ## 16. The ownership check is quietest when nobody owns anything
 
 CONNECTIVITY over ownership is the one invariant this model can answer on its first
-capture, and on the real engagement it did: nineteen deliverables, four with a
-representative named, fifteen orphans reported.
+capture, and on the real engagement it did: eighteen deliverables fed, four with a
+representative named, fourteen orphans reported. (Nineteen and fifteen are Stage 1's
+counts over the whole capture; the engine is fed the eighteen the declaration names.)
 
 Then the same run with no owner at all reports **nothing**. The axiom needs an entity
 of the target type to have been OBSERVED, and with nobody owning anything there is no
@@ -354,7 +355,7 @@ named. It recorded the owner only when a capture named one -- which reads as car
 and is the defect: a deliverable owned in an early capture and unowned in the latest
 kept the earlier name, kept its edge, and could not be seen as an orphan.
 
-**One capture has no history to go stale.** The real-data run fed nineteen deliverables
+**One capture has no history to go stale.** The real-data run fed eighteen deliverables
 from a single capture and reported fourteen orphans correctly; every test of the feeder
 used one capture or a series with stable owners. Nothing could have shown this.
 
@@ -420,3 +421,237 @@ matches the run that produced it.
 The general shape is the one this family keeps meeting from the other side: a check that
 passes against the wrong copy. Here the wrong copy was three weeks stale and from a
 different domain, and the format was shared enough to make it validate.
+
+## 21. The attestation could not carry the verdict, so reading it back invented one
+
+`attest` scored `FINDINGS if findings else CLEAN`. The artifact carries two lists and
+that reads one of them.
+
+Measured, with the shape entry 16 already describes: a capture where nobody owns
+anything, so there is no Consultant in the graph and CONNECTIVITY declines
+`missing_entity_type` on every deliverable. Zero findings, six declines. `detect`
+exits **2**. `attest`, over the artifact `detect` had just written, exited **0** and
+printed `verdict=clean`. The one outcome this package says it must never produce,
+reached through its own front door.
+
+Two things were wrong and only one is the scoring. The core's attestation format has
+no `exit_code` and no `verdict`, and its `not_checked` copies four fields -- so
+`floor_unreachable_at_this_rate` is not in the artifact at all, and
+`warmup_unreachable` (floor 1) cannot be told from `insufficient_samples` (floor 0)
+once written. Scoring the artifact correctly still loses that distinction.
+
+So both halves shipped: `attest` scores the artifact with the same floor table
+`detect` uses, and `detect` records its own code beside the core's keys. `attest`
+composes the two with `max`, so a recorded verdict can raise the score and never lower
+it, and a disagreement is printed rather than resolved. `validate_attestation` accepts
+the extra keys -- measured, with two controls proving it still rejects a mangled format
+and a missing list, because *extra keys are tolerated* is a claim about a validator
+that says nothing unless the validator can be shown to refuse anything.
+
+**What the test that named this defect could not see.** The first version asserted
+`detect == 2` and `attest == 2` and passed with the scoring reverted: `detect` records
+the code, and `max` recovered the 2 without any scoring happening. A test named for a
+defect that cannot fail on it is worse than no test, because it is counted. It now
+asserts the floors line, which only appears when the artifact is scored.
+
+## 22. A model the engine did not read, and a clean run over it
+
+`detect` never asked the engine whether it had read the model.
+
+Measured: a model whose indicator declares `axioms: [NOPE]` loads. The engine writes
+`unknown axiom 'NOPE' in domain file - skipped` to **stderr**, drops the declaration,
+and judges nothing. No findings, no declines -- and an empty answer is CLEAN by
+design, because the clean case is one this audit has to be able to report. So a run
+against a model none of which was applied printed `"exit_code": 0, "verdict": "clean"`
+on stdout while the engine was saying on stderr that it had ignored the only thing the
+model declared.
+
+`gate` catches this exactly, through `describe_gate`. `detect` did not call it. One
+verb owned validating a model and another owned running one, and no test on either
+side could fail: the gate's tests pass a bad model to the gate, and the feeder's tests
+pass a good model to the feeder. Nothing passed a bad model to `detect`.
+
+It cost nothing to fix. `feeder.run` already returns the `model_describe` payload,
+because the attestation needs it -- the information was in the return value, unread.
+
+**And a second shape the same check found.** `something: else` is a valid
+`DomainModel` to this engine: `is_domain_model` returns True, there are no entity
+types and no indicators, and every silence list is honestly empty because nothing was
+declared. All three of `describe_gate`'s checks passed. Pointing either verb at the
+wrong YAML file was a clean audit. A model that declares no axiom is now refused by
+both, and the silence gate reports it at `model.declared_axioms`.
+
+## 23. Three exceptions that exit 1, in a package whose contract says 1 means findings
+
+`yaml.YAMLError` does not subclass `ValueError`. The engine's own `is_domain_model`
+lists them side by side in one `except`, which is why it has to.
+
+Measured across both verbs that read a model, before any fix: an unparseable model, a
+model that parses to a list, and a model the engine refuses structurally all left an
+uncaught exception. The console script exits **1** and prints no OUTCOME line at all.
+Under this package's own contract 1 means *compared and found something*, so a file
+nobody could parse reported as a file with a defect in it.
+
+The guard now lives in `feeder.run` rather than in the CLI. The engine is imported
+there and nowhere else, so the set of exceptions it can raise is that module's to know,
+and every way a model can fail to load arrives as `FeedError`.
+
+## 24. A review signature naming people who never reviewed
+
+`evidence/astropy-cycle5-declaration.json` signed as *the Astropy SPOC and Finance
+Committee*, with `reviewed_on: 2025-12-19`.
+
+That committee selected funding requests on a nominal date named in the Cycle 5 call.
+It did not read, and could not have read, a JSON document generated by a script in
+this repository on 2026-09-11. The date was a selection date wearing a review date's
+field name. `Engagement.reviewed` is `bool(who) and bool(when)`, so nothing downstream
+could tell -- and the explanation existed only as a comment in the fetch script, not
+on the artifact a reader sees.
+
+The other two declarations here already disclosed themselves in that field
+(`FIXTURE --`, `DERIVED FROM A PUBLIC DATASET --`). This one was the only declaration
+in the repository naming a real party for an act it did not perform.
+
+`DISCLOSURE_MARKERS` now makes the convention something callers report rather than a
+habit: a `reviewed_by` beginning with a recognised marker is still **admitted** --
+nothing about the gate is weakened, and a derived corpus has to fill those fields to be
+usable -- but `declare` and `gate` print *NOT SIGNED, disclosed as DERIVED* instead of
+*reviewed by*. The test asserts it over every shipped declaration rather than over the
+one that was wrong, and counts the set first, because `all()` over an empty glob is
+true.
+
+## 25. The burn-in published the probe's number, and the probe does not feed what the tool feeds
+
+Every probe in `battery/` hands the engine observations directly. The tool hands it
+captures, and `feeder.transitions` derives one point per capture, dropping the first --
+which has no predecessor to have moved from, and which entry 18's fix is about. So N
+captures are N-1 observations.
+
+The engine's STABILITY floor is ten observations. `docs/burn-in.md` said *capture 10*,
+the README said *ten daily captures*, and `tests/test_engine_floors.py` asserted the
+document contained the string `capture 10` -- derived from the record, and from the
+wrong field of it. Three documents and a test agreeing on a number that was off by one
+in the direction that says the history axiom answers a day before it does.
+
+Measured by sweeping the capture count through the feeder: at ten captures STABILITY
+still declines `insufficient_samples`; at eleven it answers. The record now carries
+`observations` and `captures_through_the_feeder` as separate numbers, and the test
+asserts the second is the first plus one -- so if the derivation changes, the document
+is wrong rather than quietly about something else.
+
+**The first sweep reported that fourteen captures still declined, and it was the
+instrument.** Its series started at a fixed date six weeks before the run, and the
+window is a ceiling measured backwards from the clock (entry 17), so every observation
+fell outside a 30-day window however many there were. Anchoring the series to the real
+clock is what produced the answer.
+
+## 26. Stage 1's counts, attributed to the Stage 2 run
+
+`docs/burn-in.md` said *nineteen tracked deliverables fed*; `FINDINGS.md` said
+*nineteen deliverables ... fifteen orphans reported* in one place and *fed nineteen
+deliverables ... fourteen orphans* in another.
+
+Measured: the Astropy capture holds 19 points, 15 with no owner. The declaration names
+18, and `feeder.plan` feeds only declared, non-descoped names -- so Stage 2 feeds 18
+and reports 14 `missing_relationship`. The nineteenth is undeclared and unowned, which
+is Stage 1's `undeclared_present`.
+
+Both numbers were right about something. Neither was right about the run the sentence
+was describing. Two stages over two universes, and the prose took whichever number was
+to hand -- including in one sentence that mixed them, quoting Stage 1's nineteen
+alongside Stage 2's fourteen.
+
+## 27. A deliverable that vanished kept its owner, and its edge
+
+Entry 18 fixed an owner who left: the latest capture is the state, including when the
+latest says nobody. That rule reads `owners[point.name]` for every point a capture
+holds -- and a point no later capture mentions is never reached, so nothing overwrites
+it.
+
+Measured with two captures and a disappearance: a deliverable owned in the first and
+absent from the second was still fed as an owned entity, with a live `owned_by` edge to
+a consultant, for something the tracker no longer shows. The phantom topology that the
+`dangling_relationship` floor refuses, arrived at from the other side.
+
+It is not fed at all now, rather than fed as an orphan, and that is the decision.
+Reporting `missing_relationship` would say *nobody owns this* about something that is
+gone, and Stage 1 already reports it as `declared_absent` with the right word. Stage 2
+judges the current state of things that exist.
+
+**Guarded on completeness.** A partial export withheld absence rather than reporting
+it, so dropping a name missing from one would read *we did not look* as *it is gone* --
+the inversion Stage 1 keeps `walk_incomplete` separate to avoid. With an incomplete
+latest capture the older state stands, and that guard has its own test.
+
+Entry 18 said *nothing could have shown this* about the owner who left, and a scenario
+showed it. This one needed two captures and a removal: N=2 again, in a package that
+had by then written the N=2 test for the sibling case and not for this one.
+
+## 28. Six decline reasons with the right answer for the wrong reason
+
+The engine's `NotEvaluatedReason` is a closed enum of twelve. This package's floor
+table had rows for six.
+
+The other six fell to `UNCLASSIFIED`, which is 2, which is the safe direction -- so
+nothing was broken and nothing could have gone red. What was lost is the difference
+between a reason this package decided about and one it had never heard of: `detect`
+reported them as *no row in this package's floor table, so this run could not be
+scored*, which says the table is incomplete rather than that the engine declined for a
+reason with a decision behind it.
+
+All twelve now have rows, and the coverage is derived from the enum rather than
+transcribed, so a thirteenth member fails a test. Eleven are 2. `not_applicable` is 0,
+deliberately: the engine saying an axiom does not apply to a subject is a declared gap
+like `no_threshold`, not an unanswered question -- and if it ever appears here it means
+the model declares something the engine excludes, which belongs in the manifest. The
+full set of CLEAN-floored declines is pinned as a set rather than a count, because a
+count survives one row being swapped for another.
+
+## 29. Two things that shipped inside the wheel, in fields nothing read
+
+`engine_floors.json` carried `engine_file`: the absolute path of a scratch virtualenv
+on the machine that ran the probe. It is package data, so it shipped in 0.1.0's wheel.
+`evidence/jira-capture.json` carried `export_sha256`: sixty-four `z` characters, in
+published evidence, under a field name that claims something was verified.
+
+Neither was read by anything. The CI comparison looks at `floors` and `probes` only,
+and the exporter value is compared for equality and never parsed. That is exactly why
+neither was caught: a field nothing reads has no test that can notice what is in it.
+
+The hygiene sweep had no rule that could see either, and the sweep is the one check
+pointed at *what gets published* rather than at *what works*. It has two now, and both
+were proven against the published 0.1.0 files -- they fire on exactly those two lines
+and are silent on the repository today. The near-miss list includes a real SHA-256
+under a digest-named key, because a placeholder detector that refuses real digests is
+worse than none.
+
+**The digest was renamed rather than computed, and the reason matters.** The obvious
+fix is to hash the capture's contents. That would be wrong: two captures of the same
+engagement differ in content by design, so a content hash would make every pair
+incomparable and turn every regression into a SKIP. The field identifies the EXPORTER,
+not the export. `id` is the honest key for an identity that is not a hash; the fetch
+script now computes a real digest of the bytes it actually range-fetches, which is both
+a hash and stable across runs over the same archive.
+
+## 30. A CI job scheduled to go red by somebody else's release
+
+The grader job installed the newest `arbiter-engine` the pin admits, re-ran the probe,
+and failed if the resolved version was not the recorded one. On the day 0.1.14
+publishes, every push goes red with a message telling the author to re-run a probe
+they had no reason to think about.
+
+One exit code for two questions. *Do the recorded measurements still reproduce at the
+version the record names* is a behaviour claim about this package and is a hard
+failure. *Has a newer release appeared* is news from upstream, where nothing in this
+repository changed. Worse, the version check fired first, so a genuine reproduction
+failure and a routine upstream release were indistinguishable at the point of reading
+the log.
+
+The reproduction now installs the recorded version explicitly and the version
+comparison became an invariant rather than a race -- if it ever fires, the pin did not
+take and the comparison below it is meaningless. A separate advisory step reports a
+newer release as a notice. Both branches of it were exercised before shipping, because
+a step that can only ever print one of two messages is a step nobody has tested.
+
+The `floors` job already installs every release in range and runs the suite against
+each, so a new release is still exercised. It was never this job's question.

@@ -51,6 +51,31 @@ be measuring. This sweep was monotonic; that is a result, not a premise.
 
 Eight in-range releases installed and passing; every release below every floor fails.
 
+## Re-measured after the verification-report fixes
+
+Every row above was re-run, because a floor is a claim about behaviour and the
+behaviour changed. All three floors still hold and all eight in-range releases pass the
+suite, now 278 tests rather than 217.
+
+**The below-floor failure set grew from two tests to five, and one of them is new
+evidence for the same boundary.** The floor table's coverage is now derived from the
+engine's `NotEvaluatedReason` enum rather than transcribed, and that enum has **nine**
+members at 0.1.9 and **twelve** from 0.1.10: `missing_role`, `precondition_unmet` and
+`undefined_for_values` arrive at the same release as `unread_properties`. So the floor
+is supported by two independent facts about 0.1.10 rather than one.
+
+The other two newly-failing tests are pre-existing -- the gate's own model pass and the
+attestation round trip -- and they fail below the floor for the original reason: the
+silence gate reads a field that is not there before 0.1.10.
+
+**A note on what this document used to name.** The sweep table above cites a test by
+name as the one that fails below 0.1.10. That test's fixture was changed by these fixes:
+it passed a model declaring `axioms: []`, which was silent because it declared nothing
+rather than because the engine had read all of it, and a model declaring no axiom is now
+refused. It still fails below the floor and still for the original reason -- but evidence
+that names a test rather than a behaviour goes stale when the test is rewritten, and this
+paragraph exists because it nearly did.
+
 The third pin arrived with the grader vertical and was declared provisional, the same
 way the other two were. Sweeping it found the declared number already correct:
 `actions`, `substrate`, `substrates.memory` and `vocabulary` do not exist before

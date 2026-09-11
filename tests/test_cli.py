@@ -11,6 +11,12 @@ from engagement_deliverable_audit.cli import main
 
 DECL = "examples/engagement.fixture.json"
 SNAP = "examples/tracker.snapshot.json"
+MODEL = "examples/engagement.model.yaml"
+CAPTURE = "evidence/astropy-cycle5-capture.json"
+#: The declaration that MATCHES that capture. Pairing the fixture with the
+#: astropy capture feeds nothing, and a verb that judged nothing is a weak
+#: exercise of a claim about what it prints.
+CAPTURE_DECL = "evidence/astropy-cycle5-declaration.json"
 
 
 def _outcomes(text: str) -> list[str]:
@@ -29,13 +35,44 @@ def test_with_json_stdout_is_a_document_and_nothing_else(tmp_path, capsys) -> No
 
     Asserting on the parse of the entire stream is the whole point: a test that
     sliced the JSON out first would have passed throughout.
+
+    **THE DOCSTRING SAID *EVERY VERB* AND THE LOOP RAN TWO OF THREE.** `detect` also
+    takes `--json` and was not here, which matters more than the other two: it is the
+    verb with a side effect, and `--attest-out` prints a line about the file it wrote.
+    That line is guarded on `--json` -- correctly, as it turns out -- and nothing
+    checked it. The verbs are now derived from the parser, so a fourth `--json` lands
+    in this loop on the day it is added rather than the day somebody notices.
     """
     out = tmp_path / "c.json"
     main(["capture", "--source", f"qa-memory:{SNAP}", "--out", str(out)])
     capsys.readouterr()
-    for argv in (["presence", "--declaration", DECL, "--capture", str(out)],
-                 ["regression", "--before", str(out), "--after", str(out),
-                  "--stall-window-days", "14"]):
+
+    # Derived from the parser, then matched against the invocations below. A verb with
+    # a `--json` and no entry here fails the assertion rather than being skipped.
+    import argparse as _argparse
+
+    from engagement_deliverable_audit.cli import build_parser
+    takes_json = {
+        name for name, sub in next(
+            action for action in build_parser()._actions
+            if isinstance(action, _argparse._SubParsersAction)).choices.items()
+        if any("--json" in (a.option_strings or ()) for a in sub._actions)}
+
+    invocations = {
+        "presence": ["presence", "--declaration", DECL, "--capture", str(out)],
+        "regression": ["regression", "--before", str(out), "--after", str(out),
+                       "--stall-window-days", "14"],
+        "detect": ["detect", "--declaration", CAPTURE_DECL, "--model", MODEL,
+                   "--capture", CAPTURE,
+                   # The side effect, on purpose: the only verb that writes a file
+                   # while also claiming stdout is a document.
+                   "--attest-out", str(tmp_path / "att.json")],
+    }
+    assert takes_json == set(invocations), (
+        f"the parser offers --json on {sorted(takes_json)} and this test exercises "
+        f"{sorted(invocations)}; a verb claiming to emit a document is not checked")
+
+    for argv in invocations.values():
         main([*argv, "--json"])
         captured = capsys.readouterr().out
         payload = json.loads(captured)          # raises if a prose line rode along
@@ -80,6 +117,89 @@ def test_a_malformed_document_is_two_and_never_one(argv_for, tmp_path, capsys) -
     broken.write_text("{ this is not json", encoding="utf-8")
     assert main(argv_for(broken)) == 2
     assert "exit=2" in capsys.readouterr().out
+
+
+#: Three ways a MODEL is malformed, which is a different axis from a malformed JSON
+#: document: a model goes through a YAML reader and then through the engine's loader,
+#: and each stage raises a different family. The test above parametrises over verbs
+#: with one broken file; this one parametrises over broken files, because the verbs
+#: were never the thing that varied.
+MALFORMED_MODELS = {
+    # `yaml.YAMLError`, which is NOT a ValueError. This is the one that escaped.
+    "unparseable": "domain: [not a mapping\n",
+    # Parses, and not to a mapping. `.get` on a list is an AttributeError.
+    "not a mapping": "- a\n- b\n",
+    # NOT a parse failure and NOT an engine refusal, which is why it is here: the
+    # engine loads this as a valid DomainModel with no entity types and no indicators,
+    # `is_domain_model` says True, and every silence list is legitimately empty. So a
+    # run against it judged nothing and scored CLEAN -- pointing a verb at the wrong
+    # YAML file was a clean audit. Measured; it is the reason this file is a dict of
+    # named shapes rather than a list of broken strings.
+    "declares no axiom at all": "something: else\n",
+}
+
+
+@pytest.mark.parametrize("body", MALFORMED_MODELS.values(), ids=list(MALFORMED_MODELS))
+@pytest.mark.parametrize("verb", ["gate", "detect"])
+def test_a_malformed_model_is_two_and_never_one(verb, body, tmp_path, capsys) -> None:
+    """A model this package could not read is 2, through either verb that reads one.
+
+    Measured before the fix: all six of these combinations left an uncaught exception,
+    which exits 1 and prints no OUTCOME line at all. 1 is this package's code for
+    *compared and found something*, so a file nobody could parse was reporting as a
+    file with a defect in it -- the wrong answer in the wrong direction.
+
+    The OUTCOME line is asserted as well as the code, because a traceback gives a
+    caller no line to read and `1` is a number it would otherwise believe.
+    """
+    pytest.importorskip("arbiter_engine")
+    model = tmp_path / "model.yaml"
+    model.write_text(body, encoding="utf-8")
+    argv = ([verb, "--model", str(model)] if verb == "gate" else
+            [verb, "--declaration", DECL, "--model", str(model),
+             "--capture", CAPTURE])
+
+    assert main(argv) == 2
+    printed = capsys.readouterr().out
+    assert _outcomes(printed) == ["OUTCOME exit=2 verdict=could-not-complete"], printed
+
+
+def test_a_model_the_engine_silently_dropped_is_never_a_clean_run(
+        tmp_path, capsys) -> None:
+    """The worst defect found in this package, and no test could have failed on it.
+
+    A model declaring an axiom the engine does not recognise LOADS. The engine writes
+    `unknown axiom 'NOPE' in domain file - skipped` to stderr, drops the declaration,
+    and judges nothing. No findings, no declines -- and an empty answer is CLEAN by
+    design, because the clean case is one this audit must be able to report. So a
+    model none of which was applied exited 0.
+
+    `gate` catches this and `detect` did not call it: validating a model and running
+    one were owned by different verbs, so neither side had a test that could fail.
+    Both verbs are asserted here for that reason.
+    """
+    pytest.importorskip("arbiter_engine")
+    model = tmp_path / "unknown-axiom.yaml"
+    model.write_text(
+        "domain:\n"
+        "  id: x\n"
+        "  name: x\n"
+        "  entity_types: [Deliverable]\n"
+        "  indicators:\n"
+        "    Deliverable:\n"
+        "      - name: transitions_per_week\n"
+        "        type: NUMERIC\n"
+        "        axioms: [NOPE]\n", encoding="utf-8")
+
+    assert main(["gate", "--model", str(model)]) == 2, "the gate never saw this either"
+    capsys.readouterr()
+
+    assert main(["detect", "--declaration", DECL, "--model", str(model),
+                 "--capture", CAPTURE]) == 2
+    printed = capsys.readouterr().out
+    assert "model_not_read" in printed, (
+        "the run has to say WHICH part of the model the engine did not read; a bare 2 "
+        "sends a reader looking for a finding that does not exist")
 
 
 def test_an_unreviewed_declaration_is_refused_by_name(tmp_path, capsys) -> None:

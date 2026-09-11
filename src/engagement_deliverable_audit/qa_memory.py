@@ -58,7 +58,7 @@ def as_capture(snapshot: Mapping[str, Any], *, captured_at: str | None = None,
         # `owner` defaults to present. A snapshot that says nothing about owners
         # is describing a tracker where everything is owned, which is the
         # ordinary case; a scenario that wants an orphan says so explicitly.
-        owner = record.get("owner", "anon") if "owner" in record else "anon"
+        owner = record.get("owner", "anon")
         points.append({
             "name": str(name),
             "path": str(record.get("path") or f"qa-memory://{name}"),
@@ -71,7 +71,9 @@ def as_capture(snapshot: Mapping[str, Any], *, captured_at: str | None = None,
     return {
         "format": formats.CAPTURE,
         "captured_at": captured_at,
-        "exporter": {"export_sha256": exporter} if exporter else {},
+        # `id`, not `export_sha256`: this value identifies the exporter and is
+        # only compared for equality, and nothing here computes a hash.
+        "exporter": {"id": exporter} if exporter else {},
         "complete": not errors,
         "points": points,
         "errors": [[str(where), str(what)] for where, what in errors.items()],

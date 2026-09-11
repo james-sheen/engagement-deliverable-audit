@@ -29,10 +29,11 @@ owner or vanish and do it the same way twice.
 
 **One thing Stage 2 cannot yet show, and it is in the release notes rather than only
 here.** Its ownership invariant answers on the first capture and has, on real data. Its
-history invariant needs ten daily captures of a live tracker before it says anything,
+history invariant needs eleven daily captures of a live tracker before it says anything
+(ten derived points; the first capture yields none),
 so the kill criterion in `docs/burn-in.md` is recorded as NOT met and that axiom ships
 as observation-only. The path is exercised end to end on a derived series; what is
-missing is an engagement captured daily for ten days, which only time supplies.
+missing is an engagement captured daily for eleven days, which only time supplies.
 
 It has now been run against **real tracker data twice**, and the second run exists
 because of what the first one could not meet.
@@ -106,6 +107,7 @@ written so that removing its rule turns its own tests red.
 | `model_gate` | a declared bound whose basis quote does not contain its number | a citation can name a real document and still be the author's invention. A floor is a specification, not a guess |
 | `source_contract` | a declaration whose `sources` elements cannot answer what the report writer reads | the protocol documents the member as one word; the writer reads eleven off each element. The eleven are derived from the writer, and each is proven necessary by dropping it |
 | `describe_gate` | a silence list that is missing, as well as one that is non-empty | two of the three lists nest a level deeper than the third, so the obvious reading raises and the obvious repair would report nothing forever |
+| `describe_gate` | a model that declares no axiom at all | `something: else` loads as a valid domain model with no indicators, so every silence list is honestly empty and a run against it judges nothing. An empty answer is clean, so pointing a verb at the wrong YAML file was a clean audit |
 | `boundary_gate` | a bound where the published number itself is reported as a violation | *shall not exceed forty* leaves forty compliant, and BOUNDEDNESS compares inclusively. RESPONSIVENESS does not, so this probes rather than assumes |
 
 `model_gate` deliberately permits MONOTONICITY with no `monotonicity` block,
@@ -134,6 +136,19 @@ one back through the door a recipient uses. The members the core's builder reads
 manifest are declared by no protocol, so this package derives them from the builder's own
 source -- distinguishing an attribute access, which is required, from a `getattr` with a
 default, which is not. Filed upstream; `FINDINGS.md` has the rest.
+
+**`attest` scores the artifact rather than trusting a verdict written into it.** A
+recipient holding an artifact from anywhere gets this package's floor table applied to
+it, which is the only reason re-reporting is worth doing. `detect` also records its own
+code in the artifact, because the core's format carries no verdict and its `not_checked`
+drops the flag that separates a cadence which can never reach a floor from one that has
+not reached it yet. The two compose with `max`, so a recorded verdict can raise a score
+and never lower one, and a disagreement between them is printed rather than resolved.
+
+**`detect` also asks the engine whether it read the model.** A declaration the engine
+dropped -- an unknown axiom, a field nothing reads -- means part of the model was never
+applied, and a run that judged nothing would otherwise report clean. That is
+`model_not_read`, floored at 2.
 
 ### The grader
 

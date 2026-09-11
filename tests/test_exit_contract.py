@@ -43,6 +43,57 @@ def test_the_exclusions_are_real_kinds_and_not_typos() -> None:
     assert stray == [], f"{stray} are excused and are not kinds the core raises"
 
 
+def test_the_table_covers_the_engines_whole_decline_vocabulary() -> None:
+    """The same rule as above, applied to the OTHER upstream that feeds this table.
+
+    The core's regression kinds were derived; the engine's decline reasons were not.
+    Six of the engine's twelve had rows and six did not, and the six without got the
+    right answer for the wrong reason: anything unknown falls to `UNCLASSIFIED`, which
+    is 2, which is the safe direction -- so nothing failed and nothing could. The cost
+    was that `detect` reported them as *no row in this package's floor table, so this
+    run could not be scored*, which says the table is incomplete rather than that the
+    engine declined for a reason this package decided about.
+
+    `NotEvaluatedReason` is a closed enum and the engine's own docstring says so, which
+    is what makes deriving from it safe. A thirteenth member now fails here.
+    """
+    pytest.importorskip("arbiter_engine")
+    from arbiter_engine.types import NotEvaluatedReason
+
+    vocabulary = {member.value for member in NotEvaluatedReason}
+    assert len(vocabulary) >= 12, (
+        f"the engine offered {len(vocabulary)} decline reasons, which is fewer than "
+        f"this package was written against; deriving from a shrunken set would make "
+        f"this check pass over almost nothing")
+    uncovered = sorted(vocabulary - set(x.FLOORS))
+    assert uncovered == [], (
+        f"the engine can decline with {uncovered} and this table has no row for them, "
+        f"so a run would report them as unscorable rather than as decided")
+
+
+def test_exactly_these_engine_declines_are_floored_clean_and_no_others() -> None:
+    """The whole list, pinned, because a 0 can only come from somebody choosing it.
+
+    Everything this table has never heard of floors at 2, so every CLEAN row is a
+    decision: this package saying the axiom did not answer and that is nobody's fault.
+    There are three, and they are three different reasons for the same floor --
+    warming, a gap the model declares rather than invents, and a subject the engine
+    itself excludes.
+
+    Pinned as a set rather than a count: a count would survive one row being swapped
+    for another, which is exactly the edit worth catching.
+    """
+    pytest.importorskip("arbiter_engine")
+    from arbiter_engine.types import NotEvaluatedReason
+
+    clean = sorted(reason.value for reason in NotEvaluatedReason
+                   if x.FLOORS[reason.value][0] == x.CLEAN)
+    assert clean == ["insufficient_samples", "no_threshold", "not_applicable"], (
+        f"the engine declines floored CLEAN are {clean}; each is a decline this "
+        f"package says is a declared gap or a warming axiom rather than an unanswered "
+        f"question, and each is a decision rather than a default")
+
+
 def test_nothing_produced_is_clean_and_that_differs_from_the_core_on_purpose() -> None:
     """Composing nothing is 2 in the core, because no stage reported. Producing no
     findings is 0 here, because the comparison ran and found nothing -- which is

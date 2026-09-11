@@ -154,6 +154,44 @@ def test_a_frozen_deliverable_fires_and_a_moving_one_does_not() -> None:
     assert "frozen_series" not in kinds(moving)
 
 
+def test_the_burn_in_is_measured_through_the_feeder_and_not_off_the_engine() -> None:
+    """How many CAPTURES the history axiom needs, swept rather than transcribed.
+
+    The engine's floor is ten OBSERVATIONS, and every probe in `battery/` feeds it
+    observations directly. The tool feeds captures: `transitions` derives one point per
+    capture and drops the first, so N captures are N-1 observations and the floor
+    arrives one capture later. The burn-in document and the README both published the
+    engine's ten as the number of daily captures to collect.
+
+    Swept across the boundary, not bisected, and asserted on BOTH sides: the last
+    capture count that still declines and the first that answers. Asserting only the
+    answering end would pass against a floor of one.
+
+    The series is anchored to the real clock deliberately -- the window is a ceiling
+    measured backwards from the run, so a series dated a month ago falls outside a
+    30-day window at any length. A first attempt at this sweep used a fixed start date
+    and reported that fourteen captures still declined.
+    """
+    engagement, text = _engagement(), MODEL.read_text(encoding="utf-8")
+    record = json.loads(
+        (ROOT / "src" / "engagement_deliverable_audit" / "engine_floors.json")
+        .read_text(encoding="utf-8"))
+    floor = record["floors"]["STABILITY"]["captures_through_the_feeder"]
+
+    def declines_at(count: int) -> bool:
+        envelope = feeder.run(engagement, _series(days=count, moving=False), text).envelope
+        return "insufficient_samples" in {
+            d.get("reason") for d in envelope.get("not_checked") or ()
+            if d.get("axiom") == "STABILITY"}
+
+    assert declines_at(floor - 1), (
+        f"{floor - 1} captures is {floor - 2} derived points, which is below the "
+        f"engine's floor, so STABILITY has to still be warming")
+    assert not declines_at(floor), (
+        f"the record says the tool reaches the floor at {floor} captures and it did "
+        f"not; the derivation or the engine's floor has moved")
+
+
 def test_one_capture_answers_connectivity_and_warms_the_rest() -> None:
     """The criterion's answer, executable. CONNECTIVITY needs no history and the series
     axiom says it is warming rather than finding nothing."""
@@ -229,6 +267,59 @@ def test_an_owner_who_leaves_is_forgotten() -> None:
     assert fed.unowned == ("D-1",)
     assert fed.edges == ()
     assert fed.consultants == ()
+
+
+def test_a_deliverable_that_vanishes_is_not_fed_as_an_owned_one() -> None:
+    """THE N=2 CASE THE SIBLING TEST ABOVE CANNOT REACH.
+
+    That test keeps the point present and takes its owner away. This one removes the
+    point. Nothing overwrote an entry for a name no later capture mentioned, so the
+    deliverable kept its owner AND its `owned_by` edge -- the graph asserted a
+    consultant owns something the tracker no longer holds.
+
+    It needed two captures and a disappearance to exist at all: with one capture there
+    is no earlier state to go stale, and the real-data runs both use a single capture.
+    Stage 1 reports the absence as `declared_absent`; Stage 2 says nothing, which is
+    the decision rather than an omission.
+    """
+    now = dt.datetime.now(dt.timezone.utc)
+    fed = feeder.plan(_engagement(), [
+        _export({"D-1": {"value": 1, "owner": "ana"},
+                 "D-2": {"value": 1, "owner": "bo"}}, stamp=now - dt.timedelta(days=1)),
+        _export({"D-2": {"value": 1, "owner": "bo"}}, stamp=now)])
+
+    assert "D-1" not in fed.deliverables, (
+        "a deliverable the latest capture does not hold is not part of the current "
+        "state, so Stage 2 has nothing to judge about it")
+    assert not any(edge[0] == "D-1" for edge in fed.edges), (
+        "the vanished deliverable still carries an ownership edge")
+    assert "D-1" not in fed.unowned, (
+        "reporting it as an orphan says nobody owns it, about something that is gone; "
+        "Stage 1 reports the absence with the right word")
+    assert fed.deliverables == ("D-2",) and fed.edges == (
+        ("D-2", "owned_by", "consultant:bo"),), (
+        "the deliverable that is still there must be unaffected")
+
+
+def test_an_incomplete_latest_capture_does_not_turn_absence_into_departure() -> None:
+    """The guard on the rule above, and the reason it is a guard and not an exception.
+
+    A partial export WITHHELD absence rather than reporting it. Dropping a name missing
+    from one would read *we did not look* as *it is gone* -- the same inversion Stage 1
+    keeps `walk_incomplete` separate from `declared_absent` to avoid. So with an
+    incomplete latest capture the older state stands.
+    """
+    now = dt.datetime.now(dt.timezone.utc)
+    full = _export({"D-1": {"value": 1, "owner": "ana"},
+                    "D-2": {"value": 1, "owner": "bo"}},
+                   stamp=now - dt.timedelta(days=1))
+    partial = _export({"D-2": {"value": 1, "owner": "bo"}}, stamp=now)
+    object.__setattr__(partial, "complete", False)
+
+    fed = feeder.plan(_engagement(), [full, partial])
+    assert "D-1" in fed.deliverables, (
+        "absence from an incomplete export is not evidence of departure")
+    assert any(edge[0] == "D-1" for edge in fed.edges)
 
 
 def test_an_owner_who_arrives_is_seen() -> None:
