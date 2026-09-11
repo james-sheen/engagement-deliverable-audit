@@ -299,3 +299,50 @@ version string, and it is the check that goes red on a pin change.
 The general shape: a test that pins an environmental fact will eventually meet a probe
 whose job is to vary it. The tell is that the failure names a configuration nobody
 would ship and everybody supports.
+
+## 16. The ownership check is quietest when nobody owns anything
+
+CONNECTIVITY over ownership is the one invariant this model can answer on its first
+capture, and on the real engagement it did: nineteen deliverables, four with a
+representative named, fifteen orphans reported.
+
+Then the same run with no owner at all reports **nothing**. The axiom needs an entity
+of the target type to have been OBSERVED, and with nobody owning anything there is no
+Consultant in the graph, so it declines `missing_entity_type` instead of naming a
+single orphan. The worse the engagement, the quieter the model -- and the shape where
+every deliverable is unowned is not hypothetical, it is the first week of an
+engagement before the contracts are signed.
+
+What stops it reading as a pass is the floor rather than the finding.
+`missing_entity_type` is a model or feed defect and floors at 2, so a run where the
+axiom could not be evaluated exits could-not-complete. An audit that said *no orphans*
+there would be worse than useless; one that says *this could not be checked* is
+correct, and the floor is doing the work the finding cannot.
+
+Not worked around in the feeder. Inventing a placeholder consultant so the axiom has
+something of the right type to look at would make the orphans fire -- and would put an
+entity nobody declared into the graph to get an answer out of it, which is the
+phantom-topology shape the engine's own dangling-edge finding exists to refuse.
+
+`tests/test_feeder.py` asserts the decline AND the floor together, because the decline
+alone is satisfied by a run nobody scored.
+
+## 17. The window is measured from the clock, not from the newest observation
+
+Twelve captures, a thirty-day window, eleven derived points, a floor of ten -- and
+STABILITY declined `insufficient_samples`. Nothing was wrong with the series: it ended
+six weeks before the run.
+
+The window is a ceiling measured backwards from the moment of the run, so a series
+that stopped a month ago falls outside a thirty-day window however many captures it
+holds. Re-dating the same twelve captures to end at the present made the axiom answer
+immediately.
+
+Two things follow, and the second is the one worth remembering. An audit of an
+archived engagement cannot use the history axioms at all, however complete its record
+-- the window will hold none of it. And **any test fixture built from a frozen date
+becomes unreachable by its own model as the clock moves**, which is the inverse of the
+defect in finding 7: there a typed *now* made a real corpus look entirely stalled, and
+here a typed past makes a complete corpus look unmeasured. Both come from a date
+written down instead of derived. `tests/test_feeder.py` builds its series from the
+real clock and says why.

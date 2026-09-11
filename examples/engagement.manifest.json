@@ -1,0 +1,55 @@
+{
+  "format": "engagement-deliverable-audit/manifest/1",
+  "model": "engagement.model.yaml",
+  "why": "A model declares what gets fed. This names everything excluded and the reason, because emitting the first without the second turns we chose not to watch this into we forgot it exists -- and those are the two halves an audit is for.",
+  "excluded": [
+    {
+      "indicator": "open_items",
+      "scope": "indicator",
+      "reason": "no_such_field",
+      "detail": "A capture carries a name, a path, an owner, a tracker state and the days since the last transition. An open-item count is a real quantity in a real engagement and this export does not carry it, so declaring the indicator would produce a missing_property decline that reads as a gap in the data."
+    },
+    {
+      "indicator": "slip_days",
+      "scope": "indicator",
+      "reason": "no_such_field",
+      "detail": "Same. Slip against a baseline needs the baseline, and the capture carries no dates other than its own."
+    },
+    {
+      "indicator": "days_to_due",
+      "scope": "indicator",
+      "reason": "no_such_field",
+      "detail": "A due date lives in the statement of work rather than in the tracker export, and nothing joins the two per deliverable yet. When it does, this becomes a BOUNDEDNESS bound whose number the declaration supplies."
+    },
+    {
+      "indicator": "utilisation_pct",
+      "scope": "indicator",
+      "reason": "no_such_field",
+      "detail": "A consultant's utilisation is a timesheet figure. No tracker export carries it, and it is the only indicator that would have been declared on the Consultant entity type -- so that type is fed as a relationship target and carries no indicator of its own."
+    },
+    {
+      "indicator": "satisfaction",
+      "scope": "axiom",
+      "reason": "declared_gap",
+      "detail": "Lower is worse and nobody published a line, so the family rule says use HOMEOSTASIS and let a baseline decide. Measured, learned HOMEOSTASIS needs thirty observations inside a baseline window of its own and a daily collector fits seven -- unreachable at this cadence at any number of captures. A declared setpoint answers on one capture and is an invention wherever the engagement published no target."
+    },
+    {
+      "indicator": "open_items, slip_days",
+      "scope": "axiom_arm",
+      "reason": "declared_gap",
+      "detail": "Were they declared, MONOTONICITY's rate arm would decline no_threshold on both: no contract publishes a rate of change for either. The reversal arm still answers, so they would be partly checked rather than unchecked. Recorded so the decline is an accepted gap at floor 0 rather than a model defect at floor 2."
+    },
+    {
+      "indicator": "days_since_transition",
+      "scope": "derived",
+      "reason": "one_implementation",
+      "detail": "The raw field the transitions_per_week derivation reads. Deliberately not declared beside it: two indicators measuring the same underlying fact are two places for one answer to live, and Stage 1 already reports a stall directly from this number."
+    }
+  ],
+  "consequences": [
+    {
+      "guard": "boundary_gate",
+      "detail": "Has nothing to probe against this model, because the two indicators that would have carried a published bound are both excluded for want of a field. The guard is not wrong and not satisfied -- it is unexercised, and that is a fact about the export format rather than about the guard."
+    }
+  ]
+}

@@ -101,4 +101,10 @@ def test_the_burn_in_document_agrees_with_the_measurement(measured) -> None:
     assert learned["daily"]["unreachable at this rate"] is True, (
         "the document's central claim is that a daily collector cannot reach the "
         "learned baseline; the record no longer says that")
-    assert "never, at this cadence" in text
+    # Pinned to the engine's own field name rather than to a turn of phrase. The
+    # document is allowed to be rewritten; what it may not do is stop naming the
+    # mechanism its central claim rests on. An earlier version of this asserted a
+    # sentence, and reorganising the document broke it while every claim survived.
+    assert "floor_unreachable_at_this_rate" in text, (
+        "the document no longer names the field the engine reports this with, so a "
+        "reader cannot check the claim against a run")

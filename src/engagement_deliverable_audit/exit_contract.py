@@ -65,6 +65,52 @@ FLOORS: Mapping[str, tuple[int, str]] = {
     "walk_incomplete": (
         FINDINGS, "absence was withheld, so the run is honest but partial; 2 under "
                   "--require-complete"),
+    # --- Stage 2, from the engine -------------------------------------------
+    #
+    # Keyed on the CLASS and not the indicator. The engine's problem types carry the
+    # indicator after a colon -- `frozen_series:transitions_per_week` -- and a floor
+    # is a decision about the kind of fault, so `detect` scores the prefix. A table
+    # keyed on the whole string would need a new row for every indicator anybody
+    # declares, and would fall to the unclassified floor the day one landed.
+    "frozen_series": (
+        FINDINGS, "the quantity the model declares should vary has not varied inside "
+                  "the window, so the number is no longer a measurement of anything"),
+    "missing_relationship": (
+        FINDINGS, "a deliverable with nobody on the other end. No threshold decided "
+                  "this: the model declares that one owner is required, and an "
+                  "orphan is the one finding that needs no history to see"),
+    "dangling_relationship": (
+        FINDINGS, "the tracker names an owner the engagement never declared, so the "
+                  "edge points at nothing and crediting it toward the floor would "
+                  "let a phantom topology pass"),
+
+    # Declines. An axiom that did not answer is not a pass, and the reason decides
+    # whether it is anybody's fault.
+    "insufficient_samples": (
+        CLEAN, "the series is still short. A warming axiom is not a fault and must "
+               "not floor a run -- it is the burn-in doing what it says"),
+    "warmup_unreachable": (
+        FINDINGS, "the collector's cadence can NEVER present this floor, however "
+                  "long it runs, which the engine states in the decline itself. "
+                  "Warming ends; this does not, so it is a configuration fault and "
+                  "not patience"),
+    "no_threshold": (
+        CLEAN, "a declared gap. No contract publishes a rate for this quantity and "
+               "the model says so rather than inventing one; the other arm of the "
+               "axiom still answers"),
+    "missing_config": (
+        INCOMPLETE, "the model declares an axiom with nothing to judge against. That "
+                    "is a defect in the model, and a model defect is never findings"),
+    "missing_property": (
+        INCOMPLETE, "the model asks for a property the feeder did not supply. A "
+                    "defect in this package rather than in the tracker, and reading "
+                    "it as a clean run would hide it"),
+    "missing_entity_type": (
+        INCOMPLETE, "the model names an entity type nothing was fed under"),
+    "missing_role": (
+        INCOMPLETE, "an indicator never declared what it IS to the axiom reading it, "
+                    "so somebody owes a declaration"),
+
     "config_unreadable": (
         FINDINGS, "every deliverable this document declares is unverifiable rather "
                   "than absent; 2 under --require-complete"),

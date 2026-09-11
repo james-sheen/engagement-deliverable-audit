@@ -33,6 +33,27 @@
 # partly checked rather than unchecked, and inventing a rate to silence the decline
 # would be putting a number nobody wrote into a model that is judged against it.
 #
+# WHAT THE CAPTURE FORMAT ACTUALLY CARRIES, which is the first question and was not
+# the first question asked. A capture holds, per deliverable: a name, a path, an owner,
+# a tracker state and the days since its last transition. That is all. The first draft
+# of this model declared `open_items`, `slip_days`, `days_to_due` and
+# `utilisation_pct` -- four quantities a project-management system might export and
+# this package's export does not. Feeding it would have produced a `missing_property`
+# decline for each, which reads as a gap in the DATA when it is a gap between the model
+# and the format.
+#
+# So this model declares only what can be fed, and `engagement.manifest.json` names
+# every exclusion with its reason. An indicator nobody can feed is worse than an
+# absent one: it is a declaration that looks like coverage.
+#
+#   * `owned_by` is READ, from the capture's owner.
+#   * `transitions_per_week` is DERIVED by the feeder, by counting the resets of
+#     days_since_transition inside a trailing week. A deliverable that never moves has
+#     a flat series of zero, which is what `expect_variation` is for.
+#   * `days_since_transition` is the raw field the derivation reads and is deliberately
+#     NOT declared beside it. Two indicators measuring the same underlying fact are two
+#     places for one answer to live, and Stage 1 already reports the stall directly.
+#
 # WHAT IS DELIBERATELY ABSENT, said as an absence rather than left out:
 #
 #   * *satisfaction, margin, and anything else where lower is worse and nobody
@@ -73,37 +94,6 @@ domain:
         expect_variation: true
         window: 30d
 
-      # Three captures for the reversal arm. The rate arm declines; see the decisions.
-      - name: open_items
-        type: NUMERIC
-        axioms: [MONOTONICITY]
-        window: 30d
-        monotonicity:
-          expected_direction: decreasing
-
-      - name: slip_days
-        type: NUMERIC
-        axioms: [MONOTONICITY]
-        window: 30d
-        monotonicity:
-          expected_direction: decreasing
-
-      # Published as *at least 0 days remaining, late after five*. 0 fires, and that
-      # is the choice: due today and not delivered is worth saying.
-      - name: days_to_due
-        type: NUMERIC
-        axioms: [BOUNDEDNESS]
-        lower_warning: 0.0
-        lower_critical: -5.0
-
-    Consultant:
-      # Published as *between 70% and 95%*. Both published numbers are compliant, so
-      # both firing points are the next representable value outside them -- which is
-      # what those literals are, and why they are not round.
-      - name: utilisation_pct
-        type: NUMERIC
-        axioms: [BOUNDEDNESS]
-        lower_critical: 59.99999999999999
-        lower_warning: 69.99999999999999
-        warning: 95.00000000000001
-        critical: 98.00000000000001
+    # No Consultant indicator. `utilisation_pct` is a real quantity in a real
+    # engagement and no tracker export carries it, so declaring it here would be a
+    # claim about data nobody feeds. It is in the manifest with that reason.

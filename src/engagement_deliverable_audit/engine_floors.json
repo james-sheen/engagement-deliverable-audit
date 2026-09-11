@@ -151,7 +151,7 @@
    }
   }
  },
- "measured_on": "2026-09-11T08:39:01.178423+00:00",
+ "measured_on": "2026-09-11T08:53:55.088377+00:00",
  "not_measured": [
   "CONSERVATION -- this vertical declares no flow, so no arm of it is exercised",
   "RESPONSIVENESS -- no deliverable has a declared deadline as a latency role",

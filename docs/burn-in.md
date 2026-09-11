@@ -13,15 +13,23 @@ the same numbers at run time rather than carrying a second copy of them.
 
 ## The criterion
 
-> **If fewer than three of the declared invariants produce a judgment on real captures,
+> **If fewer than both of the declared invariants produce a judgment on real captures,
 > Stage 2 ships as observation-only: the model is published, the collector runs, the
 > history axioms are declared and reported as warming, and no exit code is computed
 > from them. They move to a portfolio layer if they ever move at all.**
 
-Three, and not a number chosen to be met. Two invariants answer on the first capture
-and need no series at all, so a criterion of two would be satisfied before the
-collector had run once. Three is the first number that requires the burn-in to have
-actually happened.
+**This is a restatement, and the first version is kept here because a criterion edited
+after measurement is worth nothing if the edit is invisible.** It first read *fewer
+than three of the declared invariants*, written against a model that declared six.
+Four of those six turned out to be unfeedable -- they named quantities a
+project-management system might export and this package's capture does not -- so they
+moved to `engagement.manifest.json` with that reason, and the model declares two.
+
+A bar of three against two invariants is unreachable, which would make the criterion
+unfalsifiable rather than strict. Against two, *both* is the only bar that still
+requires the burn-in to have happened: one of them answers on the first capture and the
+other needs ten. So the restatement keeps the property the number was chosen for, and
+the reason it moved is the model shrinking rather than the bar being missed.
 
 **The criterion is about real captures and not about the probe.** The probe feeds the
 engine synthetic series and says what the engine *can* judge. What a real tracker
@@ -31,16 +39,22 @@ export supports is a separate question, and it is the one the criterion asks.
 
 Measured at engine 0.1.13, a declared window of 30 days and a daily collector:
 
-| invariant | axiom | answers from | why |
+| invariant | axiom | fed by | answers from |
 |---|---|---|---|
-| `owned_by` | CONNECTIVITY | capture 1 | no threshold and no history. An orphan is a missing edge and that is visible immediately |
-| `utilisation_pct` | BOUNDEDNESS | capture 1 | the thresholds are declared, so there is nothing to learn |
-| `slip_days`, `open_items` | MONOTONICITY, reversal arm | capture 3 | the fewest points that can exhibit a reversal: up, up, down |
-| `transitions_per_week` | STABILITY | capture 10 | ten observations must fall inside the declared window |
-| `satisfaction` | HOMEOSTASIS, learned | **never, at this cadence** | the baseline is counted inside a window of its own; see below |
+| `owned_by` | CONNECTIVITY | read, from the capture's owner | capture 1 |
+| `transitions_per_week` | STABILITY | **derived**, by counting resets of days-since-transition inside a trailing week | capture 10 |
 
-So the burn-in is **ten days** at a daily cadence, and after it five of six invariants
-answer. Before it, two do.
+Two, because two is what the capture format can feed. The others are in
+`engagement.manifest.json` with a reason each -- four for want of a field, one because
+the axiom the family rule prefers is unreachable at this cadence, and one because Stage
+1 already answers it and two implementations of one answer is one too many.
+
+So the burn-in is **ten days** at a daily cadence. Before it one invariant answers;
+after it, both. One consequence worth stating: `boundary_gate` has nothing to probe
+against this model, because both indicators that would have carried a published
+threshold are excluded. It is not satisfied and not wrong -- unexercised, which is a
+fact about the export format, and the manifest records it so a reader of the model does
+not have to work it out.
 
 ## The window and the cadence are one decision
 
@@ -94,15 +108,22 @@ stall window, and it is recorded here rather than resolved by filling the model.
 
 ## What the first capture of real data actually answered
 
-One capture, the Astropy Cycle 5 engagement, nineteen tracked deliverables: **one
-invariant answered.** `owned_by` found 15 deliverables with nobody named on the other
-end. Nothing else could answer, because one capture is not a series and a tracker
-export carries no utilisation figure.
+One capture, the Astropy Cycle 5 engagement, nineteen tracked deliverables fed:
+**one invariant of two answered.** `owned_by` reported 14 deliverables with nobody
+named on the other end, and STABILITY declined `insufficient_samples` on all eighteen
+in-scope deliverables -- warming, floor 0, which is the burn-in doing what it says.
+The run exits 1 on the orphans alone.
 
-So on today's evidence the criterion is **not met**, and it is not met for a reason
-that is neither the engine's nor the model's: the series does not exist yet. That is
-what the criterion is for, and the answer it produces is observation-only for the
-history axioms, with CONNECTIVITY and BOUNDEDNESS computed from capture one.
+So on today's evidence the criterion is **not met**, and not for a reason that is the
+engine's or the model's: the series does not exist yet. That is what the criterion is
+for, and the answer it produces is observation-only for the history axiom, with
+CONNECTIVITY computed from capture one.
+
+The other half has been exercised, on a synthetic series rather than a real one: twelve
+daily captures where one deliverable's transition count never changes and another's
+changes every third day produce `frozen_series` on the first and silence on the second.
+So the path works and what is missing is a real engagement captured daily for ten days,
+which is a thing only time supplies.
 
 ## What the four gates said when they first met a real model
 

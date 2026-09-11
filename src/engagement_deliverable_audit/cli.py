@@ -236,6 +236,110 @@ def cmd_regression(args: argparse.Namespace) -> int:
     return code
 
 
+# --- detect ----------------------------------------------------------------
+
+#: The engine reports a problem type with the indicator after a colon --
+#: `frozen_series:transitions_per_week`. The floor table is keyed on the class, because
+#: a floor is a decision about a kind of fault and not about which indicator happened
+#: to carry it. Keyed on the whole string, every new indicator would fall to the
+#: unclassified floor on the day it was declared.
+def _class_of(problem_type: str) -> str:
+    return str(problem_type or "").split(":", 1)[0]
+
+
+def _decline_kind(decline: Any) -> str:
+    """A decline's kind, which is its reason except for the one that means two things.
+
+    `insufficient_samples` means *not yet* when the series will fill, and *never* when
+    the collector is slower than the window can hold. The engine states which in the
+    decline itself, so this is read rather than computed -- and the two floor at 0 and
+    1, because warming ends and a cadence that can never present a floor does not.
+    """
+    reason = str(decline.get("reason") or "")
+    if reason == "insufficient_samples" and decline.get("floor_unreachable_at_this_rate"):
+        return "warmup_unreachable"
+    return reason
+
+
+def cmd_detect(args: argparse.Namespace) -> int:
+    """Feed a series of captures to the engine and score what comes back."""
+    from . import feeder
+
+    try:
+        engagement = declaration_module.load(_read(args.declaration))
+    except (OSError, ValueError) as problem:
+        return _refuse(str(problem))
+    if not engagement.reviewed:
+        return _refuse("the declaration is unreviewed; sign it before judging "
+                       "anything against it")
+    try:
+        with open(args.model, encoding="utf-8") as handle:
+            model_text = handle.read()
+    except OSError as problem:
+        return _refuse(f"cannot read the model {args.model}: {problem}")
+
+    exports = []
+    try:
+        for path in args.capture:
+            exports.append(capture_module.load(
+                _read(path), stall_window_days=engagement.stall_window_days))
+    except (OSError, ValueError) as problem:
+        return _refuse(str(problem))
+
+    try:
+        envelope, fed = feeder.run(engagement, exports, model_text)
+    except feeder.FeedError as problem:
+        return _refuse(str(problem))
+    except ImportError:
+        return _refuse("detect needs the engine: pip install "
+                       "'engagement-deliverable-audit[detect]'")
+
+    findings = [{"kind": _class_of(f.get("problem_type")),
+                 "deliverable": f.get("entity_id"),
+                 "detail": f.get("reason") or f.get("problem_type")}
+                for f in envelope.get("findings") or ()]
+    declines = [{"kind": _decline_kind(d),
+                 "deliverable": d.get("entity_id"),
+                 "detail": d.get("detail") or d.get("reason"),
+                 "axiom": d.get("axiom")}
+                for d in envelope.get("not_checked") or ()]
+    kinds = [row["kind"] for row in findings] + [row["kind"] for row in declines]
+    code = exit_contract.code_for(kinds, require_complete=args.require_complete)
+
+    if args.json:
+        print(json.dumps({
+            "format": formats.DETECT,
+            "fed": {"deliverables": list(fed.deliverables),
+                    "consultants": list(fed.consultants),
+                    "ownership_edges": len(fed.edges),
+                    "unowned": list(fed.unowned),
+                    "derived_series": len(fed.series),
+                    "captures": fed.captures},
+            "findings": findings,
+            "declines": declines,
+            "floors": [{"kind": k, "floor": fl, "why": why}
+                       for k, fl, why in exit_contract.reasons(kinds)],
+            "unclassified": list(exit_contract.unclassified(kinds)),
+            "exit_code": code, "verdict": MEANING[code],
+        }, indent=2))
+        return code
+
+    _out(f"  fed: {fed.summary()}")
+    if fed.unowned:
+        _out(f"  {len(fed.unowned)} deliverable(s) fed with no owner, so the model "
+             f"can see them as orphans")
+    for finding in findings:
+        _out(f"  {finding['kind']}: {finding['deliverable']} -- {finding['detail']}")
+    for decline in declines:
+        _out(f"  {decline['kind']}: {decline['deliverable']} "
+             f"({decline['axiom']}) -- {decline['detail']}")
+    for kind in exit_contract.unclassified(kinds):
+        _out(f"  {kind} has no row in this package's floor table, so this run "
+             f"could not be scored")
+    _out(f"OUTCOME exit={code} verdict={MEANING[code]}")
+    return code
+
+
 # --- validate --------------------------------------------------------------
 
 def cmd_validate_capture(args: argparse.Namespace) -> int:
@@ -301,6 +405,17 @@ def build_parser() -> argparse.ArgumentParser:
                           "comparable")
     reg.add_argument("--json", action="store_true")
     reg.set_defaults(run=cmd_regression)
+
+    det = verbs.add_parser("detect", help="feed a series of captures to the engine")
+    det.add_argument("--declaration", required=True)
+    det.add_argument("--model", required=True)
+    # Repeatable, and that is the difference from `presence`. An axiom about a series
+    # needs the series; one capture is a photograph. Oldest first.
+    det.add_argument("--capture", required=True, action="append",
+                     help="repeatable, oldest first: the history the axioms read")
+    det.add_argument("--require-complete", action="store_true")
+    det.add_argument("--json", action="store_true")
+    det.set_defaults(run=cmd_detect)
 
     val = verbs.add_parser("validate-capture", help="recipient-side check")
     val.add_argument("capture")
