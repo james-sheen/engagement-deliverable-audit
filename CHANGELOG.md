@@ -4,7 +4,9 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.1.0 -- 2026-09-11
+
+The first release.
 
 ### Added
 
@@ -80,6 +82,11 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   document carried two spellings of one subject and nothing joining rows by subject
   could match them.
 
-Nothing is released. There is no distribution on the index under this name yet,
-and `__version__` carries a `.dev0` suffix so that an accidental build cannot be
-mistaken for one.
+### Not in this release
+
+No `portfolio`, `certificate` or pipeline layer, and no `transitions_per_week`
+judgment from a real engagement -- that one needs ten daily captures of a live
+tracker, which is a thing only time supplies. `docs/burn-in.md` says what is
+warming and what is unreachable at this cadence, and the kill criterion there is
+recorded as NOT met, with the consequence that the history axiom ships as
+observation-only.

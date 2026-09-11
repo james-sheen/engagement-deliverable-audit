@@ -15,12 +15,24 @@ as missing because a page of the export failed.
 
 ## Status
 
-**Stage 1 runs. Nothing is released.** The verbs are `declare`, `capture`,
-`presence`, `regression` and `validate-capture`, over two formats, with a floor
-table and the four guards that came before any of it. `capture` reads either an
-export in this package's format or a `qa-memory/1` harness snapshot, so a scenario
-can make a deliverable stall, lose its owner or vanish and do it the same way
-twice.
+**Released at 0.1.0. Stage 1 and Stage 2 both run.**
+
+    pip install engagement-deliverable-audit            # Stage 1
+    pip install 'engagement-deliverable-audit[detect]'   # and the engine
+
+Ten verbs: `draft`, `gate`, `declare`, `capture`, `validate-capture`, `presence`,
+`regression`, `generate`, `detect`, `attest`. Two formats for the artifacts Stage 1
+reads, a floor table where every row carries its reason, and the four guards that came
+before any of it. `capture` reads either an export in this package's format or a
+`qa-memory/1` harness snapshot, so a scenario can make a deliverable stall, lose its
+owner or vanish and do it the same way twice.
+
+**One thing Stage 2 cannot yet show, and it is in the release notes rather than only
+here.** Its ownership invariant answers on the first capture and has, on real data. Its
+history invariant needs ten daily captures of a live tracker before it says anything,
+so the kill criterion in `docs/burn-in.md` is recorded as NOT met and that axiom ships
+as observation-only. The path is exercised end to end on a derived series; what is
+missing is an engagement captured daily for ten days, which only time supplies.
 
 It has now been run against **real tracker data twice**, and the second run exists
 because of what the first one could not meet.
@@ -44,7 +56,7 @@ What that run does not establish: the declaration there is derived from the same
 source as the capture, because a tracker export contains no statement of work. One
 source and two fields is weaker than two instruments, and this package says so
 rather than counting it as met. `examples/` is invented in full and says so on its
-face.
+face; it lives in the repository rather than in the distribution, as does `battery/`.
 
 `FINDINGS.md` records where building against the shared contracts produced a wrong
 answer.
