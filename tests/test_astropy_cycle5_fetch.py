@@ -97,3 +97,37 @@ def test_the_template_and_the_call_are_not_funding_requests() -> None:
     assert not fetch._is_request("cycle5.md", "finance/proposal-calls/cycle5")
     assert not fetch._is_request("aperio-docs.png", "finance/proposal-calls/cycle5")
     assert fetch._is_request("hamogu.md", "finance/proposal-calls/cycle5")
+
+
+# --- the window the engagement never declared -------------------------------
+
+def _assembled(window):
+    import datetime as dt
+    return fetch.declaration_for(
+        "74af2fa4de15c27b369e65f93432e1538d8b9476", ["hamogu.md"],
+        {"hamogu.md": "X-ray spectroscopy"},
+        dt.datetime(2026, 9, 11, tzinfo=dt.timezone.utc), window)
+
+
+def test_no_window_means_no_field_rather_than_a_default() -> None:
+    """The refusal is the finding. These documents set a period of performance and
+    require updates in the tracking issue without naming an interval, so a number
+    here would be the auditor's. `declare` refuses a declaration with no window, and
+    that refusal is the first thing this real scope of work produces."""
+    assert "stall_window_days" not in _assembled(None)
+
+
+def test_a_supplied_window_is_carried_and_says_whose_it_is() -> None:
+    declaration = _assembled(90.0)
+    assert declaration["stall_window_days"] == 90.0
+    assert "DECLARES NO WINDOW" in declaration["window_basis"]
+
+
+def test_the_declaration_refuses_to_load_without_the_window(tmp_path) -> None:
+    """The other half: that the package really does refuse, rather than this test
+    asserting a key is absent from a document nothing reads."""
+    from engagement_deliverable_audit import declaration as module
+
+    with __import__("pytest").raises(module.DeclarationError, match="no stall_window_days"):
+        module.load(_assembled(None))
+    assert module.load(_assembled(90.0)).stall_window_days == 90.0

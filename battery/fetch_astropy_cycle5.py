@@ -158,6 +158,58 @@ def title_in(text: str) -> str:
     return ""
 
 
+def declaration_for(sha: str, names: list[str], titles: dict[str, str],
+                    captured: dt.datetime, window: float | None) -> dict:
+    """Assemble the declaration. `window` of None omits the field entirely.
+
+    Omitting it is not a degraded mode, it is the reading these documents alone
+    support: the call sets a one-year period of performance and requires work
+    updates in the tracking issue, and names no interval for them. `declare`
+    refuses a declaration with no window, so that refusal is the first thing this
+    scope of work produces, and any number here is the auditor's.
+    """
+    declaration = {
+        "format": "engagement-deliverable-audit/declaration/1",
+        "engagement": "astropy-cycle-5",
+        # The date the call itself names for selection. The call also says its
+        # dates are nominal, which is recorded rather than smoothed over.
+        "reviewed_by": "the Astropy SPOC and Finance Committee, per the Cycle 5 "
+                       "call: the SPOC and Finance Committee will work together "
+                       "to select funding requests and allocate budgets",
+        "reviewed_on": "2025-12-19",
+        "change_order": 0,
+        "sources": [{
+            "path": f"https://github.com/{OWNER_REPO}/tree/{sha}/{CYCLE_DIR}",
+            "derived_from": "Astropy Cycle 5 funding requests. The cycle template "
+                            "says this section will be used as the Scope of Work "
+                            "in the resulting contracts",
+            "captured_at": captured.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        }],
+        "window_basis": (
+            "THE ENGAGEMENT DECLARES NO WINDOW. The call sets a one-year period of "
+            "performance (Jan 1-Dec 31, 2026) and requires work updates in the "
+            "tracking issue, and names no interval for them. So a window here is the "
+            "AUDITOR'S specification; with --omit-window there is no field at all and "
+            "`declare` refuses, which is what the documents alone support."),
+        "points": [{
+            "id": name,
+            "declared_type": "deliverable",
+            # Empty when the document titles nothing. `declare` reports that;
+            # putting the file name here would answer the question with the
+            # one field that is never missing.
+            "text": titles[name],
+            "basis": {
+                "document": f"{OWNER_REPO} at {sha[:8]}",
+                "location": f"{CYCLE_DIR}/{name}",
+                "quote": name,
+            },
+        } for name in names],
+    }
+    if window is not None:
+        declaration["stall_window_days"] = window
+    return declaration
+
+
 # --- the capture side: the tracking issues ---------------------------------
 
 def tracking_issues() -> list[dict]:
@@ -217,6 +269,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--stall-window-days", type=float, default=90.0,
                         help="the auditor's specification, not the engagement's -- see "
                              "the basis recorded in the declaration")
+    parser.add_argument("--omit-window", action="store_true",
+                        help="write the declaration with NO window, which is what these "
+                             "documents actually determine. The call sets a one-year "
+                             "period of performance and requires work updates in the "
+                             "tracking issue, and names no interval for them, so every "
+                             "three-valued verdict rests on a number the engagement "
+                             "never declared. `declare` refuses such a declaration, "
+                             "which is the honest first reading of this scope of work")
     args = parser.parse_args(argv)
 
     try:
@@ -226,45 +286,8 @@ def main(argv: list[str] | None = None) -> int:
         issues = tracking_issues()
         captured = dt.datetime.now(dt.timezone.utc)
 
-        tree_url = f"https://github.com/{OWNER_REPO}/tree/{sha}/{CYCLE_DIR}"
-        declaration = {
-            "format": "engagement-deliverable-audit/declaration/1",
-            "engagement": "astropy-cycle-5",
-            # The date the call itself names for selection. The call also says its
-            # dates are nominal, which is recorded rather than smoothed over.
-            "reviewed_by": "the Astropy SPOC and Finance Committee, per the Cycle 5 "
-                           "call: the SPOC and Finance Committee will work together "
-                           "to select funding requests and allocate budgets",
-            "reviewed_on": "2025-12-19",
-            "change_order": 0,
-            "stall_window_days": args.stall_window_days,
-            "sources": [{
-                "path": tree_url,
-                "derived_from": "Astropy Cycle 5 funding requests. The cycle template "
-                                "says this section will be used as the Scope of Work "
-                                "in the resulting contracts",
-                "captured_at": captured.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            }],
-            "window_basis": (
-                f"{args.stall_window_days:g} days is the AUDITOR'S specification and not "
-                "the engagement's. The call declares a one-year period of performance "
-                "(Jan 1-Dec 31, 2026) and requires work updates in the tracking issue, "
-                "but names no interval for them. A quarter of the period is the number "
-                "used here; the verdict's dependence on it is swept in the evidence."),
-            "points": [{
-                "id": name,
-                "declared_type": "deliverable",
-                # Empty when the document titles nothing. `declare` reports that;
-                # putting the file name here would answer the question with the
-                # one field that is never missing.
-                "text": titles[name],
-                "basis": {
-                    "document": f"{OWNER_REPO} at {sha[:8]}",
-                    "location": f"{CYCLE_DIR}/{name}",
-                    "quote": name,
-                },
-            } for name in names],
-        }
+        declaration = declaration_for(sha, names, titles, captured,
+                                      None if args.omit_window else args.stall_window_days)
 
         points = []
         for issue in issues:

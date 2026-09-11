@@ -53,13 +53,23 @@ run of the fetch reported one absent deliverable, and it was the call document
 fetch, not a fact about the engagement, and it is fixed rather than kept for the
 sake of a fuller table.
 
-## The one number here that is mine
+## What `declare` found: the window this engagement never set
 
-The stall window is a specification and this package refuses to default it. The
-call declares a one-year period of performance and requires work updates in the
-tracking issue, but names no interval for them -- so 90 days is the auditor's
-choice, a quarter of the period. A verdict that rests on a number nobody published
-should be reported with its sensitivity, not without it:
+Run against the declaration these documents alone support, `declare` refuses:
+
+    python3 battery/fetch_astropy_cycle5.py --omit-window --out-dir evidence
+    declare: this declaration names no stall_window_days ... There is no default
+    OUTCOME exit=2 verdict=could-not-complete
+
+That is the real anomaly in this real scope of work, and it is the load-bearing one.
+A deliverable reads when it has an owner *and* a transition inside a window, so the
+window decides which deliverables are stalled -- and the call sets a one-year period
+of performance, requires work updates in the tracking issue, and names no interval
+for them. Nobody decided the number every three-valued verdict here depends on.
+
+So the run below supplies it: 90 days, a quarter of the period, the auditor's
+specification and not the engagement's. A verdict resting on a number nobody
+published should be reported with its sensitivity, not without it:
 
 | window | moving | stalled, owned | orphaned |
 |---|---|---|---|
@@ -97,12 +107,11 @@ purposes, different times, and neither derived from the other -- and it is not a
 client-signed contract read beside a vendor's own tracker. The stronger pairing
 remains unmet and is recorded as unmet.
 
-**`declare` found nothing.** The acceptance also asked for `declare` to find a real
-anomaly in a real statement of work. It exits clean here, and the reason is
-structural rather than lucky: `declare` reads a transcription, and a transcription
-faithful to a well-formed source gives it nothing to find. The anomaly this
-engagement does exhibit -- one contract covering five deliverables -- is invisible
-to it for a different reason, recorded as finding 11.
+**The anomaly `declare` cannot reach.** It refuses the missing window, above. It
+cannot see the other thing this engagement exhibits -- one contract covering five
+declared deliverables -- because the audit joins one deliverable to one tracked item
+and has no word for many-to-one. Recorded as finding 11, and deliberately not fixed
+by inventing a grouping the core's diff does not have.
 
 **A label is a predicate.** The capture selects issues by the tracker's own
 `cycle 5` label rather than by a title match. That caught an issue a title search
