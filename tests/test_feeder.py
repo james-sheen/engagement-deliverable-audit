@@ -208,3 +208,32 @@ def test_nothing_in_the_model_goes_unread_when_fed() -> None:
     envelope, _ = feeder.run(_engagement(), _series(), MODEL.read_text(encoding="utf-8"))
     assert envelope["model"].get("unread_fields") == []
     assert envelope["model"].get("unreachable_declarations") == []
+
+
+def test_an_owner_who_leaves_is_forgotten() -> None:
+    """The latest capture is the state, including when the latest says nobody.
+
+    Recording an owner only when one was present made an owner who left permanently
+    owned: the name from an earlier capture stayed in the graph, the edge was still
+    fed, and the orphan the model exists to find could not be seen. One capture has no
+    history to go stale, so the real-data run could not show it -- the scenario that
+    orphans a deliverable between two captures found it on its first run.
+    """
+    now = dt.datetime.now(dt.timezone.utc)
+    fed = feeder.plan(_engagement(), [
+        _export({"D-1": {"value": 1, "owner": "ana"}}, stamp=now - dt.timedelta(days=1)),
+        _export({"D-1": {"value": 1, "owner": None}}, stamp=now)])
+    assert fed.unowned == ("D-1",)
+    assert fed.edges == ()
+    assert fed.consultants == ()
+
+
+def test_an_owner_who_arrives_is_seen() -> None:
+    """The other direction, so the rule above is not satisfied by a feeder that simply
+    never records an owner at all."""
+    now = dt.datetime.now(dt.timezone.utc)
+    fed = feeder.plan(_engagement(), [
+        _export({"D-1": {"value": 1, "owner": None}}, stamp=now - dt.timedelta(days=1)),
+        _export({"D-1": {"value": 1, "owner": "ana"}}, stamp=now)])
+    assert fed.unowned == ()
+    assert [edge[0] for edge in fed.edges] == ["D-1"]

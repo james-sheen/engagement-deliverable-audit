@@ -1,0 +1,64 @@
+# The same fault as `orphaned-deliverable.yaml`, judged by the engine instead.
+#
+# Stage 1 answers *which deliverables are moving* by comparing a declaration with one
+# export. Stage 2 asks a model, and the first invariant the model declares is that a
+# deliverable has an owner -- which needs no threshold and no history, and is therefore
+# the one thing `detect` can answer on its first capture. Everything else in the model
+# is a question about a series and says so: the run carries `insufficient_samples` for
+# the history axiom until the burn-in has happened, and that floors at 0 because
+# warming is not a fault.
+#
+# TWO CONFIGS, and the order matters: the declaration, then the model. `detect` takes
+# `--capture` repeatably and is handed every capture oldest first, because an axiom
+# about a series needs the series.
+#
+# WHAT THIS CANNOT SHOW, and `docs/burn-in.md` says so at more length: ten daily
+# captures are needed before the STABILITY arm answers, and a scenario cannot wait ten
+# days. So the phases below exercise the invariant that answers immediately, and the
+# derived-series path is exercised in `tests/test_feeder.py` against a series built
+# from the real clock.
+format: qa-scenario/2
+name: ownership judged by the engine, where an orphan needs no history to see
+substrate: engagement
+referee: engagement-deliverable-audit
+mode: detect
+config:
+  - ../../examples/engagement.fixture.json
+  - ../../examples/engagement.model.yaml
+
+setup:
+  entities:
+    - {name: D-1, value: 2, owner: ana, state: In Progress}
+    - {name: D-2, value: 2, owner: ben, state: In Progress}
+    - {name: D-3, value: 2, owner: cam, state: In Progress}
+    - {name: D-4, value: 2, owner: dee, state: In Progress}
+
+phases:
+  # Everything owned. The model's ownership invariant is satisfied, and its history
+  # axiom declines for want of a series -- floor 0, so the run is clean.
+  - note: every deliverable has an owner, and the series axiom is still warming
+    captures: 1
+    expect:
+      referee: {exit: 0}
+      substrate: {D-1: reading, D-2: reading}
+
+  - note: D-2 loses its owner, and the engine reports the missing relationship
+    captures: 1
+    action: {orphan: D-2}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "OWNED_BY", names: [D-2], not_names: [D-1, D-3, D-4]}
+      substrate: {D-2: disabled, D-1: reading}
+
+  # A reassignment is still an owner, so the engine has nothing to say -- the same
+  # detection-not-noise half that `reassigned.yaml` asserts for Stage 1, asked of the
+  # model instead.
+  - note: D-3 changes hands and stays owned, which is not a finding
+    captures: 1
+    action: {reassign: {entity: D-3, to: erin}}
+    expect:
+      referee:
+        exit: 1
+        findings: {not_names: [D-3]}
+      substrate: {D-3: reading}

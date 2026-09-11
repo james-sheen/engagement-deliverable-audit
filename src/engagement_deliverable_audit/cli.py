@@ -12,6 +12,7 @@ made. Exit 1 means this package compared two documents and found something.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import hashlib
 import json
 import sys
@@ -106,7 +107,15 @@ def cmd_capture(args: argparse.Namespace) -> int:
 
     try:
         if scheme == "qa-memory":
-            payload = qa_memory.as_capture(raw, captured_at=args.captured_at)
+            # A harness snapshot has no clock of its own, and a capture made now IS
+            # stamped now -- so defaulting to the present is recording when this ran,
+            # not inventing a date. The opposite default is the one that hurts: with
+            # no stamp at all, `detect` refuses the whole series, because an axiom
+            # counting inside a trailing window has no reference to count from.
+            # `--captured-at` remains for replaying a snapshot as of some other time.
+            stamp = args.captured_at or dt.datetime.now(
+                dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            payload = qa_memory.as_capture(raw, captured_at=stamp)
         elif scheme == "export":
             payload = dict(formats.require(raw, formats.CAPTURE))
         else:

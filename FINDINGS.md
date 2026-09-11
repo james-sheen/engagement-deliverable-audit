@@ -346,3 +346,24 @@ defect in finding 7: there a typed *now* made a real corpus look entirely stalle
 here a typed past makes a complete corpus look unmeasured. Both come from a date
 written down instead of derived. `tests/test_feeder.py` builds its series from the
 real clock and says why.
+
+## 18. An owner who left stayed in the graph, and only a series could show it
+
+The feeder reads an owner out of each capture and feeds an ownership edge where one is
+named. It recorded the owner only when a capture named one -- which reads as careful
+and is the defect: a deliverable owned in an early capture and unowned in the latest
+kept the earlier name, kept its edge, and could not be seen as an orphan.
+
+**One capture has no history to go stale.** The real-data run fed nineteen deliverables
+from a single capture and reported fourteen orphans correctly; every test of the feeder
+used one capture or a series with stable owners. Nothing could have shown this.
+
+What showed it was a scenario: orphan a deliverable between two captures and require the
+engine to report it. It failed on the first run, in the phase that takes the owner away.
+That is the harness earning its place -- the fault needs two of something, and until a
+scenario made the second one exist, the code was correct on every input anybody had
+tried.
+
+The rule is now stated where it is implemented: the latest capture is the state,
+including when the latest says nobody. Both directions are tested, because a feeder that
+simply never recorded an owner would satisfy the first half perfectly.

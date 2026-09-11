@@ -122,9 +122,15 @@ stay quiet.
 fail in BOTH channels, and requires each of its two errors to fail on its own --
 two mismatches from one cause would look the same from outside.
 
-Pointing it at the tool found two defects no test and no real-data run had:
-`regression --json` printed a document and then a prose line, and the document named
-one deliverable two ways. Both are in `FINDINGS.md`.
+One scenario runs in `detect` mode, so the same ownership fault is judged by the engine
+rather than by the three-valued diff. It names two configs: the declaration, then the
+model.
+
+Pointing it at the tool found three defects no test and no real-data run had.
+`regression --json` printed a document and then a prose line; the document named one
+deliverable two ways; and the feeder kept an owner who had left, which no single
+capture could reveal and which the detect scenario caught on its first run. All three
+are in `FINDINGS.md`.
 
 ## Licence
 

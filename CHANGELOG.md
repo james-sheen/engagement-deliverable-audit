@@ -52,12 +52,20 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   is wrong on purpose and whose two errors are each required to fail on their own.
 - Real-data evidence under `evidence/`: a published Jira corpus, and an engagement whose
   declaration and capture are written by different people for different purposes.
+- A `detect`-mode scenario, so the ownership invariant is exercised through the engine
+  and not only through the three-valued diff.
 
 ### Changed
 
 - `regression --json` prints a document and nothing else. It used to print the document
   and then a prose OUTCOME line, which no caller parsing the whole of stdout can read --
   found by pointing a harness at it, and guarded now for every verb that has a `--json`.
+- The feeder forgets an owner who left. It recorded an owner only when a capture named
+  one, so a deliverable owned early and unowned later kept the earlier name and could
+  not be seen as an orphan -- which no single capture could reveal.
+- `capture` stamps a harness snapshot with the present when no `--captured-at` is given.
+  A snapshot has no clock of its own and a capture made now is stamped now; with no
+  stamp at all, `detect` refuses the series for want of a reference to count back from.
 - A finding in the presence document names a deliverable by its declared key. The core
   names a declared point by its display name and the capture side names the key, so one
   document carried two spellings of one subject and nothing joining rows by subject

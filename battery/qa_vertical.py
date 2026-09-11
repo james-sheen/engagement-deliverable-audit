@@ -266,11 +266,24 @@ def _judge_argv(mode: str, configs: Sequence[str],
         return ("regression", "--before", str(captures[-2]),
                 "--after", str(captures[-1]),
                 "--stall-window-days", _window_in(str(configs[0])))
-    # ONE capture, the latest. `--capture` is a single-value option: argparse
-    # keeps the last of a repeated one without a word, so passing every capture
-    # would look like a run over all of them and be a run over one.
     if not captures:
         raise ScenarioError(f"{mode} needs a capture and this phase has none")
+    if mode == "detect":
+        # EVERY capture, oldest first, and that is the difference from `presence`.
+        # `detect` takes `--capture` repeatably because its axioms read a series; a
+        # single capture is a photograph. It also needs the model, which is the
+        # scenario's SECOND config -- so a detect scenario names two.
+        if len(configs) < 2:
+            raise ScenarioError(
+                "detect needs two configs: the declaration and then the model. A "
+                "scenario naming one would judge against a model nobody supplied")
+        argv = ["detect", "--declaration", str(configs[0]), "--model", str(configs[1])]
+        for capture in captures:
+            argv += ["--capture", str(capture)]
+        return tuple(argv)
+    # ONE capture, the latest. `presence --capture` is a single-value option:
+    # argparse keeps the last of a repeated one without a word, so passing every
+    # capture would look like a run over all of them and be a run over one.
     return (mode, "--declaration", str(configs[0]), "--capture", str(captures[-1]))
 
 
@@ -307,7 +320,7 @@ def _tool(referee):
         name="engagement-deliverable-audit",
         executable="engagement-deliverable-audit",
         install_hint="pip install 'engagement-deliverable-audit[detect]'",
-        modes=("presence", "regression"),
+        modes=("presence", "regression", "detect"),
         capture_argv=_capture_argv,
         validate_argv=lambda path: ("validate-capture", str(path)),
         judge_argv=_judge_argv,
@@ -324,7 +337,8 @@ def register() -> str:
     for verb in VERBS:
         register_verb(verb)
     referee.register_tool(_tool(referee))
-    return (f"referee engagement-deliverable-audit (modes presence, regression); "
+    return (f"referee engagement-deliverable-audit (modes presence, regression, "
+            f"detect); "
             f"tier {EngagementSubstrate.NAME}; verbs "
             f"{', '.join(v.name for v in VERBS)}")
 

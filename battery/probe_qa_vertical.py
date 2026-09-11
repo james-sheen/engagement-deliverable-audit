@@ -40,7 +40,8 @@ ROOT = HERE.parent
 SCENARIOS = HERE / "scenarios"
 PLUGIN = HERE / "qa_vertical.py"
 
-HONEST = ("orphaned-deliverable", "reassigned", "status-bounced")
+HONEST = ("orphaned-deliverable", "orphaned-deliverable-detect",
+          "reassigned", "status-bounced")
 WRONG = "must-fail"
 
 EXIT_CLEAN, EXIT_FAILED, EXIT_ERROR = 0, 1, 2
@@ -184,10 +185,31 @@ def leg_one_window() -> tuple[bool, str]:
         raise CannotRun(f"the tier grades against {tier_reads} and it is not there")
     seen = []
     for path in sorted(SCENARIOS.glob("*.yaml")):
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.startswith("config:"):
-                named = (path.parent / line.split(":", 1)[1].strip()).resolve()
-                seen.append((path.name, named))
+        lines = path.read_text(encoding="utf-8").splitlines()
+        for index, line in enumerate(lines):
+            if not line.startswith("config:"):
+                continue
+            inline = line.split(":", 1)[1].strip()
+            if inline:
+                entries = [inline]
+            else:
+                # A detect scenario names TWO configs as a block list -- the
+                # declaration and then the model. Reading only the inline form
+                # resolved this leg to the scenario's own directory and reported a
+                # disagreement that was about the parser.
+                entries = []
+                for following in lines[index + 1:]:
+                    stripped = following.strip()
+                    if stripped.startswith("- "):
+                        entries.append(stripped[2:].strip())
+                    elif stripped and not stripped.startswith("#"):
+                        break
+            if not entries:
+                raise CannotRun(f"{path.name} names a config this probe cannot read")
+            # THE FIRST config only. It is the declaration, and the declaration is
+            # what carries the window the tier grades by; a second config is the
+            # model, which the tier never reads.
+            seen.append((path.name, (path.parent / entries[0]).resolve()))
     if not seen:
         raise CannotRun("no scenario names a config, so this leg compared nothing")
     wrong = [(name, str(named)) for name, named in seen if named != tier_reads]

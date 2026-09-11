@@ -130,22 +130,28 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
     auditable = {point.name for point in engagement.points
                  if not point.disabled}
     readings: dict[str, list[tuple[dt.datetime, float | None]]] = {}
-    owners: dict[str, str] = {}
+    owners: dict[str, str | None] = {}
     for moment, export in zip(moments, exports):
         for point in export.points:
             if point.name not in auditable:
                 continue
             readings.setdefault(point.name, []).append((moment, point.reading))
-            if point.owner:
-                owners[point.name] = str(point.owner)
+            # THE LATEST CAPTURE IS THE STATE, including when the latest says nobody.
+            # Recording an owner only when one is present made an owner who left
+            # permanently owned: the name from an earlier capture stayed in the graph,
+            # the edge was still fed, and the orphan the model exists to find could
+            # not be seen. One capture has no history to go stale, so the real-data
+            # run could not show this; the scenario that orphans a deliverable between
+            # two captures found it on the first run.
+            owners[point.name] = str(point.owner) if point.owner else None
 
     deliverables = tuple(sorted(readings))
     series = {name: transitions(points) for name, points in readings.items()}
     series = {name: points for name, points in series.items() if points}
     edges = tuple((name, "owned_by", _owner_id(owners[name]))
-                  for name in deliverables if name in owners)
-    consultants = tuple(sorted({_owner_id(owner) for owner in owners.values()}))
-    unowned = tuple(name for name in deliverables if name not in owners)
+                  for name in deliverables if owners.get(name))
+    consultants = tuple(sorted({_owner_id(owner) for owner in owners.values() if owner}))
+    unowned = tuple(name for name in deliverables if not owners.get(name))
     return Fed(deliverables=deliverables, consultants=consultants, edges=edges,
                series=series, captures=len(exports), unowned=unowned)
 
