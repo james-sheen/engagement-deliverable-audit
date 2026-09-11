@@ -22,12 +22,23 @@ export in this package's format or a `qa-memory/1` harness snapshot, so a scenar
 can make a deliverable stall, lose its owner or vanish and do it the same way
 twice.
 
-It has now been run against **real tracker data**: 248 unresolved Apache ZooKeeper
-issues from a published CC BY 4.0 dataset, of which **one** had moved inside a
-fortnight. The artifacts, the numbers, the attribution and the two halves of the
-acceptance this does *not* meet are in `evidence/README.md`; the corpus is
-re-derivable with `battery/fetch_jira_corpus.py`, which range-fetches a bounded
-prefix of the 5.8 GB source rather than downloading it.
+It has now been run against **real tracker data twice**, and the second run exists
+because of what the first one could not meet.
+
+The first: 248 unresolved Apache ZooKeeper issues from a published CC BY 4.0
+dataset, of which **one** had moved inside a fortnight. The artifacts, the numbers,
+the attribution and the two halves of the acceptance this does *not* meet are in
+`evidence/README.md`; the corpus is re-derivable with `battery/fetch_jira_corpus.py`,
+which range-fetches a bounded prefix of the 5.8 GB source rather than downloading it.
+
+The second: **Astropy's Cycle 5 funded work**, where the declaration and the capture
+are written by different people for different purposes -- 18 funding requests whose
+own template says they become the Scope of Work, against the finance committee's
+tracking issues, joined by the Scope of Work path each issue carries. 2 moving, 2
+stalled, 15 with no contract representative named, and a window sweep showing that
+the one number the auditor supplies decides the verdict for four deliverables and
+for none of the rest. In `evidence/astropy-cycle5.md`, with what it still does not
+establish.
 
 What that run does not establish: the declaration there is derived from the same
 source as the capture, because a tracker export contains no statement of work. One

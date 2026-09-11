@@ -1,0 +1,145 @@
+{
+  "format": "engagement-deliverable-audit/capture/1",
+  "captured_at": "2026-09-11T07:46:04Z",
+  "exporter": {
+    "source": "astropy/astropy-project issues labelled cycle 5️⃣",
+    "join": "the Scope of Work path in each issue body"
+  },
+  "complete": true,
+  "points": [
+    {
+      "name": "hamogu.md",
+      "path": "https://github.com/astropy/astropy-project/issues/534",
+      "owner": "hamogu",
+      "state": "open",
+      "days_since_transition": 136
+    },
+    {
+      "name": "ginsburg-astroquery.md",
+      "path": "https://github.com/astropy/astropy-project/issues/533",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 156
+    },
+    {
+      "name": "homeier-core.md",
+      "path": "https://github.com/astropy/astropy-project/issues/528",
+      "owner": "pllim",
+      "state": "open",
+      "days_since_transition": 65
+    },
+    {
+      "name": "asdf-astropy.md",
+      "path": "https://github.com/astropy/astropy-project/issues/527",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 214
+    },
+    {
+      "name": "morris.md",
+      "path": "https://github.com/astropy/astropy-project/issues/525",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 219
+    },
+    {
+      "name": "aperio_robitaille_spoc.md",
+      "path": "https://github.com/astropy/astropy-project/issues/524",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 219
+    },
+    {
+      "name": "aperio_release.md",
+      "path": "https://github.com/astropy/astropy-project/issues/523",
+      "owner": "olebole",
+      "state": "open",
+      "days_since_transition": 114
+    },
+    {
+      "name": "aperio-documentation.md",
+      "path": "https://github.com/astropy/astropy-project/issues/522",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 121
+    },
+    {
+      "name": "aperio_benchmarking.md",
+      "path": "https://github.com/astropy/astropy-project/issues/521",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 233
+    },
+    {
+      "name": "votable_vo.md",
+      "path": "https://github.com/astropy/astropy-project/issues/520",
+      "owner": "tomdonaldson",
+      "state": "open",
+      "days_since_transition": 16
+    },
+    {
+      "name": "issue-519-names-no-scope-of-work",
+      "path": "https://github.com/astropy/astropy-project/issues/519",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 105
+    },
+    {
+      "name": "aperio_maintenance.md",
+      "path": "https://github.com/astropy/astropy-project/issues/518",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 233
+    },
+    {
+      "name": "pickering_specreduce.md",
+      "path": "https://github.com/astropy/astropy-project/issues/517",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 233
+    },
+    {
+      "name": "cruz-leadership.md",
+      "path": "https://github.com/astropy/astropy-project/issues/516",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 142
+    },
+    {
+      "name": "craig-nddata-astrowidgets.md",
+      "path": "https://github.com/astropy/astropy-project/issues/515",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 147
+    },
+    {
+      "name": "platform-of-stability.md",
+      "path": "https://github.com/astropy/astropy-project/issues/514",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 233
+    },
+    {
+      "name": "parviainen_specreduce.md",
+      "path": "https://github.com/astropy/astropy-project/issues/513",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 223
+    },
+    {
+      "name": "Streicher-Debian+Ubuntu.md",
+      "path": "https://github.com/astropy/astropy-project/issues/512",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 262
+    },
+    {
+      "name": "mhvk-units-masked-uncertainties.md",
+      "path": "https://github.com/astropy/astropy-project/issues/511",
+      "owner": null,
+      "state": "open",
+      "days_since_transition": 51
+    }
+  ],
+  "errors": []
+}

@@ -158,3 +158,48 @@ that does everything this package needs. Lowering a floor to where the suite sto
 failing widens the claim to exactly the breadth the suite has -- so the reason
 recorded beside the new number is the engine's own changelog entry for the field
 the guard reads, not the green.
+
+## 10. The transcription answered with a different field, and called it the title
+
+The declaration for the Astropy run carries each funding request's title, read from
+the document rather than from its file name. The rule looked for the cycle
+template's `### Title` heading and, failing that, fell through to the first line
+that was not a heading.
+
+About half the real requests do not use the label. They replace it with the title
+itself, as a heading -- so the fallback skipped the title *because* it was a heading
+and returned the first line of the next section. Nine of eighteen declared
+deliverables carried the opening bullet of the project team, and the declaration
+named that field `text` with a `basis` that claimed the document.
+
+Nothing was red. The documents parsed, every point had a text, the counts were
+right, and the diff ran. It was visible only by reading eighteen values and noticing
+that several of them were people's names and one was *Approximately 27 years of
+scientific python programming experience*.
+
+The rule is now: the title is the document's first heading, unless that heading is
+the template's label, in which case it is the first line beneath it -- and the empty
+string when the document titles nothing, rather than the file name, which is the one
+field that is never missing. It was also lifted out of the fetch so it can be tested
+without the network, because the first version's wrong answers were only ever
+visible in its output.
+
+## 11. One contract, five deliverables, and a model that has only one shape
+
+The Astropy capture holds an issue recording a single contract that funds five of
+the declared requests, amended from one total to a larger one with a per-project
+breakdown. It names no Scope of Work path, because it is not about one request.
+
+This package joins a declaration to a capture one deliverable to one tracked item.
+So that issue reads as `undeclared_present` -- correct, and under-described: it is
+not an undeclared deliverable, it is a contract covering five declared ones. The
+five requests it funds each read as `orphaned_deliverable`, because their own
+tracking issues name no COTR, and the contract that does cover them is the item the
+audit cannot connect them to.
+
+Nothing here is wrong, in the sense that every finding is true. What is missing is a
+shape: a declaration and a capture can relate many to one, and the vocabulary has no
+word for it. A deliberate non-fix for now -- inventing a grouping the core's diff
+does not have would put a second model of the relationship inside a vertical, which
+is the thing finding 5 paid a dependency to avoid. It is recorded as a real limit
+found by running against a real engagement rather than as a design note.
