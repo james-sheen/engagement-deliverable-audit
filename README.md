@@ -15,20 +15,25 @@ as missing because a page of the export failed.
 
 ## Status
 
-**Nothing is released and nothing is implemented.** This repository currently
-carries the shared publication tooling and nothing else: the hygiene sweep, the
-commit-message check and the authorship check, each running in CI where no local
-setting can turn it off.
+**Nothing of the vertical is implemented.** What exists is the shared
+publication tooling and the four guards below, which come first on purpose: the
+checks that decide whether a vertical is right are the part of a plan most
+easily left until last.
 
-What comes next, in this order, is the part that decides whether the rest is
-right: the guards. A model gate that refuses an indicator declaring an axiom
-without the configuration that axiom reads. A gate asserting the declaration's
-sources answer every member the report writer reads. A describe gate at the
-correct nesting, with a control proving it can see a non-empty list. And a
-boundary gate asserting that every declared ceiling is clean at the published
-number and fires at the next representable value. Each of those exists because
-something it checks was measured going wrong elsewhere, and each must be shown to
-fail when its defect is reintroduced.
+Each guard refuses a shape that was measured producing a wrong answer in this
+family, and each is written so that removing its rule turns its own tests red.
+
+| Guard | Refuses | Because, measured |
+|---|---|---|
+| `model_gate` | an indicator declaring CONSISTENCY without a populated `agrees_with` | the engine then returns no finding, no decline, and nothing in its unreachable list, while still counting the invariant as checked. Two readings 0.40 apart against a tolerance of 0.02 go unreported. Silent three ways: no block, an absent `agrees_with`, and an empty one |
+| `model_gate` | a declared bound whose basis quote does not contain its number | a citation can name a real document and still be the author's invention. A floor is a specification, not a guess |
+| `source_contract` | a declaration whose `sources` elements cannot answer what the report writer reads | the protocol documents the member as one word; the writer reads eleven off each element. A path string passes the conformance kit and then raises on the first JSON report, which is the one a harness parses. The eleven are derived from the writer, not typed here |
+| `describe_gate` | a silence list that is missing, as well as one that is non-empty | two of the three lists are nested a level deeper than the third, so the obvious reading raises, and the obvious repair -- defaulting to empty -- would report nothing forever |
+| `boundary_gate` | a bound where the published number itself is reported as a violation | *shall not exceed forty* leaves forty compliant, and BOUNDEDNESS compares inclusively. It is not uniform either: RESPONSIVENESS does not fire at its declared number, so this probes rather than assumes |
+
+`model_gate` deliberately permits MONOTONICITY with no `monotonicity` block,
+because the reversal arm answers without one. A guard that refused it would
+reject a declaration that works.
 
 ## Licence
 

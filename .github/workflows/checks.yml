@@ -34,10 +34,17 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install
+        # The extras are installed on purpose. Three of the four guards check
+        # contracts that belong to the core and the engine -- what the report
+        # writer reads off a declaration source, where the engine puts its
+        # silence lists, and which side of a declared bound actually fires -- so
+        # without the extras they do not skip, they fail to import. The claim
+        # that Stage 1 needs none of this is a separate check against a separate
+        # environment, not something to infer from this step.
         run: |
           set -euo pipefail
           python3 -m pip install --upgrade pip
-          python3 -m pip install -e . pytest
+          python3 -m pip install -e '.[detect,vertical]' pytest
 
       - name: Suite
         # `-p no:randomly` is deliberately absent: order dependence is a defect
