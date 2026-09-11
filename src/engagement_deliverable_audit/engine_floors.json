@@ -3,12 +3,14 @@
  "engine_version": "0.1.13",
  "floors": {
   "CONNECTIVITY": {
-   "captures": 1,
-   "note": "no threshold and no history; answers on one capture"
+   "captures_through_the_feeder": 1,
+   "note": "no threshold and no history, and `owned_by` is READ from the capture rather than derived, so one capture answers",
+   "observations": 1
   },
   "HOMEOSTASIS_declared": {
-   "captures": 1,
-   "note": "a declared setpoint needs no history"
+   "captures_through_the_feeder": 1,
+   "note": "a declared setpoint needs no history",
+   "observations": 1
   },
   "HOMEOSTASIS_learned": {
    "by_cadence": {
@@ -47,17 +49,16 @@
      "unreachable at this rate": true
     }
    },
-   "captures": {
+   "note": "learned baseline, and the only floor here whose answer is per-cadence rather than a single count; see the declared-setpoint arm",
+   "observations_by_cadence": {
     "daily": null,
     "daily never answers": true,
     "hourly": 30
-   },
-   "note": "learned baseline; see the declared-setpoint arm"
+   }
   },
   "STABILITY": {
-   "captures": 10,
    "captures_through_the_feeder": 11,
-   "note": "expect_variation arm on a flat series; the window is a ceiling, so the floor is a count INSIDE it. `observations` is what this probe feeds directly; `captures_through_the_feeder` is what the tool needs, because the first capture yields no derived point",
+   "note": "expect_variation arm on a flat series; the window is a ceiling, so the floor is a count INSIDE it. `transitions_per_week` is DERIVED, so a collector needs one capture more than the engine needs observations",
    "observations": 10,
    "window_and_cadence": {
     "window 14d, daily capture": {
@@ -153,7 +154,7 @@
    }
   }
  },
- "measured_on": "2026-09-11T13:45:07.472895+00:00",
+ "measured_on": "2026-09-11T15:03:55.567097+00:00",
  "not_measured": [
   "CONSERVATION -- this vertical declares no flow, so no arm of it is exercised",
   "RESPONSIVENESS -- no deliverable has a declared deadline as a latency role",

@@ -279,6 +279,36 @@ def _decline_kind(decline: Any) -> str:
     return reason
 
 
+def _report_unfed(fed: Any) -> None:
+    """Name the declared deliverables the engine was not given, and say why not.
+
+    **NOT FEEDING SOMETHING IS A DECISION, and this verb used to keep it to itself.**
+    A deliverable that disappears from the tracker between two captures is dropped from
+    the feed -- correctly, because asserting a stale ownership edge for something the
+    tracker no longer holds is a phantom topology. But the run then named it nowhere:
+    measured over two captures, `detect` exited 0 and printed no line about it, so a
+    `detect`-only pipeline reported CLEAN over a vanished commitment.
+
+    **It carries no floor, and that is Stage 1's `declared_type` filter deciding, not
+    tidiness.** `presence` reports `declared_absent` only for points declared as
+    deliverables -- measured on the shipped fixture, it names the missing deliverable
+    and says nothing about the missing ceremony or the missing assumption, which is
+    right: a tracker was never going to carry a weekly steering call. `feeder.plan` has
+    no such filter; it feeds every in-scope point. So flooring the unfed set here would
+    report a steering call as a missing deliverable. Stage 1 owns which declared types
+    are expected in a tracker, it already answers correctly, and this verb states the
+    fact and leaves the verdict there.
+    """
+    if fed.vanished:
+        _out(f"  {len(fed.vanished)} declared deliverable(s) in an earlier capture and "
+             f"not in the latest: {', '.join(fed.vanished)} -- not fed, because the "
+             f"tracker no longer holds them; absence is `presence`'s finding")
+    if fed.never_seen:
+        _out(f"  {len(fed.never_seen)} declared deliverable(s) in no capture at all: "
+             f"{', '.join(fed.never_seen)} -- not fed; `presence` decides which "
+             f"declared types a tracker was meant to carry")
+
+
 def cmd_detect(args: argparse.Namespace) -> int:
     """Feed a series of captures to the engine and score what comes back."""
     from . import feeder
@@ -335,13 +365,17 @@ def cmd_detect(args: argparse.Namespace) -> int:
     # validating a model and the other owned running it, so no test on either side
     # could fail. The check costs nothing here -- `feeder.run` already returns the
     # `model_describe` payload, because the attestation needs it.
-    unread = ()
-    try:
-        from .guards import describe_gate
-    except ImportError:                                           # pragma: no cover
-        pass
-    else:
-        unread = describe_gate.problems(passed.describe)
+    # IMPORTED UNCONDITIONALLY, and the first version of this wrapped it in
+    # `except ImportError: pass`. That branch could not fire -- `describe_gate` imports
+    # only `typing` and a sibling module, and this line is reached only after
+    # `feeder.run` has already imported the engine. Worse than dead: if it ever HAD
+    # fired it would leave `unread` empty and let the run report clean, which is the
+    # defect this check exists to close, and `describe_gate`'s own docstring names that
+    # shape -- a guard that defaults to *nothing unreachable* reports nothing forever.
+    # An import failure here is a packaging defect in this wheel and should say so.
+    from .guards import describe_gate
+
+    unread = describe_gate.problems(passed.describe)
 
     kinds = ([row["kind"] for row in findings] + [row["kind"] for row in declines]
              + ["model_not_read"] * bool(unread))
@@ -387,6 +421,12 @@ def cmd_detect(args: argparse.Namespace) -> int:
                     "unowned": list(fed.unowned),
                     "derived_series": len(fed.series),
                     "captures": fed.captures},
+            # Declared, in scope, and NOT fed. Two keys rather than one, because a
+            # deliverable that disappeared mid-engagement and one the tracker never
+            # carried are different facts. Unfloored here on purpose -- see
+            # `_report_unfed`.
+            "not_fed": {"vanished": list(fed.vanished),
+                        "never_seen": list(fed.never_seen)},
             "findings": findings,
             "declines": declines,
             "unread_model": [{"where": p.where, "what": p.what} for p in unread],
@@ -398,6 +438,7 @@ def cmd_detect(args: argparse.Namespace) -> int:
         return code
 
     _out(f"  fed: {fed.summary()}")
+    _report_unfed(fed)
     for problem in unread:
         _out(f"  model_not_read: {problem.where} -- {problem.what}")
     if fed.unowned:

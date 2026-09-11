@@ -655,3 +655,122 @@ a step that can only ever print one of two messages is a step nobody has tested.
 
 The `floors` job already installs every release in range and runs the suite against
 each, so a new release is still exercised. It was never this job's question.
+
+## 31. Not feeding something was a decision the run kept to itself
+
+Entry 27 stopped feeding a deliverable the latest complete capture no longer holds,
+because asserting a stale ownership edge for something the tracker has dropped is a
+phantom topology. The deliverable then appeared nowhere.
+
+Measured over two captures with one deliverable removed between them: `detect` exited
+**0**, printed no line naming it, and the `--json` document did not contain its name at
+all. A `detect`-only pipeline -- the detect-mode grader scenario is one -- reported a
+clean run over a vanished commitment. The previously *wrong* case had joined the
+*silent* set, which is quieter and no better.
+
+`Fed` now carries `vanished` and `never_seen` as two keys rather than one, because they
+are two facts: one was there and went during the engagement, the other has not appeared
+in any capture and may be something the tracker was never going to carry. `detect`
+prints both and the document carries both.
+
+**Why it carries no floor, which is the part worth recording.** The obvious move is to
+score the unfed set at `declared_absent`, the row that already exists. Measured against
+Stage 1 on the shipped fixture, that would be wrong: `presence` reports
+`declared_absent` for the missing DELIVERABLE and says nothing about the missing
+ceremony or the missing assumption, because it filters on `declared_type` -- a tracker
+was never going to carry a weekly steering call. `feeder.plan` has no such filter; it
+feeds every in-scope point. So a floor here would report a steering call as a missing
+deliverable. Stage 1 owns which declared types a tracker is expected to hold, it already
+answers correctly, and this verb states the fact and leaves the verdict there.
+
+The external review that raised this recommended a statement and no floor. That was the
+right call, and the reason is not in the review: it is Stage 1's `declared_type` filter,
+which only shows up by running both stages over the same declaration.
+
+## 32. One word, three units, in the file that exists to hold numbers
+
+Entry 25 fixed a burn-in published off by one: the record's `captures` key held an
+OBSERVATION count, and three documents plus a test read it as a capture count. The fix
+added `observations` and `captures_through_the_feeder` beside it and pointed the test at
+the right one.
+
+The ambiguous key stayed in the data. That is where the next reader looks, so the trap
+moved rather than closing -- and by then `captures` meant three different things in one
+record: an observation count on STABILITY, a real capture count on CONNECTIVITY, and a
+DICT of cadence-to-count on learned HOMEOSTASIS.
+
+It is gone. Every key now names its unit -- `observations` for what the engine needs,
+`captures_through_the_feeder` for what a collector must take, `observations_by_cadence`
+for the floor whose answer is per-cadence. Two tests hold it: one bans the word across
+every floor, and one asserts the gap between the two units is 0 or 1 per floor, because
+a quantity the feeder derives costs one capture more and one it reads costs the same.
+
+The general form is worth stating: **adding a correctly-named key beside an ambiguous
+one fixes the reader you are looking at and leaves the ambiguity for the next one.**
+The fix is removing the name, which costs a coordinated change to the probe and the
+record because CI compares them for equality.
+
+## 33. A skip that was hiding a pass for the wrong reason
+
+Four tests written for entries 21-28 called `pytest.importorskip("arbiter_engine")`.
+The suite's convention is the opposite -- an engine-dependent test imports the engine
+directly and fails to import without it, because a skip is how a check stops running
+without anybody noticing.
+
+Removing the skips naively would have been worse than leaving them. Measured in an
+engine-free environment: `detect` refuses with *detect needs the engine* and exits
+**2** -- which is exactly what the malformed-model tests assert, down to the
+`OUTCOME exit=2 verdict=could-not-complete` line. Every assertion passes, for the
+environment rather than for the behaviour. The skip was masking a vacuous pass, so the
+visible defect was hiding the invisible one.
+
+Both are closed: the engine is imported explicitly, so the test errors rather than
+vanishing, and the malformed-model test now asserts the refusal text is NOT the
+missing-engine one, so a 2 from the wrong cause cannot satisfy it either. Verified by
+running the suite in the engine-free environment and watching those tests fail loudly.
+
+## 34. Evidence that no longer matched the script said to produce it
+
+Entry 29 renamed the Jira capture's placeholder digest to an honest `id`, and taught
+`battery/fetch_jira_corpus.py` to compute a real SHA-256 of the bytes it range-fetches.
+The committed evidence was edited by hand, not regenerated -- so the script computed a
+digest and the shipped file had none, and `FINDINGS.md` said otherwise.
+
+Re-deriving the corpus from Zenodo showed the drift was wider than the digest. The
+committed declaration said *open issue in the Apache tracker* and
+*JiraReposAnon.Apache*, where the current script writes the project name. Three
+differences, one of them stated in a findings entry as though it were true of the
+evidence.
+
+The corpus is now regenerated: 248 issues, the same reference date of 2021-09-12 derived
+from the data, the capture's points byte-identical to the committed ones, and a real
+64-character digest with fifteen distinct characters in it. The data was never in
+question -- the published dataset is frozen -- but *the file is what the script
+produces* now holds, which is the claim the script's own docstring makes: evidence
+nobody can re-derive is an assertion with a file beside it.
+
+A test pins the shape without needing the network: the exporter keys are read off the
+script's AST and compared with the shipped file's, and the digest is checked for being
+hex and for having more than four distinct characters. Both drift modes were confirmed
+to fail it.
+
+## 35. A disclosure marker that turned a real signature into NOT SIGNED
+
+Entry 24 added `Engagement.disclosure` so a derived corpus could say on its face that
+nobody signed it. The first version compared the first word case-insensitively.
+
+Measured, three ordinary signatures came back as disclosures, and one is why this is a
+correctness rule and not a tidiness one: **`Fixture Consulting Ltd`** -- a firm whose
+name begins with a marker word -- returned `FIXTURE`, so `declare` would print *NOT
+SIGNED, disclosed as FIXTURE* over a real signature by a real company. The property
+exists to stop an attribution reading as a signature, and it had started doing the
+reverse.
+
+The marker must now be upper case as written. Every disclosure this repository ships is
+already shouted, because a disclosure is a deliberate act; a declaration that meant to
+disclose in sentence case merely prints as *reviewed by*, which is odd enough to notice.
+The opposite failure is the one nobody would think to check.
+
+**The near-miss list was one letter short.** It contained `Fixtures Ltd, a consultancy`
+-- plural, so it passed, and the singular form that does the damage was never tried.
+A near-miss case is only as good as the hazard it is near.

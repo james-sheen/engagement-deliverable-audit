@@ -59,6 +59,26 @@ class Fed:
     #: Deliverables the capture presented with no owner. Fed as entities and given no
     #: edge, which is what makes them findable.
     unowned: tuple[str, ...] = ()
+    #: DECLARED, IN SCOPE, AND NOT FED -- because the tracker does not hold it.
+    #:
+    #: Two different facts, kept apart, because they are different facts: `vanished` was
+    #: present in an earlier capture and is gone from the latest complete one, and
+    #: `never_seen` has not appeared in any capture in the series. The first is a change
+    #: during the engagement and the second may be a deliverable the tracker was never
+    #: going to carry.
+    #:
+    #: They are recorded because NOT FEEDING SOMETHING IS A DECISION, and a decision a
+    #: report does not state reads as an absence of anything to say. Before this, a
+    #: `detect` run over a series where a declared deliverable disappeared exited 0 and
+    #: named it nowhere -- measured, on two captures. They carry no floor on purpose;
+    #: see `cli.cmd_detect`.
+    vanished: tuple[str, ...] = ()
+    never_seen: tuple[str, ...] = ()
+
+    @property
+    def unfed(self) -> tuple[str, ...]:
+        """Every declared, in-scope name the engine was not given."""
+        return tuple(sorted(set(self.vanished) | set(self.never_seen)))
 
     def summary(self) -> str:
         return (f"{len(self.deliverables)} deliverable(s), {len(self.consultants)} "
@@ -166,11 +186,18 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
     # not look* into *it is gone*. With an incomplete latest capture the older state
     # stands, which is the conservative reading and the one Stage 1 takes.
     latest = exports[-1]
+    vanished: list[str] = []
     if bool(getattr(latest, "complete", True)):
         present_now = {point.name for point in latest.points}
         for name in [n for n in readings if n not in present_now]:
             del readings[name]
             owners.pop(name, None)
+            vanished.append(name)
+
+    # Declared, in scope, and in no capture at all. Computed here beside the vanished
+    # set so `detect` can state both -- the two are different facts and a reader acts
+    # on them differently, but neither is visible from what WAS fed.
+    never_seen = sorted(auditable - set(readings) - set(vanished))
 
     deliverables = tuple(sorted(readings))
     series = {name: transitions(points) for name, points in readings.items()}
@@ -180,7 +207,8 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
     consultants = tuple(sorted({_owner_id(owner) for owner in owners.values() if owner}))
     unowned = tuple(name for name in deliverables if not owners.get(name))
     return Fed(deliverables=deliverables, consultants=consultants, edges=edges,
-               series=series, captures=len(exports), unowned=unowned)
+               series=series, captures=len(exports), unowned=unowned,
+               vanished=tuple(sorted(vanished)), never_seen=tuple(never_seen))
 
 
 @dataclass(frozen=True)

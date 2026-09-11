@@ -85,6 +85,53 @@ def test_the_probe_recorded_where_it_ran(measured) -> None:
         assert measured.get(key), f"the record carries no {key}"
 
 
+def test_no_floor_carries_a_key_whose_unit_is_ambiguous(measured) -> None:
+    """`captures` is banned from this record, and the ban is the fix.
+
+    The word cost this package an off-by-one that reached three documents and a test:
+    every floor was written under `captures`, holding whichever of two different units
+    the probe happened to measure. Adding `observations` and
+    `captures_through_the_feeder` beside it corrected the test and left the ambiguous key
+    in the data file, which is where the next reader looks -- and by then `captures` meant
+    three things in one record: an observation count, a real capture count, and a dict of
+    cadence-to-count.
+
+    Asserted over every floor rather than over STABILITY, because the key was ambiguous
+    everywhere and only STABILITY was wrong by accident of which unit it held.
+    """
+    assert measured["floors"], "no floors in the record; this would check nothing"
+    offenders = sorted(name for name, floor in measured["floors"].items()
+                       if "captures" in floor)
+    assert offenders == [], (
+        f"{offenders} carry a key named `captures`, whose unit a reader has to guess. "
+        f"Name the unit: `observations` for what the engine needs, "
+        f"`captures_through_the_feeder` for what a collector must take")
+
+    # And the positive half: every floor states at least one unit-named count, so the
+    # ban above cannot be satisfied by a record that says nothing at all.
+    for name, floor in measured["floors"].items():
+        named = [k for k in floor
+                 if k.startswith(("observations", "captures_through_the_feeder"))]
+        assert named, f"{name} records no count under a unit-named key"
+
+
+def test_a_derived_quantity_needs_one_more_capture_than_observation(measured) -> None:
+    """The relationship between the two units, per floor, rather than once for STABILITY.
+
+    A quantity the feeder DERIVES costs one capture more than the engine needs
+    observations, because the first capture has no predecessor. One that is READ costs
+    the same. Pinning the rule per floor is what stops a new indicator being recorded
+    with the wrong pairing.
+    """
+    for name, floor in measured["floors"].items():
+        if "observations" not in floor or "captures_through_the_feeder" not in floor:
+            continue
+        gap = floor["captures_through_the_feeder"] - floor["observations"]
+        assert gap in (0, 1), (
+            f"{name} claims {gap} captures of difference; the feeder either derives a "
+            f"quantity (one more) or reads it (the same), and nothing else")
+
+
 def test_the_burn_in_document_agrees_with_the_measurement(measured) -> None:
     """The seam between a number and the prose explaining it.
 

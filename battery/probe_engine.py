@@ -361,37 +361,52 @@ record("C12", "the same indicator with neither cardinality declared",
 
 
 # ------------------------------------------------------------------- the record
+# THERE IS NO `captures` KEY IN THIS RECORD, DELIBERATELY, AND THIS IS THE SECOND TIME
+# THAT WORD HAS COST SOMETHING.
+#
+# This probe feeds the engine OBSERVATIONS directly. The tool feeds CAPTURES, and
+# `feeder.transitions` derives one point per capture while dropping the first -- which
+# has no predecessor to have moved from -- so N captures are N-1 observations wherever a
+# quantity is derived. Every floor here was written under the single name `captures`,
+# holding whichever of the two the probe happened to measure, and `STABILITY`'s was the
+# observation count. The burn-in document, the README and a test all published it as the
+# number of daily captures to collect: off by one, in the direction that claims the
+# history axiom answers a day before it does.
+#
+# Adding `observations` and `captures_through_the_feeder` beside it fixed the test and
+# left the ambiguous key in the data, which is where the next reader looks. Worse, by
+# then `captures` meant three different things in one file: an observation count on
+# STABILITY, a real capture count on CONNECTIVITY, and a DICT of cadence-to-count on
+# learned HOMEOSTASIS.
+#
+# So the unit is now in every key name and `captures` is gone. `observations` is always
+# what the engine needs; `captures_through_the_feeder` is always what a collector must
+# take to supply it, which differs only where the tool derives the quantity rather than
+# reading it.
+DERIVED_BY_THE_FEEDER = 1  # the first capture yields no derived point
+READ_DIRECTLY = 0          # read from the capture, so captures == observations
+
 floors = {
-    # TWO NUMBERS, BECAUSE THIS PROBE AND THE TOOL DO NOT FEED THE SAME THING.
-    #
-    # Every probe here feeds the engine OBSERVATIONS directly. The tool feeds it
-    # CAPTURES, and `feeder.transitions` derives one point per capture from the resets
-    # of days-since-transition -- dropping the first, which has no predecessor to have
-    # moved from. So N captures yield N-1 observations, and the tool reaches a floor of
-    # ten one capture later than this probe does.
-    #
-    # Both numbers are recorded because the documents need both: a reader sizing a
-    # burn-in counts CAPTURES, and a reader checking this record against the engine
-    # counts OBSERVATIONS. `observations` was the only one written here, under the name
-    # `captures`, and the burn-in document and the README both published it as the
-    # number of daily captures to collect. Off by one, in the direction that says the
-    # history axiom answers a day before it does.
-    "STABILITY": {"captures": PROBES["C1"]["measured"],
-                  "observations": PROBES["C1"]["measured"],
-                  "captures_through_the_feeder": PROBES["C1"]["measured"] + 1,
+    "STABILITY": {"observations": PROBES["C1"]["measured"],
+                  "captures_through_the_feeder":
+                      PROBES["C1"]["measured"] + DERIVED_BY_THE_FEEDER,
                   "window_and_cadence": PROBES["C2"]["measured"],
                   "note": "expect_variation arm on a flat series; the window is a "
                           "ceiling, so the floor is a count INSIDE it. "
-                          "`observations` is what this probe feeds directly; "
-                          "`captures_through_the_feeder` is what the tool needs, "
-                          "because the first capture yields no derived point"},
-    "HOMEOSTASIS_learned": {"captures": PROBES["C4"]["measured"],
+                          "`transitions_per_week` is DERIVED, so a collector needs one "
+                          "capture more than the engine needs observations"},
+    "HOMEOSTASIS_learned": {"observations_by_cadence": PROBES["C4"]["measured"],
                             "by_cadence": PROBES["C5"]["measured"],
-                            "note": "learned baseline; see the declared-setpoint arm"},
-    "HOMEOSTASIS_declared": {"captures": 1,
+                            "note": "learned baseline, and the only floor here whose "
+                                    "answer is per-cadence rather than a single count; "
+                                    "see the declared-setpoint arm"},
+    "HOMEOSTASIS_declared": {"observations": 1,
+                             "captures_through_the_feeder": 1 + READ_DIRECTLY,
                              "note": "a declared setpoint needs no history"},
-    "CONNECTIVITY": {"captures": 1,
-                     "note": "no threshold and no history; answers on one capture"},
+    "CONNECTIVITY": {"observations": 1,
+                     "captures_through_the_feeder": 1 + READ_DIRECTLY,
+                     "note": "no threshold and no history, and `owned_by` is READ from "
+                             "the capture rather than derived, so one capture answers"},
 }
 
 answer = {

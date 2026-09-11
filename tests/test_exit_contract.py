@@ -57,7 +57,9 @@ def test_the_table_covers_the_engines_whole_decline_vocabulary() -> None:
     `NotEvaluatedReason` is a closed enum and the engine's own docstring says so, which
     is what makes deriving from it safe. A thirteenth member now fails here.
     """
-    pytest.importorskip("arbiter_engine")
+    # Imported, not skipped: this suite's convention is that an engine-dependent
+    # test fails to import rather than vanishing from the run. A skip is how a
+    # check stops running without anybody noticing.
     from arbiter_engine.types import NotEvaluatedReason
 
     vocabulary = {member.value for member in NotEvaluatedReason}
@@ -83,7 +85,9 @@ def test_exactly_these_engine_declines_are_floored_clean_and_no_others() -> None
     Pinned as a set rather than a count: a count would survive one row being swapped
     for another, which is exactly the edit worth catching.
     """
-    pytest.importorskip("arbiter_engine")
+    # Imported, not skipped: this suite's convention is that an engine-dependent
+    # test fails to import rather than vanishing from the run. A skip is how a
+    # check stops running without anybody noticing.
     from arbiter_engine.types import NotEvaluatedReason
 
     clean = sorted(reason.value for reason in NotEvaluatedReason

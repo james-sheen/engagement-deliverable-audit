@@ -2,9 +2,11 @@
  "format": "engagement-deliverable-audit/capture/1",
  "captured_at": "2021-09-12T09:53:19Z",
  "exporter": {
-  "id": "zenodo:15719919 JiraReposAnon, range-fetched prefix"
+  "id": "zenodo:15719919 JiraReposAnon, range-fetched prefix",
+  "export_sha256": "sha256:62237700709a4c06d45c23fddb797c2cccaaed6ec95c46bd79bafb09d7931f56"
  },
  "complete": true,
+ "errors": [],
  "points": [
   {
    "name": "ZOOKEEPER-1015",
@@ -1494,6 +1496,5 @@
    "state": "Patch Available",
    "days_since_transition": 2045
   }
- ],
- "errors": []
+ ]
 }

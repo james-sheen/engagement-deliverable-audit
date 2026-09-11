@@ -152,7 +152,13 @@ def test_a_malformed_model_is_two_and_never_one(verb, body, tmp_path, capsys) ->
     The OUTCOME line is asserted as well as the code, because a traceback gives a
     caller no line to read and `1` is a number it would otherwise believe.
     """
-    pytest.importorskip("arbiter_engine")
+    # IMPORTED RATHER THAN SKIPPED, and the skip was hiding something worse than a
+    # missing run. With no engine installed, `detect` refuses with *needs the engine*
+    # and exits 2 -- which is exactly what this test asserts. Measured: every assertion
+    # below passes in an engine-free environment, for entirely the wrong reason. So the
+    # import makes the test error rather than vanish, and the refusal text is checked
+    # below so a 2 from the wrong cause cannot satisfy it either.
+    import arbiter_engine  # noqa: F401
     model = tmp_path / "model.yaml"
     model.write_text(body, encoding="utf-8")
     argv = ([verb, "--model", str(model)] if verb == "gate" else
@@ -162,6 +168,9 @@ def test_a_malformed_model_is_two_and_never_one(verb, body, tmp_path, capsys) ->
     assert main(argv) == 2
     printed = capsys.readouterr().out
     assert _outcomes(printed) == ["OUTCOME exit=2 verdict=could-not-complete"], printed
+    assert "needs the engine" not in printed, (
+        "this 2 is the refusal for a MISSING ENGINE, not for a malformed model; the "
+        "assertion above is satisfied by an environment, not by the behaviour")
 
 
 def test_a_model_the_engine_silently_dropped_is_never_a_clean_run(
@@ -178,7 +187,7 @@ def test_a_model_the_engine_silently_dropped_is_never_a_clean_run(
     one were owned by different verbs, so neither side had a test that could fail.
     Both verbs are asserted here for that reason.
     """
-    pytest.importorskip("arbiter_engine")
+    import arbiter_engine  # noqa: F401  -- error rather than skip; see the test above
     model = tmp_path / "unknown-axiom.yaml"
     model.write_text(
         "domain:\n"
@@ -200,6 +209,58 @@ def test_a_model_the_engine_silently_dropped_is_never_a_clean_run(
     assert "model_not_read" in printed, (
         "the run has to say WHICH part of the model the engine did not read; a bare 2 "
         "sends a reader looking for a finding that does not exist")
+
+
+def test_detect_says_which_declared_deliverables_it_did_not_feed(
+        tmp_path, capsys) -> None:
+    """The statement, asserted where the silence was: the verb's own output.
+
+    `Fed` carrying the names is necessary and not sufficient -- the defect was that
+    `detect` had them and said nothing. So this drives the CLI and reads stdout, in both
+    output modes, because a machine reader and a person read different surfaces and the
+    document is the one a pipeline parses.
+
+    Measured before the fix: this capture pair exited 0 with the vanished deliverable
+    named nowhere at all.
+    """
+    import arbiter_engine  # noqa: F401  -- error rather than skip
+    decl = tmp_path / "d.json"
+    decl.write_text(json.dumps({
+        "format": "engagement-deliverable-audit/declaration/1",
+        "engagement": "VANISH-1",
+        "reviewed_by": "FIXTURE -- invented for this test",
+        "reviewed_on": "2026-09-11", "change_order": 1, "stall_window_days": 14,
+        "sources": [{"path": "tests", "derived_from": "invented for this test"}],
+        "points": [{"id": n, "declared_type": "deliverable", "text": n}
+                   for n in ("D-1", "D-2", "D-3")],
+    }), encoding="utf-8")
+
+    def capture_at(stamp, names):
+        path = tmp_path / f"c{stamp[8:10]}.json"
+        path.write_text(json.dumps({
+            "format": "engagement-deliverable-audit/capture/1",
+            "captured_at": stamp, "complete": True,
+            "points": [{"name": n, "path": f"t/{n}", "owner": "ana",
+                        "state": "In Progress", "days_since_transition": 1}
+                       for n in names]}), encoding="utf-8")
+        return str(path)
+
+    first = capture_at("2026-09-10T00:00:00Z", ["D-1", "D-2"])
+    second = capture_at("2026-09-11T00:00:00Z", ["D-2"])
+    argv = ["detect", "--declaration", str(decl), "--model", MODEL,
+            "--capture", first, "--capture", second]
+
+    main(argv)
+    printed = capsys.readouterr().out
+    assert "D-1" in printed, (
+        "the deliverable that disappeared from the tracker is named nowhere in the "
+        "run that decided not to feed it")
+    assert "D-3" in printed, "a deliverable in no capture at all is also unstated"
+
+    main([*argv, "--json"])
+    document = json.loads(capsys.readouterr().out)
+    assert document["not_fed"] == {"vanished": ["D-1"], "never_seen": ["D-3"]}, (
+        "a pipeline parsing the document gets the same two facts, kept apart")
 
 
 def test_an_unreviewed_declaration_is_refused_by_name(tmp_path, capsys) -> None:

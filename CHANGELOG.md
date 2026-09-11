@@ -4,6 +4,54 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+Answers a second verification report, on 0.1.1, which again ran nothing. It confirmed
+all of A-G fixed and raised five residuals. Every one reproduced; two were materially
+worse than filed, one was a repeated factual error, and one recommendation was right for
+a reason the report did not give. `FINDINGS.md` 31-35.
+
+### Fixed
+
+- **`detect` said nothing about a deliverable it decided not to feed.** 0.1.1 stopped
+  feeding a deliverable the latest complete capture no longer holds; measured over two
+  captures, the run then exited 0 with the name absent from the prose and from the
+  `--json` document. `Fed` now carries `vanished` and `never_seen` as separate keys --
+  two different facts -- and `detect` states both. Deliberately unfloored: measured
+  against Stage 1, scoring them would report a declared ceremony as a missing
+  deliverable, because `presence` filters on `declared_type` and the feeder does not.
+- **`engine_floors.json` no longer has a `captures` key.** The off-by-one in 0.1.1 came
+  from that name holding an observation count; adding correctly-named keys beside it
+  fixed the test and left the ambiguity in the data, where by then the word meant three
+  things in one record -- an observation count, a capture count, and a dict. Every key
+  now names its unit, and two tests hold it: one bans the word, one asserts the gap
+  between units is 0 or 1 per floor.
+- **Four tests skipped without the engine, and removing the skip alone would have been
+  worse.** Measured in an engine-free environment, `detect` refuses with *needs the
+  engine* and exits 2, which is exactly what the malformed-model tests assert -- so they
+  passed for the environment rather than the behaviour. The engine is now imported
+  explicitly, so the tests error rather than vanish, and the refusal text is asserted so
+  a 2 from the wrong cause cannot satisfy them.
+- **A real signature could read as NOT SIGNED.** `Engagement.disclosure` compared the
+  first word case-insensitively, so `Fixture Consulting Ltd` returned `FIXTURE` and
+  `declare` would print *NOT SIGNED, disclosed as FIXTURE* over a genuine signature --
+  the property's own failure mode reversed. A marker must now be upper case as written.
+  The near-miss list had `Fixtures` plural and was one letter from catching it.
+- `cmd_detect` imports the silence gate unconditionally. The `except ImportError` around
+  it could not fire, and had it fired it would have left the unread-model check empty and
+  restored the clean-run defect it exists to close.
+
+### Changed
+
+- **`evidence/jira-*.json` regenerated rather than hand-edited.** 0.1.1 renamed the
+  placeholder digest and taught the fetch script to compute a real one, but edited the
+  committed file -- so the script computed a digest the evidence did not carry, and a
+  findings entry said otherwise. Re-deriving showed two further drifts: the declaration
+  said *the Apache tracker* where the script writes the project name. Now 248 issues, the
+  same data-derived reference date, byte-identical capture points, and a real digest. A
+  test reads the exporter keys off the script's AST so the shape cannot drift again
+  without a network fetch.
+
 ## 0.1.1 -- 2026-09-11
 
 Answers an outside verification report that read the whole tree statically and ran

@@ -108,12 +108,29 @@ class Engagement:
         nothing here weakens the gate, and a disclosed declaration remains usable --
         but callers print *disclosed as* instead of *reviewed by*, so the distinction
         reaches a reader instead of living in a fetch script's comment.
+
+        **THE MARKER MUST BE UPPER CASE AS WRITTEN, and the first version of this
+        compared case-insensitively.** Measured, that reported three ordinary signatures
+        as disclosures, and one of them is the reason this is a correctness rule rather
+        than a nicety: `Fixture Consulting Ltd` -- a firm whose name happens to begin
+        with a marker word -- came back as `FIXTURE`, so `declare` would print *NOT
+        SIGNED, disclosed as FIXTURE* over a real signature by a real company. That is
+        the precise inversion this property exists to prevent, pointing the other way.
+
+        Requiring upper case costs almost nothing and fails in the safe direction. Every
+        disclosure this repository ships is already shouted, because a disclosure is a
+        deliberate act and a reader should see it; and a declaration that meant to
+        disclose in sentence case is merely printed as *reviewed by*, which reads oddly
+        enough to notice. The alternative failure -- a real signature reported as
+        unsigned -- is one nobody would think to check.
         """
-        first = (self.reviewed_by or "").strip().split(maxsplit=1)
-        head = first[0].rstrip(":,").upper() if first else ""
-        if head in DISCLOSURE_MARKERS:
+        written = (self.reviewed_by or "").strip()
+        first = written.split(maxsplit=1)
+        head = first[0].rstrip(":,-") if first else ""
+        # `head.isupper()` is the whole guard: `Fixture` is not a marker, `FIXTURE` is.
+        if head.isupper() and head in DISCLOSURE_MARKERS:
             return head
-        if (self.reviewed_by or "").strip().upper().startswith("NOT SIGNED"):
+        if written.startswith("NOT SIGNED"):
             return "NOT SIGNED"
         return None
 

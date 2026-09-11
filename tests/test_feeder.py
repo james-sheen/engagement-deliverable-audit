@@ -301,6 +301,34 @@ def test_a_deliverable_that_vanishes_is_not_fed_as_an_owned_one() -> None:
         "the deliverable that is still there must be unaffected")
 
 
+def test_what_was_not_fed_is_recorded_and_the_two_reasons_are_kept_apart() -> None:
+    """Not feeding something is a decision, and a decision nobody states reads as
+    nothing to say.
+
+    Measured before this: `detect` over two captures where a declared deliverable
+    disappeared exited 0, printed no line about it, and named it nowhere in `--json`.
+    A `detect`-only pipeline -- the detect-mode grader scenario is one -- reported a
+    clean run over a vanished commitment.
+
+    The two sets are asserted separately because they are different facts: one was
+    there and went, the other was never in any capture. A single `unfed` list would
+    pass this test while losing the distinction a reader acts on.
+    """
+    now = dt.datetime.now(dt.timezone.utc)
+    fed = feeder.plan(_engagement(), [
+        _export({"D-1": {"value": 1, "owner": "ana"},
+                 "D-2": {"value": 1, "owner": "bo"}}, stamp=now - dt.timedelta(days=1)),
+        _export({"D-2": {"value": 1, "owner": "bo"}}, stamp=now)])
+
+    assert fed.vanished == ("D-1",), "the deliverable that went is not recorded"
+    # The fixture declares D-4, C-1 and A-1, which no capture here holds.
+    assert "D-4" in fed.never_seen and "D-1" not in fed.never_seen, (
+        "a name that vanished must not also be reported as never seen")
+    assert set(fed.unfed) == set(fed.vanished) | set(fed.never_seen)
+    assert not set(fed.unfed) & set(fed.deliverables), (
+        "a name cannot be both fed and not fed")
+
+
 def test_an_incomplete_latest_capture_does_not_turn_absence_into_departure() -> None:
     """The guard on the rule above, and the reason it is a guard and not an exception.
 

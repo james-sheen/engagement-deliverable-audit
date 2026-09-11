@@ -57,7 +57,11 @@ the axiom answers on the eleventh capture. Measured by sweeping the capture coun
 ten captures STABILITY still declines `insufficient_samples`, at eleven it answers. A
 probe that feeds the engine observations directly sees ten, and that is the number the
 record carries as `observations`; `captures_through_the_feeder` is the one to collect
-against. Before the burn-in one invariant answers; after it, both. One consequence worth stating: `boundary_gate` has nothing to probe
+against. **There is no `captures` key in the record any more, deliberately**: that name
+held the observation count, which is how the wrong number reached this document, and
+naming the unit in every key is what stops the next reader repeating it. A quantity the
+feeder DERIVES costs one capture more than the engine needs observations; one it READS
+costs the same, and `owned_by` is read. Before the burn-in one invariant answers; after it, both. One consequence worth stating: `boundary_gate` has nothing to probe
 against this model, because both indicators that would have carried a published
 threshold are excluded. It is not satisfied and not wrong -- unexercised, which is a
 fact about the export format, and the manifest records it so a reader of the model does

@@ -150,6 +150,15 @@ dropped -- an unknown axiom, a field nothing reads -- means part of the model wa
 applied, and a run that judged nothing would otherwise report clean. That is
 `model_not_read`, floored at 2.
 
+**And it says which declared deliverables it did not feed**, as two separate facts: one
+that was in an earlier capture and is gone from the latest, and one that has appeared in
+no capture at all. Neither is floored here, and that is Stage 1's decision rather than
+tidiness: `presence` reports `declared_absent` only for points declared as deliverables,
+so a declared ceremony or assumption missing from a tracker is correctly not a finding.
+The feeder has no such filter, so flooring its unfed set would report a steering call as
+a missing deliverable. Not feeding something is still a decision, and a decision the run
+does not state reads as nothing to say.
+
 ### The grader
 
 This package registers with `qa-orchestrator` as a referee and a tier, so a scenario

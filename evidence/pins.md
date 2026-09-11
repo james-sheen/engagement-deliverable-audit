@@ -55,7 +55,7 @@ Eight in-range releases installed and passing; every release below every floor f
 
 Every row above was re-run, because a floor is a claim about behaviour and the
 behaviour changed. All three floors still hold and all eight in-range releases pass the
-suite, now 278 tests rather than 217.
+suite, now 287 tests rather than 217 (re-run after each round of fixes; 278 at 0.1.1).
 
 **The below-floor failure set grew from two tests to five, and one of them is new
 evidence for the same boundary.** The floor table's coverage is now derived from the

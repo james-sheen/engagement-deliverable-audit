@@ -87,3 +87,48 @@ def test_the_core_reports_clean_over_two_hundred_real_findings(compared) -> None
         "resolved, and this package's floor table should be re-read against it")
     assert exit_contract.code_for(kinds) == exit_contract.FINDINGS
     assert report.counts()["regressions"] == 0
+
+
+def test_the_committed_capture_has_the_exporter_shape_the_script_writes() -> None:
+    """Evidence that no longer matches its generator, caught without a network fetch.
+
+    `FINDINGS.md` claimed the fetch script computes a real digest of the bytes it
+    range-fetches. It does -- and the committed capture had been hand-edited instead of
+    regenerated, so it carried the `id` and not the digest, and the claim was true of the
+    script and false of the shipped file. Re-deriving the corpus also showed the prose
+    had drifted in two more places: the committed declaration said *the Apache tracker*
+    where the script now writes the project name.
+
+    Derived from the script's own source rather than transcribed, so a future change to
+    what it writes fails here instead of leaving the evidence quietly behind. The bytes
+    cannot be re-fetched in a unit test; the SHAPE can, and the shape is what drifted.
+    """
+    import ast
+    import re
+
+    script = (EVIDENCE.parent / "battery" / "fetch_jira_corpus.py").read_text(
+        encoding="utf-8")
+    # The keys the script puts in the exporter block, read off its AST.
+    tree = ast.parse(script)
+    written = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Dict):
+            for key, value in zip(node.keys, node.values):
+                if (isinstance(key, ast.Constant) and key.value == "exporter"
+                        and isinstance(value, ast.Dict)):
+                    written = {k.value for k in value.keys
+                               if isinstance(k, ast.Constant)}
+    assert written, "could not read the exporter keys off the script; the derivation broke"
+
+    capture = json.loads((EVIDENCE / "jira-capture.json").read_text(encoding="utf-8"))
+    shipped = set(capture.get("exporter") or {})
+    assert shipped == written, (
+        f"the script writes {sorted(written)} and the committed evidence carries "
+        f"{sorted(shipped)}; the corpus was edited rather than re-derived")
+
+    digest = (capture["exporter"].get("export_sha256") or "").split(":", 1)[-1]
+    assert re.fullmatch(r"[0-9a-f]{64}", digest), (
+        f"{digest[:24]!r} is not a hex digest")
+    assert len(set(digest)) > 4, (
+        "a digest of four or fewer distinct characters is a placeholder; the shipped "
+        "evidence carried sixty-four of one letter before this")

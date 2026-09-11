@@ -4,2491 +4,2491 @@
  "reviewed_by": "DERIVED FROM A PUBLIC DATASET, not a statement of work -- The Public Jira Dataset, Zenodo 15719919, CC BY 4.0",
  "reviewed_on": "2026-09-11",
  "change_order": 0,
- "stall_window_days": 14,
+ "stall_window_days": 14.0,
  "sources": [
   {
    "path": "zenodo:15719919",
-   "derived_from": "JiraReposAnon.Apache, project ZOOKEEPER, unresolved issues, reference 2021-09-12"
+   "derived_from": "JiraReposAnon, project ZOOKEEPER, unresolved issues, reference 2021-09-12"
   }
  ],
  "points": [
   {
    "id": "ZOOKEEPER-1015",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1015",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1015",
     "quote": "ZOOKEEPER-1015"
    }
   },
   {
    "id": "ZOOKEEPER-102",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-102",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-102",
     "quote": "ZOOKEEPER-102"
    }
   },
   {
    "id": "ZOOKEEPER-1054",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1054",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1054",
     "quote": "ZOOKEEPER-1054"
    }
   },
   {
    "id": "ZOOKEEPER-1106",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1106",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1106",
     "quote": "ZOOKEEPER-1106"
    }
   },
   {
    "id": "ZOOKEEPER-1130",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1130",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1130",
     "quote": "ZOOKEEPER-1130"
    }
   },
   {
    "id": "ZOOKEEPER-1133",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1133",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1133",
     "quote": "ZOOKEEPER-1133"
    }
   },
   {
    "id": "ZOOKEEPER-1137",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1137",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1137",
     "quote": "ZOOKEEPER-1137"
    }
   },
   {
    "id": "ZOOKEEPER-1158",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1158",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1158",
     "quote": "ZOOKEEPER-1158"
    }
   },
   {
    "id": "ZOOKEEPER-1167",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1167",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1167",
     "quote": "ZOOKEEPER-1167"
    }
   },
   {
    "id": "ZOOKEEPER-1172",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1172",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1172",
     "quote": "ZOOKEEPER-1172"
    }
   },
   {
    "id": "ZOOKEEPER-1178",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1178",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1178",
     "quote": "ZOOKEEPER-1178"
    }
   },
   {
    "id": "ZOOKEEPER-1183",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1183",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1183",
     "quote": "ZOOKEEPER-1183"
    }
   },
   {
    "id": "ZOOKEEPER-119",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-119",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-119",
     "quote": "ZOOKEEPER-119"
    }
   },
   {
    "id": "ZOOKEEPER-1198",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1198",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1198",
     "quote": "ZOOKEEPER-1198"
    }
   },
   {
    "id": "ZOOKEEPER-1199",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1199",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1199",
     "quote": "ZOOKEEPER-1199"
    }
   },
   {
    "id": "ZOOKEEPER-1202",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1202",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1202",
     "quote": "ZOOKEEPER-1202"
    }
   },
   {
    "id": "ZOOKEEPER-1204",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1204",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1204",
     "quote": "ZOOKEEPER-1204"
    }
   },
   {
    "id": "ZOOKEEPER-1209",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1209",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1209",
     "quote": "ZOOKEEPER-1209"
    }
   },
   {
    "id": "ZOOKEEPER-1217",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1217",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1217",
     "quote": "ZOOKEEPER-1217"
    }
   },
   {
    "id": "ZOOKEEPER-1218",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1218",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1218",
     "quote": "ZOOKEEPER-1218"
    }
   },
   {
    "id": "ZOOKEEPER-1225",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1225",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1225",
     "quote": "ZOOKEEPER-1225"
    }
   },
   {
    "id": "ZOOKEEPER-1234",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1234",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1234",
     "quote": "ZOOKEEPER-1234"
    }
   },
   {
    "id": "ZOOKEEPER-1235",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1235",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1235",
     "quote": "ZOOKEEPER-1235"
    }
   },
   {
    "id": "ZOOKEEPER-1240",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1240",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1240",
     "quote": "ZOOKEEPER-1240"
    }
   },
   {
    "id": "ZOOKEEPER-1242",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1242",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1242",
     "quote": "ZOOKEEPER-1242"
    }
   },
   {
    "id": "ZOOKEEPER-1248",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1248",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1248",
     "quote": "ZOOKEEPER-1248"
    }
   },
   {
    "id": "ZOOKEEPER-1251",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1251",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1251",
     "quote": "ZOOKEEPER-1251"
    }
   },
   {
    "id": "ZOOKEEPER-1255",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1255",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1255",
     "quote": "ZOOKEEPER-1255"
    }
   },
   {
    "id": "ZOOKEEPER-1258",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1258",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1258",
     "quote": "ZOOKEEPER-1258"
    }
   },
   {
    "id": "ZOOKEEPER-1259",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1259",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1259",
     "quote": "ZOOKEEPER-1259"
    }
   },
   {
    "id": "ZOOKEEPER-1266",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1266",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1266",
     "quote": "ZOOKEEPER-1266"
    }
   },
   {
    "id": "ZOOKEEPER-1274",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1274",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1274",
     "quote": "ZOOKEEPER-1274"
    }
   },
   {
    "id": "ZOOKEEPER-1284",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1284",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1284",
     "quote": "ZOOKEEPER-1284"
    }
   },
   {
    "id": "ZOOKEEPER-1296",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1296",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1296",
     "quote": "ZOOKEEPER-1296"
    }
   },
   {
    "id": "ZOOKEEPER-1306",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1306",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1306",
     "quote": "ZOOKEEPER-1306"
    }
   },
   {
    "id": "ZOOKEEPER-1314",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1314",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1314",
     "quote": "ZOOKEEPER-1314"
    }
   },
   {
    "id": "ZOOKEEPER-1350",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1350",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1350",
     "quote": "ZOOKEEPER-1350"
    }
   },
   {
    "id": "ZOOKEEPER-1383",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1383",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1383",
     "quote": "ZOOKEEPER-1383"
    }
   },
   {
    "id": "ZOOKEEPER-1398",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1398",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1398",
     "quote": "ZOOKEEPER-1398"
    }
   },
   {
    "id": "ZOOKEEPER-1418",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1418",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1418",
     "quote": "ZOOKEEPER-1418"
    }
   },
   {
    "id": "ZOOKEEPER-1436",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1436",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1436",
     "quote": "ZOOKEEPER-1436"
    }
   },
   {
    "id": "ZOOKEEPER-1442",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1442",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1442",
     "quote": "ZOOKEEPER-1442"
    }
   },
   {
    "id": "ZOOKEEPER-1445",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1445",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1445",
     "quote": "ZOOKEEPER-1445"
    }
   },
   {
    "id": "ZOOKEEPER-1452",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1452",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1452",
     "quote": "ZOOKEEPER-1452"
    }
   },
   {
    "id": "ZOOKEEPER-146",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-146",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-146",
     "quote": "ZOOKEEPER-146"
    }
   },
   {
    "id": "ZOOKEEPER-1469",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1469",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1469",
     "quote": "ZOOKEEPER-1469"
    }
   },
   {
    "id": "ZOOKEEPER-1473",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1473",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1473",
     "quote": "ZOOKEEPER-1473"
    }
   },
   {
    "id": "ZOOKEEPER-1480",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1480",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1480",
     "quote": "ZOOKEEPER-1480"
    }
   },
   {
    "id": "ZOOKEEPER-1488",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1488",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1488",
     "quote": "ZOOKEEPER-1488"
    }
   },
   {
    "id": "ZOOKEEPER-1519",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1519",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1519",
     "quote": "ZOOKEEPER-1519"
    }
   },
   {
    "id": "ZOOKEEPER-1520",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1520",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1520",
     "quote": "ZOOKEEPER-1520"
    }
   },
   {
    "id": "ZOOKEEPER-1567",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1567",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1567",
     "quote": "ZOOKEEPER-1567"
    }
   },
   {
    "id": "ZOOKEEPER-1569",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1569",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1569",
     "quote": "ZOOKEEPER-1569"
    }
   },
   {
    "id": "ZOOKEEPER-1586",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1586",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1586",
     "quote": "ZOOKEEPER-1586"
    }
   },
   {
    "id": "ZOOKEEPER-1595",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1595",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1595",
     "quote": "ZOOKEEPER-1595"
    }
   },
   {
    "id": "ZOOKEEPER-1607",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1607",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1607",
     "quote": "ZOOKEEPER-1607"
    }
   },
   {
    "id": "ZOOKEEPER-1621",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1621",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1621",
     "quote": "ZOOKEEPER-1621"
    }
   },
   {
    "id": "ZOOKEEPER-1623",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1623",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1623",
     "quote": "ZOOKEEPER-1623"
    }
   },
   {
    "id": "ZOOKEEPER-168",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-168",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-168",
     "quote": "ZOOKEEPER-168"
    }
   },
   {
    "id": "ZOOKEEPER-1681",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1681",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1681",
     "quote": "ZOOKEEPER-1681"
    }
   },
   {
    "id": "ZOOKEEPER-1716",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1716",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1716",
     "quote": "ZOOKEEPER-1716"
    }
   },
   {
    "id": "ZOOKEEPER-1724",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1724",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1724",
     "quote": "ZOOKEEPER-1724"
    }
   },
   {
    "id": "ZOOKEEPER-1737",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1737",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1737",
     "quote": "ZOOKEEPER-1737"
    }
   },
   {
    "id": "ZOOKEEPER-1742",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1742",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1742",
     "quote": "ZOOKEEPER-1742"
    }
   },
   {
    "id": "ZOOKEEPER-1749",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1749",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1749",
     "quote": "ZOOKEEPER-1749"
    }
   },
   {
    "id": "ZOOKEEPER-1757",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1757",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1757",
     "quote": "ZOOKEEPER-1757"
    }
   },
   {
    "id": "ZOOKEEPER-1767",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1767",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1767",
     "quote": "ZOOKEEPER-1767"
    }
   },
   {
    "id": "ZOOKEEPER-1777",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1777",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1777",
     "quote": "ZOOKEEPER-1777"
    }
   },
   {
    "id": "ZOOKEEPER-1787",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1787",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1787",
     "quote": "ZOOKEEPER-1787"
    }
   },
   {
    "id": "ZOOKEEPER-1794",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1794",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1794",
     "quote": "ZOOKEEPER-1794"
    }
   },
   {
    "id": "ZOOKEEPER-1804",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1804",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1804",
     "quote": "ZOOKEEPER-1804"
    }
   },
   {
    "id": "ZOOKEEPER-1814",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1814",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1814",
     "quote": "ZOOKEEPER-1814"
    }
   },
   {
    "id": "ZOOKEEPER-1816",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1816",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1816",
     "quote": "ZOOKEEPER-1816"
    }
   },
   {
    "id": "ZOOKEEPER-1842",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1842",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1842",
     "quote": "ZOOKEEPER-1842"
    }
   },
   {
    "id": "ZOOKEEPER-1848",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1848",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1848",
     "quote": "ZOOKEEPER-1848"
    }
   },
   {
    "id": "ZOOKEEPER-1856",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1856",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1856",
     "quote": "ZOOKEEPER-1856"
    }
   },
   {
    "id": "ZOOKEEPER-1865",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1865",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1865",
     "quote": "ZOOKEEPER-1865"
    }
   },
   {
    "id": "ZOOKEEPER-1875",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1875",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1875",
     "quote": "ZOOKEEPER-1875"
    }
   },
   {
    "id": "ZOOKEEPER-1881",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1881",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1881",
     "quote": "ZOOKEEPER-1881"
    }
   },
   {
    "id": "ZOOKEEPER-1884",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1884",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1884",
     "quote": "ZOOKEEPER-1884"
    }
   },
   {
    "id": "ZOOKEEPER-1914",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1914",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1914",
     "quote": "ZOOKEEPER-1914"
    }
   },
   {
    "id": "ZOOKEEPER-1915",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1915",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1915",
     "quote": "ZOOKEEPER-1915"
    }
   },
   {
    "id": "ZOOKEEPER-1916",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1916",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1916",
     "quote": "ZOOKEEPER-1916"
    }
   },
   {
    "id": "ZOOKEEPER-1951",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1951",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1951",
     "quote": "ZOOKEEPER-1951"
    }
   },
   {
    "id": "ZOOKEEPER-1954",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1954",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1954",
     "quote": "ZOOKEEPER-1954"
    }
   },
   {
    "id": "ZOOKEEPER-1956",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1956",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1956",
     "quote": "ZOOKEEPER-1956"
    }
   },
   {
    "id": "ZOOKEEPER-1971",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1971",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1971",
     "quote": "ZOOKEEPER-1971"
    }
   },
   {
    "id": "ZOOKEEPER-1983",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1983",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1983",
     "quote": "ZOOKEEPER-1983"
    }
   },
   {
    "id": "ZOOKEEPER-1985",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-1985",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-1985",
     "quote": "ZOOKEEPER-1985"
    }
   },
   {
    "id": "ZOOKEEPER-2000",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2000",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2000",
     "quote": "ZOOKEEPER-2000"
    }
   },
   {
    "id": "ZOOKEEPER-2001",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2001",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2001",
     "quote": "ZOOKEEPER-2001"
    }
   },
   {
    "id": "ZOOKEEPER-2011",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2011",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2011",
     "quote": "ZOOKEEPER-2011"
    }
   },
   {
    "id": "ZOOKEEPER-2012",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2012",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2012",
     "quote": "ZOOKEEPER-2012"
    }
   },
   {
    "id": "ZOOKEEPER-2016",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2016",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2016",
     "quote": "ZOOKEEPER-2016"
    }
   },
   {
    "id": "ZOOKEEPER-2019",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2019",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2019",
     "quote": "ZOOKEEPER-2019"
    }
   },
   {
    "id": "ZOOKEEPER-2023",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2023",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2023",
     "quote": "ZOOKEEPER-2023"
    }
   },
   {
    "id": "ZOOKEEPER-2028",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2028",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2028",
     "quote": "ZOOKEEPER-2028"
    }
   },
   {
    "id": "ZOOKEEPER-2031",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2031",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2031",
     "quote": "ZOOKEEPER-2031"
    }
   },
   {
    "id": "ZOOKEEPER-2045",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2045",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2045",
     "quote": "ZOOKEEPER-2045"
    }
   },
   {
    "id": "ZOOKEEPER-2053",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2053",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2053",
     "quote": "ZOOKEEPER-2053"
    }
   },
   {
    "id": "ZOOKEEPER-2055",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2055",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2055",
     "quote": "ZOOKEEPER-2055"
    }
   },
   {
    "id": "ZOOKEEPER-2063",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2063",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2063",
     "quote": "ZOOKEEPER-2063"
    }
   },
   {
    "id": "ZOOKEEPER-2067",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2067",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2067",
     "quote": "ZOOKEEPER-2067"
    }
   },
   {
    "id": "ZOOKEEPER-2086",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2086",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2086",
     "quote": "ZOOKEEPER-2086"
    }
   },
   {
    "id": "ZOOKEEPER-2089",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2089",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2089",
     "quote": "ZOOKEEPER-2089"
    }
   },
   {
    "id": "ZOOKEEPER-2091",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2091",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2091",
     "quote": "ZOOKEEPER-2091"
    }
   },
   {
    "id": "ZOOKEEPER-2093",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2093",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2093",
     "quote": "ZOOKEEPER-2093"
    }
   },
   {
    "id": "ZOOKEEPER-2097",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2097",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2097",
     "quote": "ZOOKEEPER-2097"
    }
   },
   {
    "id": "ZOOKEEPER-2099",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2099",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2099",
     "quote": "ZOOKEEPER-2099"
    }
   },
   {
    "id": "ZOOKEEPER-2115",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2115",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2115",
     "quote": "ZOOKEEPER-2115"
    }
   },
   {
    "id": "ZOOKEEPER-2128",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2128",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2128",
     "quote": "ZOOKEEPER-2128"
    }
   },
   {
    "id": "ZOOKEEPER-2136",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2136",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2136",
     "quote": "ZOOKEEPER-2136"
    }
   },
   {
    "id": "ZOOKEEPER-2162",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2162",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2162",
     "quote": "ZOOKEEPER-2162"
    }
   },
   {
    "id": "ZOOKEEPER-2170",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2170",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2170",
     "quote": "ZOOKEEPER-2170"
    }
   },
   {
    "id": "ZOOKEEPER-2192",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2192",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2192",
     "quote": "ZOOKEEPER-2192"
    }
   },
   {
    "id": "ZOOKEEPER-2202",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2202",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2202",
     "quote": "ZOOKEEPER-2202"
    }
   },
   {
    "id": "ZOOKEEPER-2218",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2218",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2218",
     "quote": "ZOOKEEPER-2218"
    }
   },
   {
    "id": "ZOOKEEPER-2230",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2230",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2230",
     "quote": "ZOOKEEPER-2230"
    }
   },
   {
    "id": "ZOOKEEPER-2255",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2255",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2255",
     "quote": "ZOOKEEPER-2255"
    }
   },
   {
    "id": "ZOOKEEPER-2260",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2260",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2260",
     "quote": "ZOOKEEPER-2260"
    }
   },
   {
    "id": "ZOOKEEPER-2263",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2263",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2263",
     "quote": "ZOOKEEPER-2263"
    }
   },
   {
    "id": "ZOOKEEPER-2266",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2266",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2266",
     "quote": "ZOOKEEPER-2266"
    }
   },
   {
    "id": "ZOOKEEPER-2274",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2274",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2274",
     "quote": "ZOOKEEPER-2274"
    }
   },
   {
    "id": "ZOOKEEPER-2276",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2276",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2276",
     "quote": "ZOOKEEPER-2276"
    }
   },
   {
    "id": "ZOOKEEPER-2277",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2277",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2277",
     "quote": "ZOOKEEPER-2277"
    }
   },
   {
    "id": "ZOOKEEPER-2280",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2280",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2280",
     "quote": "ZOOKEEPER-2280"
    }
   },
   {
    "id": "ZOOKEEPER-2285",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2285",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2285",
     "quote": "ZOOKEEPER-2285"
    }
   },
   {
    "id": "ZOOKEEPER-2288",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2288",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2288",
     "quote": "ZOOKEEPER-2288"
    }
   },
   {
    "id": "ZOOKEEPER-2290",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2290",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2290",
     "quote": "ZOOKEEPER-2290"
    }
   },
   {
    "id": "ZOOKEEPER-2320",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2320",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2320",
     "quote": "ZOOKEEPER-2320"
    }
   },
   {
    "id": "ZOOKEEPER-2332",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2332",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2332",
     "quote": "ZOOKEEPER-2332"
    }
   },
   {
    "id": "ZOOKEEPER-2342",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2342",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2342",
     "quote": "ZOOKEEPER-2342"
    }
   },
   {
    "id": "ZOOKEEPER-2346",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2346",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2346",
     "quote": "ZOOKEEPER-2346"
    }
   },
   {
    "id": "ZOOKEEPER-2354",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2354",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2354",
     "quote": "ZOOKEEPER-2354"
    }
   },
   {
    "id": "ZOOKEEPER-2358",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2358",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2358",
     "quote": "ZOOKEEPER-2358"
    }
   },
   {
    "id": "ZOOKEEPER-2365",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2365",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2365",
     "quote": "ZOOKEEPER-2365"
    }
   },
   {
    "id": "ZOOKEEPER-2377",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2377",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2377",
     "quote": "ZOOKEEPER-2377"
    }
   },
   {
    "id": "ZOOKEEPER-2391",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2391",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2391",
     "quote": "ZOOKEEPER-2391"
    }
   },
   {
    "id": "ZOOKEEPER-2394",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2394",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2394",
     "quote": "ZOOKEEPER-2394"
    }
   },
   {
    "id": "ZOOKEEPER-2397",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2397",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2397",
     "quote": "ZOOKEEPER-2397"
    }
   },
   {
    "id": "ZOOKEEPER-2407",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2407",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2407",
     "quote": "ZOOKEEPER-2407"
    }
   },
   {
    "id": "ZOOKEEPER-2414",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2414",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2414",
     "quote": "ZOOKEEPER-2414"
    }
   },
   {
    "id": "ZOOKEEPER-2422",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2422",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2422",
     "quote": "ZOOKEEPER-2422"
    }
   },
   {
    "id": "ZOOKEEPER-2430",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2430",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2430",
     "quote": "ZOOKEEPER-2430"
    }
   },
   {
    "id": "ZOOKEEPER-2438",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2438",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2438",
     "quote": "ZOOKEEPER-2438"
    }
   },
   {
    "id": "ZOOKEEPER-2440",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2440",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2440",
     "quote": "ZOOKEEPER-2440"
    }
   },
   {
    "id": "ZOOKEEPER-2447",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2447",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2447",
     "quote": "ZOOKEEPER-2447"
    }
   },
   {
    "id": "ZOOKEEPER-2466",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2466",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2466",
     "quote": "ZOOKEEPER-2466"
    }
   },
   {
    "id": "ZOOKEEPER-2468",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2468",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2468",
     "quote": "ZOOKEEPER-2468"
    }
   },
   {
    "id": "ZOOKEEPER-2469",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2469",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2469",
     "quote": "ZOOKEEPER-2469"
    }
   },
   {
    "id": "ZOOKEEPER-2471",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2471",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2471",
     "quote": "ZOOKEEPER-2471"
    }
   },
   {
    "id": "ZOOKEEPER-2487",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2487",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2487",
     "quote": "ZOOKEEPER-2487"
    }
   },
   {
    "id": "ZOOKEEPER-2492",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2492",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2492",
     "quote": "ZOOKEEPER-2492"
    }
   },
   {
    "id": "ZOOKEEPER-2504",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2504",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2504",
     "quote": "ZOOKEEPER-2504"
    }
   },
   {
    "id": "ZOOKEEPER-2509",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2509",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2509",
     "quote": "ZOOKEEPER-2509"
    }
   },
   {
    "id": "ZOOKEEPER-2510",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2510",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2510",
     "quote": "ZOOKEEPER-2510"
    }
   },
   {
    "id": "ZOOKEEPER-2519",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2519",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2519",
     "quote": "ZOOKEEPER-2519"
    }
   },
   {
    "id": "ZOOKEEPER-2521",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2521",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2521",
     "quote": "ZOOKEEPER-2521"
    }
   },
   {
    "id": "ZOOKEEPER-2532",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2532",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2532",
     "quote": "ZOOKEEPER-2532"
    }
   },
   {
    "id": "ZOOKEEPER-2549",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2549",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2549",
     "quote": "ZOOKEEPER-2549"
    }
   },
   {
    "id": "ZOOKEEPER-2590",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2590",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2590",
     "quote": "ZOOKEEPER-2590"
    }
   },
   {
    "id": "ZOOKEEPER-2643",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2643",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2643",
     "quote": "ZOOKEEPER-2643"
    }
   },
   {
    "id": "ZOOKEEPER-2654",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2654",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2654",
     "quote": "ZOOKEEPER-2654"
    }
   },
   {
    "id": "ZOOKEEPER-2738",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2738",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2738",
     "quote": "ZOOKEEPER-2738"
    }
   },
   {
    "id": "ZOOKEEPER-2748",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2748",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2748",
     "quote": "ZOOKEEPER-2748"
    }
   },
   {
    "id": "ZOOKEEPER-2770",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2770",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2770",
     "quote": "ZOOKEEPER-2770"
    }
   },
   {
    "id": "ZOOKEEPER-2773",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2773",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2773",
     "quote": "ZOOKEEPER-2773"
    }
   },
   {
    "id": "ZOOKEEPER-2832",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2832",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2832",
     "quote": "ZOOKEEPER-2832"
    }
   },
   {
    "id": "ZOOKEEPER-2881",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2881",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2881",
     "quote": "ZOOKEEPER-2881"
    }
   },
   {
    "id": "ZOOKEEPER-2882",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2882",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2882",
     "quote": "ZOOKEEPER-2882"
    }
   },
   {
    "id": "ZOOKEEPER-2883",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2883",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2883",
     "quote": "ZOOKEEPER-2883"
    }
   },
   {
    "id": "ZOOKEEPER-2925",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2925",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2925",
     "quote": "ZOOKEEPER-2925"
    }
   },
   {
    "id": "ZOOKEEPER-2937",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2937",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2937",
     "quote": "ZOOKEEPER-2937"
    }
   },
   {
    "id": "ZOOKEEPER-2945",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2945",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2945",
     "quote": "ZOOKEEPER-2945"
    }
   },
   {
    "id": "ZOOKEEPER-2965",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2965",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2965",
     "quote": "ZOOKEEPER-2965"
    }
   },
   {
    "id": "ZOOKEEPER-297",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-297",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-297",
     "quote": "ZOOKEEPER-297"
    }
   },
   {
    "id": "ZOOKEEPER-2977",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-2977",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-2977",
     "quote": "ZOOKEEPER-2977"
    }
   },
   {
    "id": "ZOOKEEPER-3100",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3100",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3100",
     "quote": "ZOOKEEPER-3100"
    }
   },
   {
    "id": "ZOOKEEPER-3141",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3141",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3141",
     "quote": "ZOOKEEPER-3141"
    }
   },
   {
    "id": "ZOOKEEPER-3170",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3170",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3170",
     "quote": "ZOOKEEPER-3170"
    }
   },
   {
    "id": "ZOOKEEPER-3282",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3282",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3282",
     "quote": "ZOOKEEPER-3282"
    }
   },
   {
    "id": "ZOOKEEPER-3283",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3283",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3283",
     "quote": "ZOOKEEPER-3283"
    }
   },
   {
    "id": "ZOOKEEPER-3290",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3290",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3290",
     "quote": "ZOOKEEPER-3290"
    }
   },
   {
    "id": "ZOOKEEPER-3318",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3318",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3318",
     "quote": "ZOOKEEPER-3318"
    }
   },
   {
    "id": "ZOOKEEPER-3337",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3337",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3337",
     "quote": "ZOOKEEPER-3337"
    }
   },
   {
    "id": "ZOOKEEPER-3376",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3376",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3376",
     "quote": "ZOOKEEPER-3376"
    }
   },
   {
    "id": "ZOOKEEPER-3413",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3413",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3413",
     "quote": "ZOOKEEPER-3413"
    }
   },
   {
    "id": "ZOOKEEPER-3486",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3486",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3486",
     "quote": "ZOOKEEPER-3486"
    }
   },
   {
    "id": "ZOOKEEPER-3499",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3499",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3499",
     "quote": "ZOOKEEPER-3499"
    }
   },
   {
    "id": "ZOOKEEPER-3521",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3521",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3521",
     "quote": "ZOOKEEPER-3521"
    }
   },
   {
    "id": "ZOOKEEPER-3578",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3578",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3578",
     "quote": "ZOOKEEPER-3578"
    }
   },
   {
    "id": "ZOOKEEPER-3583",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3583",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3583",
     "quote": "ZOOKEEPER-3583"
    }
   },
   {
    "id": "ZOOKEEPER-3584",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3584",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3584",
     "quote": "ZOOKEEPER-3584"
    }
   },
   {
    "id": "ZOOKEEPER-3585",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3585",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3585",
     "quote": "ZOOKEEPER-3585"
    }
   },
   {
    "id": "ZOOKEEPER-3587",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3587",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3587",
     "quote": "ZOOKEEPER-3587"
    }
   },
   {
    "id": "ZOOKEEPER-3598",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3598",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3598",
     "quote": "ZOOKEEPER-3598"
    }
   },
   {
    "id": "ZOOKEEPER-3600",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3600",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3600",
     "quote": "ZOOKEEPER-3600"
    }
   },
   {
    "id": "ZOOKEEPER-3611",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3611",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3611",
     "quote": "ZOOKEEPER-3611"
    }
   },
   {
    "id": "ZOOKEEPER-3612",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3612",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3612",
     "quote": "ZOOKEEPER-3612"
    }
   },
   {
    "id": "ZOOKEEPER-3616",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3616",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3616",
     "quote": "ZOOKEEPER-3616"
    }
   },
   {
    "id": "ZOOKEEPER-3617",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3617",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3617",
     "quote": "ZOOKEEPER-3617"
    }
   },
   {
    "id": "ZOOKEEPER-3643",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3643",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3643",
     "quote": "ZOOKEEPER-3643"
    }
   },
   {
    "id": "ZOOKEEPER-3732",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3732",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3732",
     "quote": "ZOOKEEPER-3732"
    }
   },
   {
    "id": "ZOOKEEPER-3768",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3768",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3768",
     "quote": "ZOOKEEPER-3768"
    }
   },
   {
    "id": "ZOOKEEPER-3775",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3775",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3775",
     "quote": "ZOOKEEPER-3775"
    }
   },
   {
    "id": "ZOOKEEPER-3787",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3787",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3787",
     "quote": "ZOOKEEPER-3787"
    }
   },
   {
    "id": "ZOOKEEPER-3789",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3789",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3789",
     "quote": "ZOOKEEPER-3789"
    }
   },
   {
    "id": "ZOOKEEPER-3816",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3816",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3816",
     "quote": "ZOOKEEPER-3816"
    }
   },
   {
    "id": "ZOOKEEPER-3823",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3823",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3823",
     "quote": "ZOOKEEPER-3823"
    }
   },
   {
    "id": "ZOOKEEPER-3851",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3851",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3851",
     "quote": "ZOOKEEPER-3851"
    }
   },
   {
    "id": "ZOOKEEPER-3982",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-3982",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-3982",
     "quote": "ZOOKEEPER-3982"
    }
   },
   {
    "id": "ZOOKEEPER-4005",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-4005",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-4005",
     "quote": "ZOOKEEPER-4005"
    }
   },
   {
    "id": "ZOOKEEPER-4234",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Reopened",
+   "text": "open issue in the ZOOKEEPER tracker, status Reopened",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-4234",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-4234",
     "quote": "ZOOKEEPER-4234"
    }
   },
   {
    "id": "ZOOKEEPER-4250",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-4250",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-4250",
     "quote": "ZOOKEEPER-4250"
    }
   },
   {
    "id": "ZOOKEEPER-4352",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-4352",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-4352",
     "quote": "ZOOKEEPER-4352"
    }
   },
   {
    "id": "ZOOKEEPER-4375",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-4375",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-4375",
     "quote": "ZOOKEEPER-4375"
    }
   },
   {
    "id": "ZOOKEEPER-458",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-458",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-458",
     "quote": "ZOOKEEPER-458"
    }
   },
   {
    "id": "ZOOKEEPER-474",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-474",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-474",
     "quote": "ZOOKEEPER-474"
    }
   },
   {
    "id": "ZOOKEEPER-575",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-575",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-575",
     "quote": "ZOOKEEPER-575"
    }
   },
   {
    "id": "ZOOKEEPER-645",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-645",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-645",
     "quote": "ZOOKEEPER-645"
    }
   },
   {
    "id": "ZOOKEEPER-679",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-679",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-679",
     "quote": "ZOOKEEPER-679"
    }
   },
   {
    "id": "ZOOKEEPER-702",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-702",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-702",
     "quote": "ZOOKEEPER-702"
    }
   },
   {
    "id": "ZOOKEEPER-770",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-770",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-770",
     "quote": "ZOOKEEPER-770"
    }
   },
   {
    "id": "ZOOKEEPER-776",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-776",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-776",
     "quote": "ZOOKEEPER-776"
    }
   },
   {
    "id": "ZOOKEEPER-779",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-779",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-779",
     "quote": "ZOOKEEPER-779"
    }
   },
   {
    "id": "ZOOKEEPER-781",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-781",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-781",
     "quote": "ZOOKEEPER-781"
    }
   },
   {
    "id": "ZOOKEEPER-80",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-80",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-80",
     "quote": "ZOOKEEPER-80"
    }
   },
   {
    "id": "ZOOKEEPER-802",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-802",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-802",
     "quote": "ZOOKEEPER-802"
    }
   },
   {
    "id": "ZOOKEEPER-823",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-823",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-823",
     "quote": "ZOOKEEPER-823"
    }
   },
   {
    "id": "ZOOKEEPER-847",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-847",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-847",
     "quote": "ZOOKEEPER-847"
    }
   },
   {
    "id": "ZOOKEEPER-849",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-849",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-849",
     "quote": "ZOOKEEPER-849"
    }
   },
   {
    "id": "ZOOKEEPER-851",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-851",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-851",
     "quote": "ZOOKEEPER-851"
    }
   },
   {
    "id": "ZOOKEEPER-860",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-860",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-860",
     "quote": "ZOOKEEPER-860"
    }
   },
   {
    "id": "ZOOKEEPER-872",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-872",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-872",
     "quote": "ZOOKEEPER-872"
    }
   },
   {
    "id": "ZOOKEEPER-878",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-878",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-878",
     "quote": "ZOOKEEPER-878"
    }
   },
   {
    "id": "ZOOKEEPER-88",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-88",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-88",
     "quote": "ZOOKEEPER-88"
    }
   },
   {
    "id": "ZOOKEEPER-892",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-892",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-892",
     "quote": "ZOOKEEPER-892"
    }
   },
   {
    "id": "ZOOKEEPER-896",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-896",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-896",
     "quote": "ZOOKEEPER-896"
    }
   },
   {
    "id": "ZOOKEEPER-900",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-900",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-900",
     "quote": "ZOOKEEPER-900"
    }
   },
   {
    "id": "ZOOKEEPER-906",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-906",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-906",
     "quote": "ZOOKEEPER-906"
    }
   },
   {
    "id": "ZOOKEEPER-910",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-910",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-910",
     "quote": "ZOOKEEPER-910"
    }
   },
   {
    "id": "ZOOKEEPER-911",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-911",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-911",
     "quote": "ZOOKEEPER-911"
    }
   },
   {
    "id": "ZOOKEEPER-912",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-912",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-912",
     "quote": "ZOOKEEPER-912"
    }
   },
   {
    "id": "ZOOKEEPER-915",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status In Progress",
+   "text": "open issue in the ZOOKEEPER tracker, status In Progress",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-915",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-915",
     "quote": "ZOOKEEPER-915"
    }
   },
   {
    "id": "ZOOKEEPER-922",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-922",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-922",
     "quote": "ZOOKEEPER-922"
    }
   },
   {
    "id": "ZOOKEEPER-932",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-932",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-932",
     "quote": "ZOOKEEPER-932"
    }
   },
   {
    "id": "ZOOKEEPER-935",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Open",
+   "text": "open issue in the ZOOKEEPER tracker, status Open",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-935",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-935",
     "quote": "ZOOKEEPER-935"
    }
   },
   {
    "id": "ZOOKEEPER-954",
    "declared_type": "deliverable",
-   "text": "open issue in the Apache ZooKeeper tracker, status Patch Available",
+   "text": "open issue in the ZOOKEEPER tracker, status Patch Available",
    "basis": {
     "document": "The Public Jira Dataset (Zenodo 15719919, CC BY 4.0)",
-    "location": "JiraReposAnon.Apache, project ZOOKEEPER, issue ZOOKEEPER-954",
+    "location": "project ZOOKEEPER, issue ZOOKEEPER-954",
     "quote": "ZOOKEEPER-954"
    }
   }
