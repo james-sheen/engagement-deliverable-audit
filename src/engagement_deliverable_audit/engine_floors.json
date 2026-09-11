@@ -1,0 +1,480 @@
+{
+ "engine_file": "/tmp/claude-0/-root-w/591c7f45-863b-4c41-868d-93b7c2e72686/scratchpad/edaenv/lib/python3.10/site-packages/arbiter_engine",
+ "engine_version": "0.1.13",
+ "floors": {
+  "CONNECTIVITY": {
+   "captures": 1,
+   "note": "no threshold and no history; answers on one capture"
+  },
+  "HOMEOSTASIS_declared": {
+   "captures": 1,
+   "note": "a declared setpoint needs no history"
+  },
+  "HOMEOSTASIS_learned": {
+   "by_cadence": {
+    "6-hourly": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 28,
+     "required": 30,
+     "unreachable at this rate": true
+    },
+    "daily": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 7,
+     "required": 30,
+     "unreachable at this rate": true
+    },
+    "hourly": {
+     "declined": [],
+     "fired": false,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "weekly": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 1,
+     "required": 30,
+     "unreachable at this rate": true
+    }
+   },
+   "captures": {
+    "daily": null,
+    "daily never answers": true,
+    "hourly": 30
+   },
+   "note": "learned baseline; see the declared-setpoint arm"
+  },
+  "STABILITY": {
+   "captures": 10,
+   "note": "expect_variation arm on a flat series; the window is a ceiling, so the floor is a count INSIDE it",
+   "window_and_cadence": {
+    "window 14d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 14d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 14d, weekly capture": {
+     "fired": false,
+     "inside the window": 2,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, daily capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, hourly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, weekly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 30d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 30d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 30d, weekly capture": {
+     "fired": false,
+     "inside the window": 5,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 7d, daily capture": {
+     "fired": false,
+     "inside the window": 7,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 7d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 7d, weekly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 90d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 90d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 90d, weekly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    }
+   }
+  }
+ },
+ "measured_on": "2026-09-11T08:39:01.178423+00:00",
+ "not_measured": [
+  "CONSERVATION -- this vertical declares no flow, so no arm of it is exercised",
+  "RESPONSIVENESS -- no deliverable has a declared deadline as a latency role",
+  "CONSISTENCY -- no two surfaces report the same deliverable here",
+  "CAUSALITY and the remaining axioms -- not declared by this model"
+ ],
+ "probes": {
+  "C1": {
+   "measured": 10,
+   "note": "the floor Stage 2's burn-in has to reach before this axiom says anything",
+   "question": "flat series with expect_variation: fewest captures that answer"
+  },
+  "C10": {
+   "measured": {
+    "at the lower warning 70": {
+     "fired": true,
+     "severity": [
+      "warning"
+     ]
+    },
+    "at the upper warning 95": {
+     "fired": true,
+     "severity": [
+      "warning"
+     ]
+    },
+    "inside the band": {
+     "fired": false,
+     "severity": []
+    },
+    "next above 70": {
+     "fired": false,
+     "severity": []
+    },
+    "next above 95": {
+     "fired": true,
+     "severity": [
+      "warning"
+     ]
+    },
+    "next below 70": {
+     "fired": true,
+     "severity": [
+      "warning"
+     ]
+    },
+    "next below 95": {
+     "fired": false,
+     "severity": []
+    }
+   },
+   "note": "shall not exceed ninety-five leaves ninety-five compliant. Whichever way this engine compares, a transcribed threshold has to be probed and not assumed",
+   "question": "both bounds: is the published number itself a violation"
+  },
+  "C11": {
+   "measured": {
+    "edge to an undeclared id": {
+     "declined": [],
+     "fired": true,
+     "problem": [
+      "missing_relationship:owned_by",
+      "dangling_relationship:owned_by"
+     ]
+    },
+    "orphaned": {
+     "declined": [],
+     "fired": true,
+     "problem": [
+      "missing_relationship:owned_by"
+     ]
+    },
+    "owned": {
+     "declined": [],
+     "fired": false
+    }
+   },
+   "note": "this arm needs no threshold and no history, so it cannot decline for either reason -- which is why it is the one Stage 2 can answer on its first capture",
+   "question": "min cardinality one: owned, orphaned, and pointing at nothing"
+  },
+  "C12": {
+   "measured": {
+    "declined": [
+     "missing_config"
+    ],
+    "fired": false
+   },
+   "note": "declaring neither bound is legal and checks nothing; an orphan then passes",
+   "question": "the same indicator with neither cardinality declared"
+  },
+  "C2": {
+   "measured": {
+    "window 14d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 14d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 14d, weekly capture": {
+     "fired": false,
+     "inside the window": 2,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, daily capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, hourly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 1h, weekly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 30d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 30d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 30d, weekly capture": {
+     "fired": false,
+     "inside the window": 5,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 7d, daily capture": {
+     "fired": false,
+     "inside the window": 7,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 7d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 7d, weekly capture": {
+     "fired": false,
+     "inside the window": 1,
+     "required": 10,
+     "unreachable at this rate": true
+    },
+    "window 90d, daily capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 90d, hourly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "window 90d, weekly capture": {
+     "fired": true,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    }
+   },
+   "note": "the window is a CEILING on how far back samples are counted, not a lookback hint -- so the count that matters is what fits INSIDE it. Pick the window from how fast a frozen deliverable must be noticed, then check the cadence fills it. The engine states both numbers and whether the pair can ever work",
+   "question": "THE PAIR: window against cadence, sixty captures available"
+  },
+  "C3": {
+   "measured": {
+    "1": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside": 1
+    },
+    "3": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside": 3
+    },
+    "7": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside": 7
+    },
+    "9": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside": 9
+    },
+    "10": {
+     "declined": [],
+     "fired": true,
+     "inside": null
+    },
+    "11": {
+     "declined": [],
+     "fired": true,
+     "inside": null
+    }
+   },
+   "note": "a decline names a floor not yet reached; silence would be a pass",
+   "question": "at a 30d window and daily capture, where does it start answering"
+  },
+  "C4": {
+   "measured": {
+    "daily": null,
+    "daily never answers": true,
+    "hourly": 30
+   },
+   "note": "null for daily is not a missing measurement. The baseline is counted inside a window of its own, and at daily capture too few samples fall in it at any number of captures -- see C5",
+   "question": "learned baseline: fewest captures that answer, daily against hourly"
+  },
+  "C5": {
+   "measured": {
+    "6-hourly": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 28,
+     "required": 30,
+     "unreachable at this rate": true
+    },
+    "daily": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 7,
+     "required": 30,
+     "unreachable at this rate": true
+    },
+    "hourly": {
+     "declined": [],
+     "fired": false,
+     "inside the window": null,
+     "required": null,
+     "unreachable at this rate": null
+    },
+    "weekly": {
+     "declined": [
+      "insufficient_samples"
+     ],
+     "fired": false,
+     "inside the window": 1,
+     "required": 30,
+     "unreachable at this rate": true
+    }
+   },
+   "note": "THE CADENCE QUESTION. A collector slower than the last firing interval can never present this floor, however long it runs",
+   "question": "forty captures at widening cadence: can a daily collector reach it"
+  },
+  "C6": {
+   "measured": {
+    "captures": 1,
+    "twenty above it": {
+     "declined": [],
+     "fired": false
+    },
+    "twenty below the setpoint": {
+     "declined": [],
+     "fired": true
+    }
+   },
+   "note": "if this answers on one capture, the cadence ceiling above is a property of the learned arm alone and a declared setpoint is the way round it",
+   "question": "a DECLARED setpoint instead: captures needed, and which side it fires on"
+  },
+  "C7": {
+   "measured": {
+    "declined": [
+     "no_threshold"
+    ],
+    "findings": []
+   },
+   "note": "two indicators in this vertical are decreasing with no published rate, so this decides whether they decline or are excused",
+   "question": "decreasing with no rate thresholds: what the rate arm does"
+  },
+  "C8": {
+   "measured": {
+    "declined": [
+     "no_threshold"
+    ],
+    "findings": [
+     "monotonicity_reversal:open_items"
+    ]
+   },
+   "note": "if it does, a declining indicator is partly checked rather than unchecked",
+   "question": "does the reversal arm still answer when the rate arm declines"
+  },
+  "C9": {
+   "measured": {
+    "declined": [],
+    "findings": []
+   },
+   "note": "",
+   "question": "the same series with rates declared"
+  }
+ },
+ "python": "3.10.12"
+}

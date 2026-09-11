@@ -85,3 +85,15 @@ version = {attr = "engagement_deliverable_audit.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# The measured floors travel with the code. They are not documentation: a floor this
+# collector's cadence can never present is a different class from one it has not
+# reached yet, and only the numbers can tell them apart -- so a wheel that left them
+# behind would drop that distinction silently.
+#
+# A specification rather than the mechanism: what actually makes them travel is that
+# the file sits INSIDE the package, and `include-package-data` defaults true. The
+# check that can go red is in `tests/test_engine_floors.py`, and it does if the file
+# moves back out.
+[tool.setuptools.package-data]
+engagement_deliverable_audit = ["engine_floors.json"]

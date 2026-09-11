@@ -196,3 +196,31 @@ jobs:
 
       - name: The grader probe
         run: python3 battery/probe_qa_vertical.py
+
+      - name: The engine probe, against the shipped record
+        # Re-measures the engine and compares, rather than trusting the record.
+        # Writes to a temp path on purpose: a check must not rewrite the thing it is
+        # checking, and refreshing the floors is a deliberate act on a pin change.
+        #
+        # Red here means the engine behaves differently from what the record says, at
+        # the version the record names. That is either a bad record or a changed
+        # engine, and both want a person rather than a re-run.
+        run: |
+          set -euo pipefail
+          EDA_ENGINE_FLOORS_OUT=/tmp/floors-now.json python3 battery/probe_engine.py > /dev/null
+          python3 - <<'PY'
+          import json, sys
+          now = json.load(open("/tmp/floors-now.json"))
+          shipped = json.load(open("src/engagement_deliverable_audit/engine_floors.json"))
+          if now["engine_version"] != shipped["engine_version"]:
+              sys.exit(f"::error::the record names {shipped['engine_version']} and the "
+                       f"engine resolved to {now['engine_version']}; re-run the probe")
+          drifted = [name for name in shipped["floors"]
+                     if now["floors"].get(name) != shipped["floors"][name]]
+          drifted += [f"probe {k}" for k, v in shipped["probes"].items()
+                      if now["probes"].get(k, {}).get("measured") != v["measured"]]
+          if drifted:
+              sys.exit(f"::error::these measurements no longer reproduce: {drifted}")
+          print(f"{len(shipped['probes'])} probe(s) reproduced against "
+                f"{shipped['engine_version']}")
+          PY
