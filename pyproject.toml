@@ -23,9 +23,19 @@ requires-python = ">=3.10"
 # the two together, and a clean local build is not the check that catches it.
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
-# Stage 1 -- the declarations channel, its gate, presence and regression -- has
-# no dependency at all, and this is where that is enforced rather than described.
-dependencies = []
+# ONE IMPLEMENTATION, AND THE DEPENDENCY THAT BUYS IT. A sibling keeps Stage 1
+# dependency-free by writing its own three-valued comparison beside the shared
+# core's, and asserting the two agree. That assertion was measured comparing
+# states, counts and the presence of a finding -- and not the verdict, which the
+# two paths disagree about for the same walk. A second implementation is a second
+# place for the answer to live, and the test that was meant to bind them could
+# not see the thing a consumer acts on.
+#
+# So this package has no second implementation. `presence` is the core's diff,
+# and the core is a hard dependency rather than an extra. The cost is real: a
+# bare install is no longer nothing. The thing bought is that there is exactly
+# one answer to *which deliverables are moving*.
+dependencies = ["presence-audit>=0.1.7,<0.2"]
 
 [project.optional-dependencies]
 # PROVISIONAL FLOORS, and they say so because nothing here has been run against
@@ -36,7 +46,9 @@ dependencies = []
 # the consumer -- so these are replaced by whatever `battery/probe_pin.py`
 # reports, and until that leg exists they are not evidence.
 detect = ["arbiter-engine>=0.1.13,<0.2"]
-vertical = ["presence-audit>=0.1.7,<0.2"]
+
+[project.scripts]
+engagement-deliverable-audit = "engagement_deliverable_audit.cli:main"
 
 # How this vertical reaches the core: the group is the core's, the module is this
 # package's. A plain install is enough for the core to know this domain exists,

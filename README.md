@@ -15,13 +15,26 @@ as missing because a page of the export failed.
 
 ## Status
 
-**Stage 1 is taking shape. Nothing is released.** What exists: the two formats,
-the adapters that satisfy the shared core's protocols, the vocabulary, the floor
-table, and the four guards that came before all of it.
+**Stage 1 runs. Nothing is released.** The verbs are `declare`, `capture`,
+`presence`, `regression` and `validate-capture`, over two formats, with a floor
+table and the four guards that came before any of it. `capture` reads either an
+export in this package's format or a `qa-memory/1` harness snapshot, so a scenario
+can make a deliverable stall, lose its owner or vanish and do it the same way
+twice.
 
-What is not here yet: the command line, the regression verb, the capture source
-that reads a harness snapshot, and any run against real tracker data. The last of
-those is the acceptance that matters, and it has not happened.
+What is not here yet: **any run against real tracker data.** That is the
+acceptance that matters and it has not happened, so nothing here is evidence about
+a real engagement. `examples/` is invented in full and says so on its face.
+
+`FINDINGS.md` records where building against the shared contracts produced a wrong
+answer.
+
+The core is a **hard dependency**, not an extra, and that is a departure from a
+sibling in this family. Keeping Stage 1 dependency-free means writing a second
+three-valued comparison beside the core's; measured, the sibling that does so has
+two paths that disagree about the verdict for one walk, with an agreement test
+that compares states and counts and not the code. One answer, one implementation,
+one dependency.
 
 ### The two decisions this domain had to make for itself
 

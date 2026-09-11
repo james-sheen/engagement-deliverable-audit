@@ -1,0 +1,11 @@
+{
+  "format": "qa-memory/1",
+  "entities": {
+    "D-1": {"value": 2, "state": "In Progress"},
+    "D-2": {"value": 40, "state": "In Progress"},
+    "D-3": {"value": 1, "owner": null, "state": "In Progress"},
+    "D-5": {"value": 1, "state": "In Progress"},
+    "X-9": {"value": 1, "state": "In Progress"}
+  },
+  "errors": {}
+}

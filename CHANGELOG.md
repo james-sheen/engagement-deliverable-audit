@@ -20,8 +20,15 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Stage 1's artifacts: the declaration and capture formats, each refusing an
   unknown major by name; the adapters; `EngagementVocabulary` answering all
   fifteen members of the core's contract and passing its conformance kit; and the
-  floor table, with the reason recorded beside every row. Stage 1 reaches nothing
-  outside the standard library, asserted by checking what a load imports.
+  floor table, with the reason recorded beside every row.
+- The verbs: `declare`, `capture`, `presence`, `regression`, `validate-capture`.
+  `capture` reads a `qa-memory/1` harness snapshot as well as an export, mapped so
+  that three of the harness's own verbs already exercise the three states. Every
+  verb ends on exactly one OUTCOME line, and a document that could not be read
+  exits 2 rather than 1 -- it produced no verdict to report as findings.
+- `FINDINGS.md`, recording six things measuring turned up, two of them filed
+  upstream and one a rule this package stated in a docstring and did not hold --
+  found by mutating the line rather than by reading it.
 
 Nothing is released. There is no distribution on the index under this name yet,
 and `__version__` carries a `.dev0` suffix so that an accidental build cannot be

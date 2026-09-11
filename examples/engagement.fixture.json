@@ -1,0 +1,23 @@
+{
+  "format": "engagement-deliverable-audit/declaration/1",
+  "engagement": "FIXTURE-1",
+  "reviewed_by": "FIXTURE -- invented in full; no real engagement, client or person",
+  "reviewed_on": "2026-09-11",
+  "change_order": 2,
+  "stall_window_days": 14,
+  "sources": [
+    {"path": "examples/engagement.fixture.json",
+     "derived_from": "nothing; every line here was written for this repository"}
+  ],
+  "points": [
+    {"id": "D-1", "declared_type": "deliverable", "text": "current-state assessment"},
+    {"id": "D-2", "declared_type": "deliverable", "text": "target operating model"},
+    {"id": "D-3", "declared_type": "deliverable", "text": "implementation roadmap"},
+    {"id": "D-4", "declared_type": "milestone", "text": "steering sign-off"},
+    {"id": "D-5", "declared_type": "deliverable", "text": "benefits case",
+     "descoped": true},
+    {"id": "C-1", "declared_type": "ceremony", "text": "weekly steering call"},
+    {"id": "A-1", "declared_type": "assumption",
+     "text": "the client staffs two analysts for the duration"}
+  ]
+}
