@@ -156,7 +156,23 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
                series=series, captures=len(exports), unowned=unowned)
 
 
-def run(engagement: Any, exports: Sequence[Any], model_text: str) -> tuple[Any, Fed]:
+@dataclass(frozen=True)
+class Run:
+    """One pass through the engine, and everything a caller might need from it.
+
+    The session is kept because an attestation is built FROM it: the core's
+    `build_attestation` asks the engine to attest each problem type, which needs the
+    session that produced them. Returning only the envelope meant the attestation had
+    to re-feed, and a second feed is a second chance to feed differently.
+    """
+
+    envelope: dict
+    fed: Fed
+    session: Any
+    describe: dict
+
+
+def run(engagement: Any, exports: Sequence[Any], model_text: str) -> Run:
     """Feed the engine and return its envelope beside a record of what went in.
 
     The envelope's `not_checked` is as much of the answer as its `findings`: an axiom
@@ -190,4 +206,4 @@ def run(engagement: Any, exports: Sequence[Any], model_text: str) -> tuple[Any, 
     described = model_describe(session).to_dict()
     envelope["model"] = described.get("model") or {}
     envelope["unread_properties"] = described.get("unread_properties") or []
-    return envelope, fed
+    return Run(envelope=envelope, fed=fed, session=session, describe=described)

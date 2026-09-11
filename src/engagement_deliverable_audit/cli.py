@@ -296,13 +296,14 @@ def cmd_detect(args: argparse.Namespace) -> int:
         return _refuse(str(problem))
 
     try:
-        envelope, fed = feeder.run(engagement, exports, model_text)
+        passed = feeder.run(engagement, exports, model_text)
     except feeder.FeedError as problem:
         return _refuse(str(problem))
     except ImportError:
         return _refuse("detect needs the engine: pip install "
                        "'engagement-deliverable-audit[detect]'")
 
+    envelope, fed = passed.envelope, passed.fed
     findings = [{"kind": _class_of(f.get("problem_type")),
                  "deliverable": f.get("entity_id"),
                  "detail": f.get("reason") or f.get("problem_type")}
@@ -314,6 +315,27 @@ def cmd_detect(args: argparse.Namespace) -> int:
                 for d in envelope.get("not_checked") or ()]
     kinds = [row["kind"] for row in findings] + [row["kind"] for row in declines]
     code = exit_contract.code_for(kinds, require_complete=args.require_complete)
+
+    if args.attest_out:
+        try:
+            from arbiter_engine.api import attest as attest_fn  # deferred
+            from presence_audit.attestation import build_attestation
+        except ImportError as missing:                            # pragma: no cover
+            return _refuse(f"an attestation needs the engine and the core: {missing}")
+        # The builder reads members off its `manifest` that the Vocabulary protocol
+        # does not declare, so the conformance kit cannot see the requirement and
+        # `None` fails halfway through writing the artifact. What it reads is DERIVED
+        # from its own source rather than transcribed -- see `attestation_manifest`.
+        from .attestation_manifest import EngagementManifest
+
+        artifact = build_attestation(
+            passed.session, envelope, passed.describe, EngagementManifest(),
+            target=args.attest_target or str(args.declaration), attest_fn=attest_fn)
+        with open(args.attest_out, "w", encoding="utf-8") as handle:
+            json.dump(artifact, handle, indent=2)
+            handle.write("\n")
+        if not args.json:
+            _out(f"  attestation written to {args.attest_out}")
 
     if args.json:
         print(json.dumps({
@@ -345,6 +367,270 @@ def cmd_detect(args: argparse.Namespace) -> int:
     for kind in exit_contract.unclassified(kinds):
         _out(f"  {kind} has no row in this package's floor table, so this run "
              f"could not be scored")
+    _out(f"OUTCOME exit={code} verdict={MEANING[code]}")
+    return code
+
+
+# --- draft -----------------------------------------------------------------
+
+def cmd_draft(args: argparse.Namespace) -> int:
+    """Propose a declaration from a tracker export, and refuse to call it reviewed.
+
+    A person writing a declaration starts from what the tracker already holds, not
+    from a blank file. So this reads a capture and proposes one point per tracked
+    deliverable -- and then says, twice, what it is not.
+
+    IT IS NOT A STATEMENT OF WORK. A tracker export contains no contract, so a
+    declaration derived from one is the same records under a different name: the
+    weakness this package records in its own findings about its first real-data run.
+    `reviewed_by` says so on the artifact's face rather than in a docstring.
+
+    IT CARRIES NO WINDOW. A deliverable reads when it has an owner and a transition
+    inside a window, and nothing in a tracker decides that number -- so the draft
+    leaves it out and `declare` refuses the result until a person supplies it. Two
+    refusals, both deliberate: a draft that loaded cleanly would be a statement
+    nobody made.
+    """
+    try:
+        export = capture_module.load(_read(args.capture), stall_window_days=1.0)
+    except (OSError, ValueError) as problem:
+        return _refuse(str(problem))
+
+    points = [{
+        "id": point.name,
+        "declared_type": "deliverable",
+        "text": "",
+        "basis": {"document": str(args.capture),
+                  "location": point.path,
+                  "quote": point.name},
+    } for point in export.points]
+
+    draft = {
+        "format": formats.DECLARATION,
+        "engagement": args.engagement or "(name this engagement)",
+        "reviewed_by": None,
+        "reviewed_on": None,
+        "change_order": 0,
+        "sources": [{
+            "path": str(args.capture),
+            "derived_from": "A TRACKER EXPORT, NOT A STATEMENT OF WORK. Every point "
+                            "below is something the tracker holds. Which of them the "
+                            "engagement actually owes, what each is called, and which "
+                            "are milestones, ceremonies or assumptions are all "
+                            "questions only the contract answers",
+            "captured_at": export.captured_at,
+        }],
+        "window_basis": "THIS DRAFT DECLARES NO WINDOW, and declare will refuse it "
+                        "until one is supplied with a basis from the engagement's own "
+                        "cadence. Nothing in a tracker decides that number",
+        "points": points,
+    }
+
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as handle:
+            json.dump(draft, handle, indent=2)
+            handle.write("\n")
+        _out(f"  {len(points)} point(s) proposed in {args.out}")
+    else:
+        print(json.dumps(draft, indent=2))
+    _out("  NOT REVIEWED and NO WINDOW, both on purpose: a person has to say which of "
+         "these the engagement owes, what type each is, and what window decides a stall")
+    _out(f"OUTCOME exit={CLEAN} verdict={MEANING[CLEAN]}")
+    return CLEAN
+
+
+# --- gate ------------------------------------------------------------------
+
+def cmd_gate(args: argparse.Namespace) -> int:
+    """Refuse, by name, everything that is not ready to be judged against.
+
+    A pipeline step rather than a second `declare`. `declare` answers about one
+    document and stops at the first thing wrong with it; this takes every declaration
+    a run would use, names each one that is not signed, and optionally puts the model
+    through the four guards as well -- so one command answers *may this run happen*.
+
+    Exit 2 and not 1 when something is refused. A declaration nobody signed has
+    produced no verdict to report as findings, which is the rule the rest of this
+    package follows for a document it could not act on.
+    """
+    refused: list[str] = []
+    for path in args.declarations:
+        try:
+            engagement = declaration_module.load(_read(path))
+        except (OSError, ValueError) as problem:
+            refused.append(f"{path}: {problem}")
+            continue
+        if not engagement.reviewed:
+            refused.append(f"{path}: no reviewed_by and reviewed_on, so it is a "
+                           f"candidate and not a statement")
+            continue
+        _out(f"  ok  {path}: reviewed by {engagement.reviewed_by} on "
+             f"{engagement.reviewed_on}, window {engagement.stall_window_days:g} day(s)")
+
+    if args.model:
+        try:
+            import yaml
+
+            from .guards import boundary_gate, describe_gate, model_gate
+        except ImportError as missing:
+            refused.append(f"{args.model}: the model gates need the engine extra "
+                           f"and a YAML reader: {missing}")
+        else:
+            try:
+                with open(args.model, encoding="utf-8") as handle:
+                    text = handle.read()
+                model = yaml.safe_load(text)
+            except (OSError, ValueError) as problem:
+                refused.append(f"{args.model}: {problem}")
+                model, text = None, None
+            if model is not None:
+                found = list(model_gate.problems(model))
+                try:
+                    from arbiter_engine.api import EngineSession  # deferred
+
+                    session = EngineSession()
+                    session.load_model(text)
+                    found += list(describe_gate.silence(session))
+                except ImportError:
+                    refused.append(f"{args.model}: the silence gate needs the engine")
+                except Exception as problem:                      # noqa: BLE001
+                    refused.append(f"{args.model}: the engine refused it: {problem}")
+                for problem in found:
+                    refused.append(f"{args.model}:{problem.where}: {problem.what}")
+                if not found:
+                    _out(f"  ok  {args.model}: every declared axiom has something to "
+                         f"judge against, and the engine read every key")
+
+    if not args.declarations and not args.model:
+        return _refuse("nothing was given to gate, and a clean exit over nothing is "
+                       "the one answer this verb must not produce")
+    if refused:
+        for line in refused:
+            _out(f"  REFUSED {line}")
+        return _refuse(f"{len(refused)} document(s) or rule(s) refused")
+    _out(f"OUTCOME exit={CLEAN} verdict={MEANING[CLEAN]}")
+    return CLEAN
+
+
+# --- generate --------------------------------------------------------------
+
+def cmd_generate(args: argparse.Namespace) -> int:
+    """A model and a manifest, as one pair -- and this domain's generated model is empty.
+
+    The pair is the point. A model declares what gets fed; the manifest names
+    everything excluded and why, because emitting the first without the second turns
+    *we chose not to watch this* into *we forgot it exists*.
+
+    WHAT THIS PRODUCES HERE IS AN EMPTY MODEL, and that is a measurement rather than a
+    shortfall. Generation derives indicators from thresholds a declaration carries, and
+    a deliverable carries a due date and an owner -- not a threshold. The declaration
+    format has no key for one, so every point is excluded as `no_thresholds` and the
+    generated model declares nothing. The model that actually runs is hand-written,
+    which is recorded here rather than left for a reader to infer from an empty file.
+    """
+    try:
+        engagement = declaration_module.load(_read(args.declaration))
+    except (OSError, ValueError) as problem:
+        return _refuse(str(problem))
+
+    excluded, modelled = [], []
+    for point in engagement.points:
+        if point.disabled:
+            excluded.append({"indicator": point.name, "scope": "indicator",
+                             "reason": "descoped",
+                             "detail": "removed by change order, so the model is not "
+                                       "asked about it"})
+            continue
+        if point.type not in ("deliverable", "milestone"):
+            excluded.append({"indicator": point.name, "scope": "indicator",
+                             "reason": "not_a_deliverable",
+                             "detail": f"declared {point.type}, which this domain "
+                                       f"counts out rather than audits"})
+            continue
+        # The one branch that would add an indicator, and nothing reaches it: a
+        # declaration point carries no threshold key, so there is no bound to derive.
+        excluded.append({
+            "indicator": point.name, "scope": "indicator", "reason": "no_thresholds",
+            "detail": "a deliverable carries a due date and an owner, not a bound. "
+                      "The declaration format has no threshold key, so there is "
+                      "nothing to generate an indicator from"})
+
+    model = {"domain": {
+        "id": "engagement-deliverable-audit-generated",
+        "name": "Generated from a declaration",
+        "description": "Generated. Empty by construction: see the manifest beside it.",
+        "entity_types": ["Deliverable"],
+        "relationship_types": [],
+        "indicators": {"Deliverable": modelled},
+    }}
+    manifest = {
+        "format": formats.MANIFEST,
+        "model": args.model_out or "(stdout)",
+        "why": "A model declares what gets fed. This names everything excluded and "
+               "the reason, because emitting the first without the second turns we "
+               "chose not to watch this into we forgot it exists",
+        "generated_indicators": len(modelled),
+        "excluded": excluded,
+    }
+
+    if bool(args.model_out) != bool(args.manifest_out):
+        return _refuse("the model and the manifest are written as a pair or not at "
+                       "all. A model without its manifest is a claim about coverage "
+                       "with the exclusions removed")
+    if args.model_out:
+        with open(args.model_out, "w", encoding="utf-8") as handle:
+            json.dump(model, handle, indent=2)
+            handle.write("\n")
+        with open(args.manifest_out, "w", encoding="utf-8") as handle:
+            json.dump(manifest, handle, indent=2)
+            handle.write("\n")
+        _out(f"  wrote {args.model_out} and {args.manifest_out}")
+    else:
+        print(json.dumps({"model": model, "manifest": manifest}, indent=2))
+
+    _out(f"  {len(modelled)} indicator(s) generated, {len(excluded)} point(s) excluded")
+    if not modelled:
+        _out("  THE GENERATED MODEL IS EMPTY, and by construction rather than by "
+             "accident: nothing a declaration carries is a threshold. The model that "
+             "runs is hand-written and the manifest says which points it leaves out")
+    _out(f"OUTCOME exit={CLEAN} verdict={MEANING[CLEAN]}")
+    return CLEAN
+
+
+# --- attest ----------------------------------------------------------------
+
+def cmd_attest(args: argparse.Namespace) -> int:
+    """Read a stored attestation back and re-report its verdict.
+
+    The same front door a recipient uses, so the artifact is exercised as an artifact
+    rather than as whatever was in memory when it was written. An attestation that
+    cannot be validated is 2: it produced no verdict anybody can rely on.
+    """
+    try:
+        artifact = _read(args.attestation)
+    except (OSError, ValueError) as problem:
+        return _refuse(str(problem))
+    try:
+        from presence_audit.attestation import validate_attestation
+    except ImportError as missing:                                # pragma: no cover
+        return _refuse(f"the core is not installed, so nothing validated it: {missing}")
+
+    broken = validate_attestation(artifact)
+    if broken:
+        for line in broken:
+            _out(f"  INVALID {line}")
+        return _refuse(f"{len(broken)} invariant(s) of the attestation format do not hold")
+
+    findings = artifact.get("findings") or []
+    not_checked = artifact.get("not_checked") or []
+    _out(f"  target {artifact.get('target')}")
+    _out(f"  {len(findings)} finding(s), {len(not_checked)} axiom(s) not checked, "
+         f"{len(artifact.get('evidence') or [])} piece(s) of evidence")
+    for entry in artifact.get("unattested") or ():
+        _out(f"  unattested: {entry}")
+    for entry in artifact.get("unread_feeds") or ():
+        _out(f"  unread feed: {entry}")
+    code = FINDINGS if findings else CLEAN
     _out(f"OUTCOME exit={code} verdict={MEANING[code]}")
     return code
 
@@ -423,8 +709,37 @@ def build_parser() -> argparse.ArgumentParser:
     det.add_argument("--capture", required=True, action="append",
                      help="repeatable, oldest first: the history the axioms read")
     det.add_argument("--require-complete", action="store_true")
+    det.add_argument("--attest-out", default=None,
+                     help="write a presence-audit/attestation/1 artifact, which "
+                          "`attest` reads back through the same front door a "
+                          "recipient uses")
+    det.add_argument("--attest-target-label", dest="attest_target", default=None,
+                     help="what to call the subject in the artifact, where the "
+                          "declaration's path would name something private")
     det.add_argument("--json", action="store_true")
     det.set_defaults(run=cmd_detect)
+
+    dra = verbs.add_parser("draft", help="propose a declaration, unreviewed")
+    dra.add_argument("--capture", required=True)
+    dra.add_argument("--engagement", default=None)
+    dra.add_argument("--out", default=None)
+    dra.set_defaults(run=cmd_draft)
+
+    gat = verbs.add_parser("gate", help="refuse what is not ready, by name")
+    gat.add_argument("declarations", nargs="*")
+    gat.add_argument("--model", default=None,
+                     help="also put the model through the gates that read one")
+    gat.set_defaults(run=cmd_gate)
+
+    gen = verbs.add_parser("generate", help="a model and a manifest, as a pair")
+    gen.add_argument("--declaration", required=True)
+    gen.add_argument("--model-out", default=None)
+    gen.add_argument("--manifest-out", default=None)
+    gen.set_defaults(run=cmd_generate)
+
+    att = verbs.add_parser("attest", help="re-report a stored attestation")
+    att.add_argument("attestation")
+    att.set_defaults(run=cmd_attest)
 
     val = verbs.add_parser("validate-capture", help="recipient-side check")
     val.add_argument("capture")

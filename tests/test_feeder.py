@@ -143,8 +143,8 @@ def test_a_frozen_deliverable_fires_and_a_moving_one_does_not() -> None:
     engagement = _engagement()
     text = MODEL.read_text(encoding="utf-8")
 
-    frozen, _ = feeder.run(engagement, _series(moving=False), text)
-    moving, _ = feeder.run(engagement, _series(moving=True), text)
+    frozen = feeder.run(engagement, _series(moving=False), text).envelope
+    moving = feeder.run(engagement, _series(moving=True), text).envelope
 
     def kinds(envelope):
         return {str(f.get("problem_type") or "").split(":", 1)[0]
@@ -158,11 +158,12 @@ def test_one_capture_answers_connectivity_and_warms_the_rest() -> None:
     """The criterion's answer, executable. CONNECTIVITY needs no history and the series
     axiom says it is warming rather than finding nothing."""
     now = dt.datetime.now(dt.timezone.utc)
-    envelope, fed = feeder.run(
+    passed = feeder.run(
         _engagement(),
         [_export({"D-1": {"value": 1, "owner": None},
                   "D-2": {"value": 1, "owner": "ana"}}, stamp=now)],
         MODEL.read_text(encoding="utf-8"))
+    envelope, fed = passed.envelope, passed.fed
     assert fed.series == {}, "one capture cannot derive a series"
     problems = {str(f.get("problem_type") or "").split(":", 1)[0]
                 for f in envelope["findings"]}
@@ -188,11 +189,12 @@ def test_an_engagement_where_nobody_owns_anything_goes_quiet_and_cannot_read_cle
     from engagement_deliverable_audit import exit_contract
 
     now = dt.datetime.now(dt.timezone.utc)
-    envelope, fed = feeder.run(
+    passed = feeder.run(
         _engagement(),
         [_export({"D-1": {"value": 1, "owner": None},
                   "D-2": {"value": 1, "owner": None}}, stamp=now)],
         MODEL.read_text(encoding="utf-8"))
+    envelope, fed = passed.envelope, passed.fed
     assert fed.consultants == (), "an owner was fed, so this is not the shape described"
     assert envelope["findings"] == [], "an orphan fired, and the point here is that none does"
     reasons = {d.get("reason") for d in envelope["not_checked"]}
@@ -205,7 +207,8 @@ def test_nothing_in_the_model_goes_unread_when_fed() -> None:
     grew a dropped-declaration leg on `check` after 0.1.10 -- and 0.1.10 is this
     package's own floor, so a reader taking it from there has a silent hole on the
     oldest release it claims to support."""
-    envelope, _ = feeder.run(_engagement(), _series(), MODEL.read_text(encoding="utf-8"))
+    envelope = feeder.run(_engagement(), _series(),
+                          MODEL.read_text(encoding="utf-8")).envelope
     assert envelope["model"].get("unread_fields") == []
     assert envelope["model"].get("unreachable_declarations") == []
 

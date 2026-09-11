@@ -367,3 +367,56 @@ tried.
 The rule is now stated where it is implemented: the latest capture is the state,
 including when the latest says nobody. Both directions are tested, because a feeder that
 simply never recorded an owner would satisfy the first half perfectly.
+
+## 19. A second writer reading members no protocol declares
+
+`build_attestation` takes a `manifest` and reads `manifest.translate_finding(finding)`
+off it. That member is not one of the fifteen the `Vocabulary` protocol declares, and it
+appears in no document in the core. So the conformance kit -- which checks a vertical
+against that protocol -- cannot see the requirement: this vertical passed the kit green
+and then raised `AttributeError` from inside an artifact it was halfway through writing.
+
+This is the second time, and finding 5's sibling: the report writer reads eleven members
+off a declaration's `sources` where the protocol documents one. Both were found the same
+way, by calling the writer. Both are answered the same way -- the members are DERIVED
+from the writer's own source rather than transcribed, because a transcribed copy of
+somebody else's private contract goes stale on the day they read one more thing.
+
+**The derivation needed a distinction the first one did not.** The core reaches for
+`sensors` through `getattr(manifest, "sensors", ())`, with a default. An `ast.Attribute`
+walk cannot see that at all -- so a derivation looking only for attribute access reports
+one member where the builder reaches for two, and the one it misses is the one it is safe
+to miss. That is the worst way to be right: the set looks complete. The derivation now
+reports required and optional separately, by how the access is written.
+
+`sensors` is answered as empty and that is the right answer rather than a stub. The core
+uses it to map a sanitised entity id back to a name a person recognises; here the entity
+id IS the declared key, the same string the declaration, the capture, every finding and
+every report use. Supplying a mapping would create a second vocabulary for one set of
+names.
+
+Filed upstream, with the cheapest repair named first: accept a manifest of `None` and
+fall back to the problem type, so an artifact degrades to the engine's wording instead of
+raising.
+
+## 20. I read another vertical's artifact and nearly reported it as mine
+
+The first run of `detect --attest-out` failed -- the `None` manifest of finding 19 --
+so nothing was written. The `attest` command that followed read the path anyway and
+reported a target, a finding, two unread feeds and exit 1.
+
+None of it was mine. A file of that name was already in the scratchpad from a previous
+session, three weeks old, carrying `bmc-sensor-audit/attestation/1` -- and the core
+validated it, because it accepts the old format names on purpose. So a verb that had
+never successfully run produced a plausible, correct-looking report about another
+vertical's hardware.
+
+What caught it was the content: PSU feeds have no place in a consulting engagement. What
+would have caught it without luck is checking that the artifact I meant to write exists
+and is mine before reading it back -- so the round-trip test now writes to a fresh
+`tmp_path`, asserts the label it passed in comes back, and asserts the finding count
+matches the run that produced it.
+
+The general shape is the one this family keeps meeting from the other side: a check that
+passes against the wrong copy. Here the wrong copy was three weeks stale and from a
+different domain, and the format was shared enough to make it validate.

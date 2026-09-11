@@ -54,6 +54,15 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   declaration and capture are written by different people for different purposes.
 - A `detect`-mode scenario, so the ownership invariant is exercised through the engine
   and not only through the three-valued diff.
+- The verbs `draft`, `gate`, `generate` and `attest`, completing the set. `draft` refuses
+  to call its own output reviewed; `gate` exits 2 over anything not ready and over nothing
+  at all; `generate` writes a model and a manifest as a pair and this domain's generated
+  model is empty by construction; `attest` reads an artifact back through a recipient's
+  door, and `detect --attest-out` writes one.
+- `attestation_manifest`, which derives what the core's attestation builder reads off its
+  manifest from the builder's own source, distinguishing a required attribute access from
+  an optional `getattr` with a default. The contract is declared by no protocol and the
+  conformance kit cannot see it.
 
 ### Changed
 
