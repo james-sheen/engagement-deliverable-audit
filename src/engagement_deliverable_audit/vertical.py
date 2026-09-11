@@ -1,0 +1,175 @@
+"""This domain, offered to the shared core as a registered vertical.
+
+All fifteen members of the core's `Vocabulary`, and the three optional ones are
+answered rather than left to default: a report printing `point` for a deliverable
+is a report in somebody else's noun.
+
+TWO SUBJECT SPELLINGS IN ONE REPORT, which a downstream profile has to know.
+A finding the core raises about a declared point names it by `display_name` --
+`D-4 the pilot report` -- because a report printing the bare pairing key leaks
+it. A finding THIS vertical raises from a capture names the ticket key alone,
+because `capture_findings` is handed the capture and nothing else, and a captured
+point has no display name to reach for. So `D-2` and `D-4 the pilot report` can
+appear as subjects in the same artifact. A consumer asserting on subjects has to
+match the key as a substring rather than for equality; asserting equality would
+pass on this vertical's own findings and fail on the core's.
+
+WHAT ONLY THIS DOMAIN CAN SEE, and why it needs its own channel. A deliverable
+tracked with no owner, and one whose last transition is older than the window the
+engagement declared, are both present and enabled by every structural test the
+core applies. The core therefore reports neither. They arrive through
+`capture_findings`, and because the core's exit code scores only its own
+regression kinds, they are scored by this package's exit contract instead --
+measured: a capture carrying one of these returns exit 0 from the core with the
+finding present in the report.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Mapping, Sequence
+
+#: Every class a declared point can fall into. `unrecognised` is last and is not
+#: a type anything declares: it is where a type this vocabulary does not know
+#: goes, counted and reported and never asserted about.
+KINDS = ("deliverable", "milestone", "ceremony", "assumption", "unrecognised")
+
+#: The kinds the audit is about. A ceremony is a real thing a statement of work
+#: names and an assumption is a real thing it records; neither is a deliverable,
+#: and counting them out is said out loud rather than done by omission.
+AUDITED = ("deliverable", "milestone")
+
+
+class EngagementVocabulary:
+    """The fifteen members, for deliverables on an engagement."""
+
+    kinds = KINDS
+    count_keys = {"ceremony": "not_a_deliverable",
+                  "assumption": "counted_out_assumption",
+                  "unrecognised": "unrecognised_type"}
+    noun = ("deliverable", "deliverables")
+
+    def count_labels(self) -> Mapping[str, tuple[str, str]]:
+        return {
+            "not_a_deliverable": (
+                "ceremonies", "status calls and reviews; real commitments, not "
+                "things that get delivered"),
+            "counted_out_assumption": (
+                "assumptions", "what the engagement was priced on; a fact about "
+                "the client, not a thing to deliver"),
+            "unrecognised_type": (
+                "type unrecognised", "not classified either way; NOT counted as absent"),
+        }
+
+    def classify(self, declared_type: str | None) -> str:
+        return declared_type if declared_type in KINDS[:-1] else "unrecognised"
+
+    def is_auditable(self, kind: str) -> bool:
+        return kind in AUDITED
+
+    def is_expected_live(self, declared_type: str | None) -> bool:
+        """A ceremony and an assumption can never be absent, because neither is
+        ever expected to appear in a tracker. Without this they would be reported
+        as missing deliverables on every run."""
+        return declared_type in AUDITED
+
+    def template_pattern(self, declared_name: str):
+        """Ticket keys are literal. Returning a matcher that wildcarded would let
+        one declared deliverable satisfy itself against any ticket at all."""
+        return None
+
+    def same_point(self, old: Any, new: Any) -> bool:
+        """The ticket key is the point. A deliverable legitimately changes title,
+        owner, board and status across exports; if the key is the same it is the
+        same commitment."""
+        return getattr(old, "name", None) == getattr(new, "name", None)
+
+    def captures_comparable(self, before: Any, after: Any) -> bool:
+        """Only two complete exports from the same exporter compare.
+
+        A difference between two exporters is not a change in the engagement, and
+        reporting it as one would put the tooling's own churn in front of a
+        partner. False here means SKIPPED, never ran-and-found-nothing.
+        """
+        return (bool(getattr(before, "complete", False))
+                and bool(getattr(after, "complete", False))
+                and getattr(before, "exporter", None) == getattr(after, "exporter", None))
+
+    def point_changes(self, old: Any, new: Any, *, comparable: bool = False):
+        from presence_audit.regression import Change  # deferred: optional extra
+
+        if not comparable:
+            return ()
+        out = []
+        if getattr(old, "owner", None) and not getattr(new, "owner", None):
+            out.append(Change(kind="owner_removed", sensor=new.name,
+                              detail=f"{old.owner} was the owner and now nobody is",
+                              before_path=old.path, after_path=new.path))
+        if getattr(old, "is_reading", None) and not getattr(new, "is_reading", None):
+            out.append(Change(kind="stopped_moving", sensor=new.name,
+                              detail=f"was moving, now {new.state}",
+                              before_path=old.path, after_path=new.path))
+        if (getattr(old, "state", None) != getattr(new, "state", None)
+                and getattr(old, "is_reading", None) and getattr(new, "is_reading", None)):
+            out.append(Change(kind="status_bounced", sensor=new.name,
+                              detail=f"{old.state} -> {new.state}",
+                              before_path=old.path, after_path=new.path))
+        return tuple(out)
+
+    def capture_changes(self, before: Any, after: Any):
+        from presence_audit.regression import Change  # deferred: optional extra
+
+        out = []
+        if getattr(before, "exporter", None) != getattr(after, "exporter", None):
+            out.append(Change(kind="exporter_changed", sensor="(export)",
+                              detail="the two exports came from different exporter pins"))
+        if getattr(before, "stall_window_days", None) != getattr(after, "stall_window_days", None):
+            out.append(Change(kind="window_changed", sensor="(export)",
+                              detail=f"the stall window moved from "
+                                     f"{before.stall_window_days:g} to "
+                                     f"{after.stall_window_days:g} day(s), so the "
+                                     f"two verdicts were reached under different rules"))
+        return tuple(out)
+
+    def capture_findings(self, capture: Any):
+        from presence_audit.diff import Finding  # deferred: optional extra
+
+        out = []
+        for point in getattr(capture, "points", ()):
+            if getattr(point, "owner", None) is None:
+                out.append(Finding(
+                    kind="orphaned_deliverable", sensor=point.name,
+                    detail="tracked and nobody owns it, so nobody is going to move it",
+                    live_path=point.path))
+            elif not point.is_reading:
+                since = point.reading
+                out.append(Finding(
+                    kind="stalled_deliverable", sensor=point.name,
+                    detail=f"owned and not moving: last transition "
+                           f"{'unknown' if since is None else format(since, 'g') + ' day(s)'} ago, "
+                           f"against a declared window of "
+                           f"{capture.stall_window_days:g} day(s)",
+                    live_path=point.path))
+        return tuple(out)
+
+    def peer_groups(self, declaration: Any):
+        """A CLAIM, not a gap. Two deliverables are two things: there is no pair
+        here that measures one quantity twice, so there is nothing for the
+        generator to pair and nothing an operator could declare redundant. If a
+        rule could derive the pairs it would not know them."""
+        return ()
+
+    def report_sections(self):
+        return {"window": lambda capture: {
+            "stall_window_days": getattr(capture, "stall_window_days", None),
+            "stalled": sum(1 for p in getattr(capture, "points", ())
+                           if p.owner is not None and not p.is_reading),
+            "orphaned": sum(1 for p in getattr(capture, "points", ())
+                            if p.owner is None)}}
+
+
+def register() -> str:
+    from presence_audit import vocabulary as _vocabulary  # deferred: optional extra
+
+    _vocabulary.register(EngagementVocabulary())
+    return ("engagement: deliverable kinds, a declared stall window, and the two "
+            "findings only a tracker export shows")

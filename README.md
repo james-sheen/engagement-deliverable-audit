@@ -15,25 +15,56 @@ as missing because a page of the export failed.
 
 ## Status
 
-**Nothing of the vertical is implemented.** What exists is the shared
-publication tooling and the four guards below, which come first on purpose: the
-checks that decide whether a vertical is right are the part of a plan most
-easily left until last.
+**Stage 1 is taking shape. Nothing is released.** What exists: the two formats,
+the adapters that satisfy the shared core's protocols, the vocabulary, the floor
+table, and the four guards that came before all of it.
 
-Each guard refuses a shape that was measured producing a wrong answer in this
-family, and each is written so that removing its rule turns its own tests red.
+What is not here yet: the command line, the regression verb, the capture source
+that reads a harness snapshot, and any run against real tracker data. The last of
+those is the acceptance that matters, and it has not happened.
+
+### The two decisions this domain had to make for itself
+
+**The stall window is a specification, and it is required.** A deliverable reads
+when it is tracked with an owner *and* a transition inside a window, so the window
+is what decides which deliverables are stalled. It is declared per engagement,
+and a declaration that omits it is refused rather than defaulted — a default would
+be a number nobody decided, inherited by every engagement after the first. The
+window is passed *into* the capture reader rather than read out of the export, so
+an export cannot widen the rule it is judged by.
+
+**The review gate takes one signature.** A `reviewed_by` with a `reviewed_on`,
+matching who actually reads a statement of work. A sibling in this family takes
+two names because a settlement batch is checked by four eyes as a matter of
+regulation; an engagement is not, and a second name nobody is accountable for
+produces a signature rather than a review. That a person signs at all is not
+optional.
+
+### The floor table, and why the exit code is computed here
+
+The shared core composes exit codes and declares no floors, so the table is this
+package's. Computing the code here rather than composing with the core's is
+necessity, not principle: measured, a report carrying `orphaned_deliverable` —
+the one finding only this domain can see — comes back from the core as exit 0,
+because the core scores only its own regression kinds. Composition also cannot
+lower anything, so the rows that are reported and deliberately not scored
+(`undeclared_present`, `matched_inexactly`) are only expressible this way.
+
+### The guards
+
+Each refuses a shape that was measured producing a wrong answer, and each is
+written so that removing its rule turns its own tests red.
 
 | Guard | Refuses | Because, measured |
 |---|---|---|
-| `model_gate` | an indicator declaring CONSISTENCY without a populated `agrees_with` | the engine then returns no finding, no decline, and nothing in its unreachable list, while still counting the invariant as checked. Two readings 0.40 apart against a tolerance of 0.02 go unreported. Silent three ways: no block, an absent `agrees_with`, and an empty one |
+| `model_gate` | an indicator declaring CONSISTENCY without a populated `agrees_with` | the engine then returns no finding, no decline, and nothing in its unreachable list, while still counting the invariant as checked. Silent three ways: no block, an absent `agrees_with`, and an empty one |
 | `model_gate` | a declared bound whose basis quote does not contain its number | a citation can name a real document and still be the author's invention. A floor is a specification, not a guess |
-| `source_contract` | a declaration whose `sources` elements cannot answer what the report writer reads | the protocol documents the member as one word; the writer reads eleven off each element. A path string passes the conformance kit and then raises on the first JSON report, which is the one a harness parses. The eleven are derived from the writer, not typed here |
-| `describe_gate` | a silence list that is missing, as well as one that is non-empty | two of the three lists are nested a level deeper than the third, so the obvious reading raises, and the obvious repair -- defaulting to empty -- would report nothing forever |
-| `boundary_gate` | a bound where the published number itself is reported as a violation | *shall not exceed forty* leaves forty compliant, and BOUNDEDNESS compares inclusively. It is not uniform either: RESPONSIVENESS does not fire at its declared number, so this probes rather than assumes |
+| `source_contract` | a declaration whose `sources` elements cannot answer what the report writer reads | the protocol documents the member as one word; the writer reads eleven off each element. The eleven are derived from the writer, and each is proven necessary by dropping it |
+| `describe_gate` | a silence list that is missing, as well as one that is non-empty | two of the three lists nest a level deeper than the third, so the obvious reading raises and the obvious repair would report nothing forever |
+| `boundary_gate` | a bound where the published number itself is reported as a violation | *shall not exceed forty* leaves forty compliant, and BOUNDEDNESS compares inclusively. RESPONSIVENESS does not, so this probes rather than assumes |
 
 `model_gate` deliberately permits MONOTONICITY with no `monotonicity` block,
-because the reversal arm answers without one. A guard that refused it would
-reject a declaration that works.
+because the reversal arm answers without one.
 
 ## Licence
 

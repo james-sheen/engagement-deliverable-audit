@@ -17,6 +17,11 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   that treats a missing key as a defect, and a boundary gate that probes where a
   declared bound actually fires. Removing any one of their rules turns that
   guard's own tests red, which is checked rather than claimed.
+- Stage 1's artifacts: the declaration and capture formats, each refusing an
+  unknown major by name; the adapters; `EngagementVocabulary` answering all
+  fifteen members of the core's contract and passing its conformance kit; and the
+  floor table, with the reason recorded beside every row. Stage 1 reaches nothing
+  outside the standard library, asserted by checking what a load imports.
 
 Nothing is released. There is no distribution on the index under this name yet,
 and `__version__` carries a `.dev0` suffix so that an accidental build cannot be

@@ -38,6 +38,14 @@ dependencies = []
 detect = ["arbiter-engine>=0.1.13,<0.2"]
 vertical = ["presence-audit>=0.1.7,<0.2"]
 
+# How this vertical reaches the core: the group is the core's, the module is this
+# package's. A plain install is enough for the core to know this domain exists,
+# with no edit on its side. A plugin that fails to load is a FAILURE there and
+# not a skip, which is the behaviour that makes this safe to declare -- a broken
+# registration is loud rather than absent.
+[project.entry-points."presence_audit.plugins"]
+engagement = "engagement_deliverable_audit.vertical:register"
+
 [tool.setuptools.dynamic]
 version = {attr = "engagement_deliverable_audit.__version__"}
 
