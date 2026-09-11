@@ -120,3 +120,41 @@ That is the same objection this package's design notes raise against a sibling
 domain, and it applies to this evidence. It is recorded in `evidence/README.md`
 beside the numbers rather than only here, because that is the file somebody
 reading the result will open.
+
+## 9. The floor of a range is the one end nothing ever runs
+
+Both pins here were declared provisional, and the file said so: the numbers were
+the releases the design was measured against while this package was still a plan,
+and `pyproject.toml` recorded that they would be replaced by whatever
+`battery/probe_pin.py` reported. That probe did not exist. A declared leg with
+nothing behind it reads, one document later, exactly like a leg that ran.
+
+Writing it changed one of the two numbers. The probe installs every release a
+range admits, plus the highest release below it, and runs the suite in each:
+
+- `presence-audit>=0.1.7` is exact. 0.1.6 fails, and it fails because
+  `presence_audit.exit_contract` does not exist there -- the module this package
+  composes an exit code against. The floor is the release the thing it needs first
+  appeared in.
+- `arbiter-engine>=0.1.13` was **three releases too high**. 0.1.10 through 0.1.13
+  all pass; 0.1.9 and below fail on `describe_gate` reading `unread_properties`,
+  a field the engine added in 0.1.10. 0.1.13 was the newest release on the day the
+  pin was written, which is a date, not a reason.
+
+Nothing in this repository could have noticed. Every job resolves each dependency
+to the newest release its range admits, so a range is only ever exercised at one
+end -- and it is never the floor, which is the end a consumer with an older
+install actually lands on. The suite was green on four engine releases and had
+never met any of them.
+
+The probe sweeps the releases below the floor rather than bisecting for it. A
+bisection assumes the failure is monotonic in the version, which is the assumption
+a floor is supposed to be measuring; the first real sweep happened to be monotonic,
+and the branch that reports a non-monotonic one is tested while nothing has
+produced that shape.
+
+One thing the probe cannot settle: a release passing 172 tests is not a release
+that does everything this package needs. Lowering a floor to where the suite stops
+failing widens the claim to exactly the breadth the suite has -- so the reason
+recorded beside the new number is the engine's own changelog entry for the field
+the guard reads, not the green.

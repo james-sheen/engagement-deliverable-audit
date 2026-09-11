@@ -130,3 +130,36 @@ jobs:
             done
           done
           exit $FAILED
+
+  # THE PINS, RUN RATHER THAN READ. Every job above resolves each dependency to
+  # the newest release its range admits, so a range is only ever exercised at one
+  # end -- and the end that is not exercised is the floor, which is the end a
+  # consumer with an older install actually lands on. This job installs every
+  # release each declared range claims, plus the highest release below it, and
+  # runs the suite against each one.
+  #
+  # It derives the ranges from `pyproject.toml` rather than naming versions here.
+  # A version written in this file would keep passing after somebody raised the
+  # real one, and the day a new release lands inside a range this job picks it up
+  # without being edited.
+  #
+  # It fails on a could-not-run as well as on a refutation. If the index is
+  # unreachable the answer is not *the pins are fine*, so a red here can mean
+  # network trouble -- which is the correct cost of not having a vacuous green.
+  floors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the probe's own needs
+        run: |
+          set -euo pipefail
+          python3 -m pip install --upgrade pip
+          python3 -m pip install virtualenv packaging
+
+      - name: Every release each pin claims
+        run: python3 battery/probe_pin.py

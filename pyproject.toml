@@ -35,17 +35,26 @@ license-files = ["LICENSE", "NOTICE"]
 # and the core is a hard dependency rather than an extra. The cost is real: a
 # bare install is no longer nothing. The thing bought is that there is exactly
 # one answer to *which deliverables are moving*.
+#
+# MEASURED FLOOR, by `battery/probe_pin.py`. 0.1.7 is the first release that
+# publishes `presence_audit.exit_contract`; in 0.1.6 that module does not exist,
+# and the suite fails there on the one test that composes against it. The floor
+# is the release the thing this package needs first appeared in, which is what
+# makes it a specification rather than the number that happened to be newest.
 dependencies = ["presence-audit>=0.1.7,<0.2"]
 
 [project.optional-dependencies]
-# PROVISIONAL FLOORS, and they say so because nothing here has been run against
-# them yet. Both numbers are the releases the design was measured against while
-# this package was still a plan; neither has been exercised by this package,
-# because this package has no code to exercise. A floor is a claim about every
-# release in its range, and that claim is made by installing each one and running
-# the consumer -- so these are replaced by whatever `battery/probe_pin.py`
-# reports, and until that leg exists they are not evidence.
-detect = ["arbiter-engine>=0.1.13,<0.2"]
+# MEASURED FLOOR, and it is three releases lower than the one declared here
+# while this was still a plan. `battery/probe_pin.py` installed every release
+# below the old floor and ran the suite against each: 0.1.10 through 0.1.13 pass,
+# 0.1.9 and below fail, and the failure is `describe_gate` reading
+# `unread_properties` -- a field the engine added in 0.1.10 and which therefore
+# cannot be read before it. 0.1.13 was the newest release when the design was
+# written, which is a date and not a reason.
+#
+# So the floor is 0.1.10, the pin now claims four releases instead of one, and
+# all four were installed and run rather than reasoned about.
+detect = ["arbiter-engine>=0.1.10,<0.2"]
 
 [project.scripts]
 engagement-deliverable-audit = "engagement_deliverable_audit.cli:main"
