@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Fixed
+
+- `[project.urls]`, so the published page links to its own source, issues and the
+  findings beside them. 0.1.0 shipped without them and a release's metadata is
+  immutable, so the gap stands on that version. Three of the five published siblings
+  carry these and two did not, which is an omission rather than a choice -- and nothing
+  in the parity test that wires a new repository looks for it.
+
 ## 0.1.0 -- 2026-09-11
 
 The first release.

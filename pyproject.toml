@@ -43,6 +43,16 @@ license-files = ["LICENSE", "NOTICE"]
 # makes it a specification rather than the number that happened to be newest.
 dependencies = ["presence-audit>=0.1.7,<0.2"]
 
+# A published page with no link to its source is a page a reader cannot check. 0.1.0
+# shipped without these and the metadata of a release is immutable, so the gap stands
+# on that version and is fixed from the next one. Three of the five published siblings
+# carry them and two did not, which is an omission rather than a family choice -- and
+# nothing in the parity test looks for it.
+[project.urls]
+Homepage = "https://github.com/james-sheen/engagement-deliverable-audit"
+Issues = "https://github.com/james-sheen/engagement-deliverable-audit/issues"
+Source = "https://github.com/james-sheen/engagement-deliverable-audit"
+
 [project.optional-dependencies]
 # MEASURED FLOOR, and it is three releases lower than the one declared here
 # while this was still a plan. `battery/probe_pin.py` installed every release
