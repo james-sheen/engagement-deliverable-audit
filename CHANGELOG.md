@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.1.2 -- 2026-09-11
 
 Answers a second verification report, on 0.1.1, which again ran nothing. It confirmed
 all of A-G fixed and raised five residuals. Every one reproduced; two were materially
