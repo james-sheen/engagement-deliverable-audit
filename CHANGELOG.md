@@ -4,7 +4,7 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.1.1 -- 2026-09-11
 
 Answers an outside verification report that read the whole tree statically and ran
 none of it. Every item it raised was reproduced before anything was changed; three were
