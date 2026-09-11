@@ -104,6 +104,31 @@ that is neither the engine's nor the model's: the series does not exist yet. Tha
 what the criterion is for, and the answer it produces is observation-only for the
 history axioms, with CONNECTIVITY and BOUNDEDNESS computed from capture one.
 
+## What the four gates said when they first met a real model
+
+Phase 1 wrote the guards before there was anything to guard, and each was measured
+against a payload shaped to exercise the defect it refuses. A whole model asks them
+something else, and two of the four had an answer nobody expected.
+
+**`boundary_gate` reported two problems and was right about the subject.** The band
+declares an outer bound a compliant subject may sit exactly on and an inner one where
+severity escalates. Handed all four published figures it reports the escalation ones,
+because a figure past the outer bound fires on the outer bound -- the correct answer
+about the reading and the wrong answer to the question asked. So the caller passes the
+compliance boundaries only, and says so. Recorded as finding 14.
+
+**`source_contract` refuses a mapping, and the package never hands it one.** Asked
+about the declaration's raw JSON it reports every member unanswered, because the guard
+asks whether an element ANSWERS what the writer reads off it and a dict answers nothing
+by attribute. Through `check_sources`, which is the door the package actually uses, it
+is clean. A guard is only as meaningful as the call site it is reached through.
+
+`model_gate` and `describe_gate` were clean on the first run, and `describe_gate`
+earned its place before that: it caught a misplaced threshold in this package's own
+engine probe, where `rate_warning` sat at the indicator's top level instead of under
+`monotonicity:`. That loads clean, is read by nobody, and leaves the axiom judging
+against a default. `unread_fields` is the only surface that reports it.
+
 ## What was not measured
 
 CONSERVATION, RESPONSIVENESS, CONSISTENCY and the remaining axioms. This model

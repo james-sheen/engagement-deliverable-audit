@@ -253,3 +253,49 @@ What this says about the other direction: a report is an interface, and the read
 that finds its defects is the one you did not write. Two real runs and a review
 could not see this; a harness that joins rows by subject saw it on the fourth phase
 of the first scenario.
+
+## 14. A guard whose question does not apply to half the bounds it was handed
+
+`boundary_gate` asks one thing: does the published number itself get reported as a
+violation. It was written against hand-made payloads with a single threshold, and it
+was right about every one of them.
+
+The real model declares a band -- an outer bound the contract allows a subject to sit
+exactly on, and an inner one where the severity escalates. Handed all four published
+figures, the gate reported two problems, and it was not wrong: 98% utilisation fires,
+because 98 is already past the 95 the contract allows. It fires on the *warning*
+bound, which is the correct answer about the subject and the wrong answer to the
+question asked.
+
+The distinction the guard has no word for: **an escalation threshold sits inside the
+violating region by construction.** *Does the published number itself fail* is a
+question about the boundary between compliant and not, and there is exactly one of
+those per direction. Asking it of a critical limit guarantees a problem report and
+teaches a reader that the gate cries wolf.
+
+Not fixed in the guard, deliberately. The guard's job is to answer what it is asked
+about the numbers it is given, and deciding which bound is the compliance boundary is
+a fact about the contract that only the caller has. So the caller passes the outer
+bounds and says why, and the model carries the decision beside the literals. A guard
+that tried to infer which bound was which would be guessing at the contract.
+
+## 15. Two checks whose subjects disagreed, and the environment built to break one
+
+`tests/test_engine_floors.py` asserted that the recorded engine version equals the
+engine installed. `battery/probe_pin.py` installs *every* release the pin claims and
+runs the whole suite inside each one, to prove the floor of the range holds.
+
+Both are right on their own and they cannot both hold: the second deliberately builds
+environments where the first is false. CI found it immediately -- the floors job went
+red on the commit that added the test, on an engine release the package fully supports.
+
+The repair was to fix the subject rather than relax the assertion. What a record of
+measurements can claim on its own is that it describes an engine this package
+supports, and the pin is the authority on that; whether the numbers still REPRODUCE is
+a behaviour question, and the grader job re-runs the probe and compares every
+measurement in the declared environment. That is strictly stronger than comparing a
+version string, and it is the check that goes red on a pin change.
+
+The general shape: a test that pins an environmental fact will eventually meet a probe
+whose job is to vary it. The tell is that the failure names a configuration nobody
+would ship and everybody supports.

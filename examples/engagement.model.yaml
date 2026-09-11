@@ -1,0 +1,109 @@
+# THE STAGE 2 MODEL. EVERY NUMBER IN IT IS INVENTED, and it says so here rather than
+# in a footnote: there is no client, no engagement and no statement of work behind
+# these figures. A real engagement transcribes its own, from its own contract, and
+# the guards in `guards/` are what check that the transcription survived.
+#
+# Read `docs/burn-in.md` first. It holds the kill criterion and the arithmetic that
+# decides which of these invariants can answer at all, measured against the engine
+# this package pins rather than reasoned about.
+#
+# ------------------------------------------------------------------ the decisions
+#
+# THE WINDOW IS 30 DAYS AND THE COLLECTOR RUNS DAILY, and that is one decision and
+# not two. The window is a ceiling on how far back observations are counted, so
+# STABILITY's floor of ten has to fit INSIDE it: at a daily cadence a 7-day window
+# holds seven and declines for ever. Measured, 14 days is the narrowest that works
+# and 30 is the narrowest round one with margin for a missed capture.
+#
+# TWO OPPOSITE DECISIONS ABOUT A PUBLISHED NUMBER, because the documents mean
+# opposite things by them. Measured on this engine, a declared bound fires AT the
+# number as well as past it.
+#
+#   * *utilisation shall not exceed 95%* leaves 95 compliant, so the firing point is
+#     the next representable value above it. Declaring `warning: 95` would report an
+#     engagement that met its contract exactly.
+#   * *days remaining* is the opposite: due today with nothing delivered is worth
+#     saying, so `lower_warning: 0` is declared knowing 0 itself fires. That is a
+#     choice, not an oversight, and `boundary_gate` is handed the published numbers
+#     separately so it can tell the two apart.
+#
+# THE RATE ARM IS AN ACCEPTED GAP. `open_items` and `slip_days` are both declared
+# decreasing and no contract publishes a rate for either, so the rate arm declines
+# `no_threshold` on both. Measured, the reversal arm still answers -- so these are
+# partly checked rather than unchecked, and inventing a rate to silence the decline
+# would be putting a number nobody wrote into a model that is judged against it.
+#
+# WHAT IS DELIBERATELY ABSENT, said as an absence rather than left out:
+#
+#   * *satisfaction, margin, and anything else where lower is worse and nobody
+#     published a line.* The family rule says use HOMEOSTASIS and let a baseline
+#     decide. Measured, learned HOMEOSTASIS needs 30 observations inside a baseline
+#     window of its own and a daily collector fits seven -- it is unreachable at this
+#     cadence at any number of captures. A declared setpoint answers on one capture,
+#     and is an invention wherever the engagement published no target. So these carry
+#     no indicator here at all.
+#   * *CONSERVATION, RESPONSIVENESS, CONSISTENCY.* This domain models no flow, no
+#     latency role, and no second surface reporting the same deliverable. Their
+#     absence is a fact about the domain and not an omission.
+domain:
+  id: engagement-deliverable-audit
+  name: Consulting engagement deliverables
+  description: >-
+    Deliverables a statement of work declared, the consultants who own them, and the
+    few quantities a tracker reports about them. Invented in full.
+  entity_types: [Deliverable, Consultant]
+  relationship_types: [owned_by]
+  indicators:
+    Deliverable:
+      # Answers on the first capture: no threshold and no history. The one invariant
+      # that needs no burn-in, which is why it is the first scenario.
+      - name: owned_by
+        type: RELATIONSHIP
+        axioms: [CONNECTIVITY]
+        target_type: Consultant
+        relation_type: owned_by
+        min_cardinality: 1
+        violation_severity: HIGH
+
+      # Ten captures at a daily cadence before this says anything. A deliverable
+      # whose transition count never moves inside the window has frozen.
+      - name: transitions_per_week
+        type: NUMERIC
+        axioms: [STABILITY]
+        expect_variation: true
+        window: 30d
+
+      # Three captures for the reversal arm. The rate arm declines; see the decisions.
+      - name: open_items
+        type: NUMERIC
+        axioms: [MONOTONICITY]
+        window: 30d
+        monotonicity:
+          expected_direction: decreasing
+
+      - name: slip_days
+        type: NUMERIC
+        axioms: [MONOTONICITY]
+        window: 30d
+        monotonicity:
+          expected_direction: decreasing
+
+      # Published as *at least 0 days remaining, late after five*. 0 fires, and that
+      # is the choice: due today and not delivered is worth saying.
+      - name: days_to_due
+        type: NUMERIC
+        axioms: [BOUNDEDNESS]
+        lower_warning: 0.0
+        lower_critical: -5.0
+
+    Consultant:
+      # Published as *between 70% and 95%*. Both published numbers are compliant, so
+      # both firing points are the next representable value outside them -- which is
+      # what those literals are, and why they are not round.
+      - name: utilisation_pct
+        type: NUMERIC
+        axioms: [BOUNDEDNESS]
+        lower_critical: 59.99999999999999
+        lower_warning: 69.99999999999999
+        warning: 95.00000000000001
+        critical: 98.00000000000001

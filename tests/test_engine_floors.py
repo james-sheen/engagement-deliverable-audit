@@ -31,19 +31,36 @@ def measured() -> dict:
     return json.loads(FLOORS.read_text(encoding="utf-8"))
 
 
-def test_the_floors_describe_the_engine_that_is_installed(measured) -> None:
-    """THE TRIPWIRE, and it is meant to go red on a pin change.
+def test_the_floors_describe_an_engine_this_package_supports(measured) -> None:
+    """THE TRIPWIRE: the record names a version inside the declared pin.
 
-    These numbers are facts about one released engine. Against a different one they
-    are a table somebody read, which is the thing the probe exists not to be. Red
-    here means run `battery/probe_engine.py` again, not that anything is broken.
+    NOT equality with the engine installed right now, and that is measured rather
+    than relaxed. `battery/probe_pin.py` installs every release the pin claims and
+    runs this suite inside each one, so a test demanding equality fails in an
+    environment built on purpose to exercise the floor -- which is what it did, in
+    CI, on the commit that added it.
+
+    The claim worth pinning is that these numbers describe an engine this package
+    says it supports. Whether they still REPRODUCE is a behaviour question, and the
+    grader job re-runs the probe and compares every measurement against this record
+    in the declared environment. That is strictly stronger than comparing a version
+    string, and it is the check that goes red on a pin change.
     """
-    import arbiter_engine
+    import sys
+    from pathlib import Path as _Path
 
-    installed = getattr(arbiter_engine, "__version__", None)
-    assert measured["engine_version"] == installed, (
-        f"the floors were measured against {measured['engine_version']} and the "
-        f"engine installed is {installed}. Re-run battery/probe_engine.py")
+    from packaging.specifiers import SpecifierSet
+
+    sys.path.insert(0, str(_Path(__file__).resolve().parents[1] / "battery"))
+    import probe_pin
+
+    pin = probe_pin.declared_pins()["arbiter-engine"]
+    recorded = measured["engine_version"]
+    assert recorded, "the record names no engine version at all"
+    assert SpecifierSet(str(pin)).contains(recorded), (
+        f"the floors were measured against {recorded}, which this package's own pin "
+        f"{pin} does not admit. Either the pin moved under the record or the record "
+        f"is about an engine no consumer will install")
 
 
 def test_every_floor_carries_a_reason(measured) -> None:
