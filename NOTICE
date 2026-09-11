@@ -1,0 +1,31 @@
+engagement-deliverable-audit
+Copyright 2026 The Arbiter Project Authors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied.
+
+This project audits an engagement: of the deliverables a statement of work says
+should exist, which are moving, which are tracked and stalled, and which are
+absent. The first two are different answers and a tracker that reports only
+"open" cannot tell them apart.
+
+NO REDISTRIBUTED THIRD-PARTY CONTENT
+
+Nothing in this repository was copied from anywhere else. No statement of work,
+engagement, client or consultant named anywhere here is real, and every example
+will say so on its face.
+
+DEPENDENCIES, SEPARATELY LICENSED
+
+The optional vertical registration depends on `presence-audit`, and Stage 2
+depends on `arbiter-engine`. Both are separately licensed under the same terms.
+This is a consumer of them and not a part of either.
+
+Stage 1 depends on nothing at all.

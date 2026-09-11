@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "engagement-deliverable-audit"
+# Read from `src/engagement_deliverable_audit/__init__.py` rather than written
+# here. Two literals that happen to agree is the arrangement that drifts: a bump
+# in one place ships a wheel whose `__version__` disagrees with its own metadata
+# and nothing notices. Every sibling repository was moved off it after exactly
+# that.
+dynamic = ["version"]
+description = "An engagement's deliverables, against the statement of work that declared them"
+readme = "README.md"
+# Both extras below resolve only on 3.10 or later, because `presence-audit` and
+# `arbiter-engine` each declare `>=3.10` in their own metadata. A range is a
+# claim about every interpreter in it, so this names the floor the package as
+# declared can actually meet rather than the one bare Stage 1 could.
+requires-python = ">=3.10"
+# PEP 639 SPDX expression, which is why the build requirement above is
+# `setuptools>=77`: the string form of this field is not understood before that.
+# Deliberately NO `License :: OSI Approved ::` classifier -- the index rejects
+# the two together, and a clean local build is not the check that catches it.
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+# Stage 1 -- the declarations channel, its gate, presence and regression -- has
+# no dependency at all, and this is where that is enforced rather than described.
+dependencies = []
+
+[project.optional-dependencies]
+# PROVISIONAL FLOORS, and they say so because nothing here has been run against
+# them yet. Both numbers are the releases the design was measured against while
+# this package was still a plan; neither has been exercised by this package,
+# because this package has no code to exercise. A floor is a claim about every
+# release in its range, and that claim is made by installing each one and running
+# the consumer -- so these are replaced by whatever `battery/probe_pin.py`
+# reports, and until that leg exists they are not evidence.
+detect = ["arbiter-engine>=0.1.13,<0.2"]
+vertical = ["presence-audit>=0.1.7,<0.2"]
+
+[tool.setuptools.dynamic]
+version = {attr = "engagement_deliverable_audit.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
