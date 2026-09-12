@@ -237,7 +237,10 @@ above = homeostasis(1, DAY, window="30d", shift=20.0,
                     setpoint="        homeostasis:\n          setpoint: 100.0\n"
                              "          tolerance: 3.0\n")
 record("C6", "a DECLARED setpoint instead: captures needed, and which side it fires on",
-       {"captures": 1,
+       # `observations`, not `captures`: this probe feeds the engine directly. The
+       # record-level ban below was written while this line still said `captures`, so
+       # the one key it was banning was the one key it did not reach.
+       {"observations": 1,
         "twenty below the setpoint": {"fired": bool(fired(setpoint, "HOMEOSTASIS")),
                                       "declined": reasons(setpoint, "HOMEOSTASIS")},
         "twenty above it": {"fired": bool(fired(above, "HOMEOSTASIS")),
@@ -361,8 +364,16 @@ record("C12", "the same indicator with neither cardinality declared",
 
 
 # ------------------------------------------------------------------- the record
-# THERE IS NO `captures` KEY IN THIS RECORD, DELIBERATELY, AND THIS IS THE SECOND TIME
+# THERE IS NO `captures` KEY IN THIS RECORD, DELIBERATELY, AND THIS IS THE THIRD TIME
 # THAT WORD HAS COST SOMETHING.
+#
+# THE SECOND TIME WAS THIS COMMENT. It said *in this record* and was written beside the
+# floors, and the test holding it iterated the floors -- while `probes.C6.measured` held
+# a `captures` key four hundred lines above, the sole survivor, in the one block neither
+# the claim nor the check reached. Three documents then published the claim: this
+# comment, the ban test's docstring, and a CHANGELOG entry saying the record *no longer
+# has a `captures` key*, which was false on the day it shipped. The ban now walks every
+# mapping in the record, so the scope of the check is the scope of the sentence.
 #
 # This probe feeds the engine OBSERVATIONS directly. The tool feeds CAPTURES, and
 # `feeder.transitions` derives one point per capture while dropping the first -- which

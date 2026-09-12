@@ -40,7 +40,31 @@ AUDITED = ("deliverable", "milestone")
 
 
 class EngagementVocabulary:
-    """The fifteen members, for deliverables on an engagement."""
+    """The fifteen members, for deliverables on an engagement.
+
+    **`capture_findings` NEEDS THE DECLARATION AND THE PROTOCOL HANDS IT THE CAPTURE.**
+    The two findings below are derived from a tracker row alone, so until this argument
+    existed they fired on ANY row whose name matched a declared one -- measured on the
+    shipped fixture with one row added to the tracker, `presence` reported
+    `orphaned_deliverable: C-1`, *nobody owns it, so nobody is going to move it*, about
+    a weekly steering call. A ceremony cannot be owned or moved, and the 0.1.2 record
+    asserted the opposite of this: that Stage 1 filters on `declared_type` where the
+    feeder does not. It filters `declared_absent` on it. On the capture side neither
+    stage did, which is why the same conflation sat in both and no test on either could
+    fail.
+
+    The upstream hook takes one argument while its own caller holds both the
+    declaration and the capture, so no vertical can do this through the protocol; filed
+    upstream. Until it lands, the types arrive here at registration, from the same
+    `Engagement` the caller passes to `compare` -- and the default is empty, which means
+    *no declaration was supplied, so nothing can be counted out*. That is the honest
+    reading rather than a safe-looking one: a silent empty default cannot suppress a
+    real finding, it can only leave the old behaviour, and a test asserts the CLI
+    supplies them.
+    """
+
+    def __init__(self, declared_types: Mapping[str, str | None] | None = None) -> None:
+        self._declared_types = dict(declared_types or {})
 
     kinds = KINDS
     count_keys = {"ceremony": "not_a_deliverable",
@@ -135,6 +159,12 @@ class EngagementVocabulary:
 
         out = []
         for point in getattr(capture, "points", ()):
+            # Declared, and declared as something a tracker was never going to carry.
+            # Not silence: `cmd_presence` counts these out in its own line, the way the
+            # absence side already says *counted out and never reported absent*.
+            if point.name in self._declared_types and not self.is_expected_live(
+                    self._declared_types[point.name]):
+                continue
             if getattr(point, "owner", None) is None:
                 out.append(Finding(
                     kind="orphaned_deliverable", sensor=point.name,
@@ -167,9 +197,16 @@ class EngagementVocabulary:
                             if p.owner is None)}}
 
 
-def register() -> str:
+def register(engagement: Any = None) -> str:
+    """Install this vocabulary. Pass the declaration when the caller has one.
+
+    `regression` genuinely has none -- it compares two captures and never reads a
+    declaration -- and that path does not reach `capture_findings` at all. `presence`
+    always has one, and it is the only path that does.
+    """
     from presence_audit import vocabulary as _vocabulary  # deferred: optional extra
 
-    _vocabulary.register(EngagementVocabulary())
+    _vocabulary.register(EngagementVocabulary(
+        {point.name: point.type for point in getattr(engagement, "points", ())}))
     return ("engagement: deliverable kinds, a declared stall window, and the two "
             "findings only a tracker export shows")

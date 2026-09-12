@@ -163,8 +163,24 @@ def cmd_presence(args: argparse.Namespace) -> int:
     except (OSError, ValueError) as problem:
         return _refuse(str(problem))
 
-    register()
+    # THE DECLARATION, because `capture_findings` derives two findings from a tracker
+    # row alone and the protocol hands it only the capture. Without this, a declared
+    # ceremony present in the tracker came back as `orphaned_deliverable` -- see
+    # `vertical.EngagementVocabulary`.
+    register(engagement)
     report = diff.compare(engagement, export)
+
+    # Counted out, and SAID. Derived from the declaration and the export directly rather
+    # than from the vocabulary, so this line is a claim about the same two inputs the
+    # findings are and cannot agree with a vocabulary that was registered wrong. The
+    # absence side already says *counted out and never reported absent*; omitting the
+    # capture side would be the silent omission this package refuses everywhere else.
+    vocabulary = _vertical_vocabulary()
+    counted_out = tuple(sorted(
+        f"{point.name} ({point.type})" for point in engagement.points
+        if not vocabulary.is_expected_live(point.type)
+        and point.name in {tracked.name for tracked in export.points}))
+
     kinds = [f.kind for f in report.findings]
     stale = declaration_module.staleness(engagement, args.latest_change_order) \
         if args.latest_change_order is not None else ()
@@ -185,6 +201,10 @@ def cmd_presence(args: argparse.Namespace) -> int:
                          for f in report.findings]
                         + [{"kind": p.where, "deliverable": "(declaration)",
                             "detail": p.what} for p in stale],
+            # Present in the tracker, declared as something a tracker was never
+            # going to carry, and therefore not judged from its row. Stated, because
+            # a consumer cannot otherwise tell this from a clean row.
+            "counted_out_of_capture_findings": list(counted_out),
             "floors": [{"kind": k, "floor": fl, "why": why}
                        for k, fl, why in exit_contract.reasons(kinds)],
             "unclassified": list(exit_contract.unclassified(kinds)),
@@ -200,6 +220,10 @@ def cmd_presence(args: argparse.Namespace) -> int:
                        ("type unrecognised", "unrecognised_type")):
         if counts.get(key):
             _out(f"  {counts[key]} {label}, counted out and never reported absent")
+    if counted_out:
+        _out(f"  {len(counted_out)} tracked and counted out of the capture findings: "
+             f"{', '.join(counted_out)} -- declared as something a tracker was never "
+             f"going to carry, so its row is not judged for an owner or a transition")
     for finding in report.findings:
         _out(f"  {finding.kind}: {finding.sensor} -- {finding.detail}")
     for problem in stale:
@@ -279,8 +303,15 @@ def _decline_kind(decline: Any) -> str:
     return reason
 
 
-def _report_unfed(fed: Any) -> None:
-    """Name the declared deliverables the engine was not given, and say why not.
+def _vertical_vocabulary():
+    """This package's vocabulary, for a predicate rather than for registration."""
+    from .vertical import EngagementVocabulary
+
+    return EngagementVocabulary()
+
+
+def _report_unfed(fed: Any, engagement: Any) -> None:
+    """Name what the engine was not given, and say why not -- in the right noun.
 
     **NOT FEEDING SOMETHING IS A DECISION, and this verb used to keep it to itself.**
     A deliverable that disappears from the tracker between two captures is dropped from
@@ -289,24 +320,41 @@ def _report_unfed(fed: Any) -> None:
     measured over two captures, `detect` exited 0 and printed no line about it, so a
     `detect`-only pipeline reported CLEAN over a vanished commitment.
 
-    **It carries no floor, and that is Stage 1's `declared_type` filter deciding, not
-    tidiness.** `presence` reports `declared_absent` only for points declared as
-    deliverables -- measured on the shipped fixture, it names the missing deliverable
-    and says nothing about the missing ceremony or the missing assumption, which is
-    right: a tracker was never going to carry a weekly steering call. `feeder.plan` has
-    no such filter; it feeds every in-scope point. So flooring the unfed set here would
-    report a steering call as a missing deliverable. Stage 1 owns which declared types
-    are expected in a tracker, it already answers correctly, and this verb states the
-    fact and leaves the verdict there.
+    **BOTH LINES SAID *DELIVERABLE* AND NEITHER SET WAS ALL DELIVERABLES.** Measured on
+    the shipped fixture, `never_seen` was `A-1, C-1, D-4` -- an assumption, a ceremony
+    and a milestone -- and this printed *3 declared deliverable(s) in no capture at
+    all*, which is three wrong words about three names. The feed now asks Stage 1's
+    `is_expected_live` which declared types a tracker was ever going to carry, so the
+    ceremony and the assumption are out of the population entirely; but a MILESTONE is
+    in it, and it is still not a deliverable. Filtering alone would have printed *1
+    declared deliverable(s) ... D-4* and left the defect in place with a smaller
+    denominator, which is why the noun is fixed here as well as the population there.
+
+    So each name carries its declared type and the head uses `commitment`, which is
+    this package's word for a thing a statement of work names whatever its kind.
+
+    **NEITHER LINE CARRIES A FLOOR, and the reason is not the one the 0.1.2 record
+    gave.** That reason was that Stage 2 fed types Stage 1 filtered out, so scoring the
+    set would call a steering call a missing deliverable. True then, and the filter
+    above has now removed it. The standing reason is narrower and survives: `presence`
+    reports absence as `declared_absent`, with its own floor and its own word, over the
+    same population. Scoring it here as well would score one fact twice and let a
+    `detect` run and a `presence` run disagree about how bad the same absence is.
     """
+    kinds = {point.name: point.type for point in engagement.points}
+
+    def named(names) -> str:
+        return ", ".join(f"{name} ({kinds.get(name) or 'type undeclared'})"
+                         for name in names)
+
     if fed.vanished:
-        _out(f"  {len(fed.vanished)} declared deliverable(s) in an earlier capture and "
-             f"not in the latest: {', '.join(fed.vanished)} -- not fed, because the "
+        _out(f"  {len(fed.vanished)} declared commitment(s) in an earlier capture and "
+             f"not in the latest: {named(fed.vanished)} -- not fed, because the "
              f"tracker no longer holds them; absence is `presence`'s finding")
     if fed.never_seen:
-        _out(f"  {len(fed.never_seen)} declared deliverable(s) in no capture at all: "
-             f"{', '.join(fed.never_seen)} -- not fed; `presence` decides which "
-             f"declared types a tracker was meant to carry")
+        _out(f"  {len(fed.never_seen)} declared commitment(s) in no capture at all: "
+             f"{named(fed.never_seen)} -- not fed; `presence` reports absence over "
+             f"this same population, with its own floor")
 
 
 def cmd_detect(args: argparse.Namespace) -> int:
@@ -438,7 +486,7 @@ def cmd_detect(args: argparse.Namespace) -> int:
         return code
 
     _out(f"  fed: {fed.summary()}")
-    _report_unfed(fed)
+    _report_unfed(fed, engagement)
     for problem in unread:
         _out(f"  model_not_read: {problem.where} -- {problem.what}")
     if fed.unowned:

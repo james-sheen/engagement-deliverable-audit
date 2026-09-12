@@ -344,3 +344,129 @@ def test_the_digest_is_stable_and_the_shape_is_right(tmp_path, capsys) -> None:
     pattern = r"sha256:[0-9a-f]{64}"
     assert re.search(pattern, first) and re.search(pattern, second)
     assert re.search(pattern, first).group() == re.search(pattern, second).group()
+
+
+def _capture_of(tmp_path, rows, *, name="c.json", stamp="2026-09-11T00:00:00Z"):
+    """A capture holding exactly the rows given, as `{id: owner-or-None}`."""
+    path = tmp_path / name
+    path.write_text(json.dumps({
+        "format": "engagement-deliverable-audit/capture/1",
+        "captured_at": stamp, "complete": True,
+        "points": [{"name": n, "path": f"t/{n}", "owner": owner,
+                    "state": "In Progress", "days_since_transition": 1}
+                   for n, owner in rows.items()]}), encoding="utf-8")
+    return str(path)
+
+
+def test_a_declared_ceremony_in_the_tracker_is_not_judged_as_a_deliverable(
+        tmp_path, capsys) -> None:
+    """THE CONFLATION THAT SAT IN STAGE 1 TOO, where the record said it did not.
+
+    `capture_findings` derives `orphaned_deliverable` and `stalled_deliverable` from a
+    tracker row alone, because the protocol hands it the capture and nothing else. So
+    until the declaration reached it, any row whose name matched a declared one was
+    judged -- measured on the shipped fixture with one row added: `presence` reported
+    `orphaned_deliverable: C-1`, *tracked and nobody owns it, so nobody is going to move
+    it*, about the weekly steering call.
+
+    The 0.1.2 record asserted the opposite, twice: that Stage 1 filters on
+    `declared_type` where the feeder does not. It filters `declared_absent` on it. On the
+    capture side NEITHER stage did, so the same defect sat in both and each document
+    pointed at the other side as the one that handled it.
+
+    **THE BREADTH IS THE ASSERTION.** A check that fires against the wrong subject is
+    worse than silence, and the fix must not buy correctness by going quiet: the real
+    orphan in the same run must still be reported. All-of-them missing would be a broken
+    harness; one-of-them missing is the finding.
+    """
+    capture = _capture_of(tmp_path, {"D-3": None, "C-1": None})
+    assert main(["presence", "--declaration", DECL, "--capture", capture]) == 1
+    printed = capsys.readouterr().out
+
+    assert "orphaned_deliverable: D-3" in printed, (
+        "the real orphan is gone too, so this asserts nothing about the subject")
+    assert "orphaned_deliverable: C-1" not in printed, (
+        "a declared ceremony is reported as an orphaned deliverable")
+    assert "C-1 (ceremony)" in printed, (
+        "counted out silently; this package says what it counts out everywhere else")
+
+
+def test_what_is_counted_out_of_the_capture_findings_reaches_the_document(
+        tmp_path, capsys) -> None:
+    """A consumer cannot tell a counted-out row from a clean one without being told.
+
+    The prose line is for a reader; this is the key a pipeline reads. Both, because the
+    two surfaces are read by different parties and the grader parses the document.
+    """
+    capture = _capture_of(tmp_path, {"D-3": None, "C-1": None, "A-1": None})
+    main(["presence", "--declaration", DECL, "--capture", capture, "--json"])
+    document = json.loads(capsys.readouterr().out)
+
+    assert document["counted_out_of_capture_findings"] == ["A-1 (assumption)",
+                                                          "C-1 (ceremony)"]
+    assert [f for f in document["findings"] if f["deliverable"] == "D-3"], (
+        "the real orphan left the document as well, so the key above proves nothing")
+    assert not [f for f in document["findings"]
+                if f["deliverable"] in {"C-1", "A-1"}
+                and f["kind"] in {"orphaned_deliverable", "stalled_deliverable"}]
+
+
+def test_two_engagements_in_one_process_each_get_their_own_declared_types(
+        tmp_path, capsys) -> None:
+    """N=2 FOR A SEAM THAT HAS ONLY EVER HAD N=1, written the day it landed.
+
+    The declared types reach the vocabulary through `register`, and the core's registry
+    is process-wide. One CLI invocation audits one engagement, so nothing shipped can
+    tell a stale registration from a fresh one -- which is exactly the shape where a
+    second subject appears later and the defect has been latent the whole time.
+
+    Two declarations in one process, disagreeing about the SAME id: one declares `C-1` a
+    ceremony, the other a deliverable. Each run must answer for its own declaration.
+    """
+    other = tmp_path / "other.json"
+    other.write_text(json.dumps({
+        "format": "engagement-deliverable-audit/declaration/1",
+        "engagement": "OTHER-1",
+        "reviewed_by": "FIXTURE -- invented for this test",
+        "reviewed_on": "2026-09-12", "change_order": 0, "stall_window_days": 14,
+        "sources": [{"path": "tests", "derived_from": "invented for this test"}],
+        "points": [{"id": "C-1", "declared_type": "deliverable", "text": "C-1"}],
+    }), encoding="utf-8")
+    capture = _capture_of(tmp_path, {"C-1": None})
+
+    main(["presence", "--declaration", DECL, "--capture", capture])
+    first = capsys.readouterr().out
+    main(["presence", "--declaration", str(other), "--capture", capture])
+    second = capsys.readouterr().out
+
+    assert "orphaned_deliverable: C-1" not in first, (
+        "the fixture declares C-1 a ceremony and it was judged as a deliverable")
+    assert "orphaned_deliverable: C-1" in second, (
+        "the second engagement declares C-1 a deliverable and the first run's types "
+        "were still in force")
+
+
+def test_the_unfed_lines_name_the_declared_type_rather_than_guessing_the_noun(
+        tmp_path, capsys) -> None:
+    """A MILESTONE IS NOT A DELIVERABLE, and filtering the population does not fix that.
+
+    Both unfed lines read *N declared deliverable(s)*, and on the shipped fixture the
+    set was `A-1, C-1, D-4` -- an assumption, a ceremony and a milestone, nought of three
+    right. Narrowing the fed population to the audited types removes two of them and
+    leaves `D-4`, which `is_expected_live` admits and which is still not a deliverable:
+    the remedy alone would have printed *1 declared deliverable(s) ... D-4* and read as
+    closed with a smaller denominator. So the noun is asserted here as well as the set.
+    """
+    import arbiter_engine  # noqa: F401  -- error rather than skip
+
+    # D-4 is the declared milestone and no capture here holds it.
+    capture = _capture_of(tmp_path, {"D-1": "ana", "D-2": "bo", "D-3": "cy"})
+    main(["detect", "--declaration", DECL, "--model", MODEL, "--capture", capture])
+    printed = capsys.readouterr().out
+
+    assert "D-4 (milestone)" in printed, (
+        "the unfed line does not say what D-4 was declared as")
+    assert "deliverable(s) in no capture" not in printed, (
+        "a milestone is still being called a deliverable")
+    assert "declared commitment(s) in no capture at all" in printed, (
+        "the neutral noun this package already uses for both kinds is not being used")

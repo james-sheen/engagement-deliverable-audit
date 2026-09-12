@@ -34,6 +34,8 @@ import datetime as dt
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
+from .vertical import EngagementVocabulary
+
 WEEK = dt.timedelta(days=7)
 
 #: The property this module derives. Named here so a reader of the model can find the
@@ -147,8 +149,26 @@ def plan(engagement: Any, exports: Sequence[Any]) -> Fed:
                         "clean run would assert nothing")
     moments = [_moment(export, index) for index, export in enumerate(exports)]
 
+    # THE TWO STAGES AUDIT THE SAME UNIVERSE, AND THIS LINE IS WHERE THAT IS TRUE.
+    #
+    # `not point.disabled` was the whole filter, so every declared point in scope was
+    # fed to the engine as a `Deliverable` entity whatever its declared type. Measured
+    # on the shipped fixture and model, with one row added to the tracker: a declared
+    # CEREMONY -- the weekly steering call -- was fed, given an `owned_by` edge, and
+    # judged. With nobody against it the engine reported `missing_relationship: C-1`,
+    # *nobody owns this*, about a meeting; STABILITY was asked whether its transition
+    # rate oscillates; and the finding scored into exit 1. A check that fires precisely
+    # against the wrong subject is worse than one that stays silent, because a reader
+    # acts on it.
+    #
+    # The predicate is Stage 1's own, called rather than restated: `is_expected_live`
+    # is what decides which declared types a tracker was ever going to carry, and
+    # asking it here is what makes Stage 2's population the same one. A ceremony and an
+    # assumption are real things a statement of work names; neither is ever tracked as
+    # a thing that gets delivered, so neither is a subject for a model of delivery.
+    expected_live = EngagementVocabulary().is_expected_live
     auditable = {point.name for point in engagement.points
-                 if not point.disabled}
+                 if not point.disabled and expected_live(point.type)}
     readings: dict[str, list[tuple[dt.datetime, float | None]]] = {}
     owners: dict[str, str | None] = {}
     for moment, export in zip(moments, exports):

@@ -4,6 +4,39 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.3 -- 2026-09-12
+
+Answers a third verification report, on 0.1.2, which again ran nothing. It confirmed all
+five 0.1.1 residuals fixed and raised three. Two are fixed here and both were wider than
+filed; one was already closed and the report was wrong about it; one was settled by
+running the suite, which the report could not do. `FINDINGS.md` 36-38.
+
+### Fixed
+
+- **A declared ceremony was fed to the engine and judged as a deliverable.** Stage 2
+  filtered the declared points on `disabled` alone, so any declared type in scope became
+  a `Deliverable` entity. Measured with one row added to the shipped tracker, the weekly
+  steering call came back as `missing_relationship: C-1` -- *nobody owns this*, about a
+  meeting -- and scored into exit 1. `feeder.plan` now calls Stage 1's own
+  `is_expected_live`, so both stages audit one population.
+- **The same conflation was in Stage 1, where the 0.1.2 record said it was not.** That
+  record claimed Stage 1 filters on `declared_type` and the feeder does not. Stage 1
+  filters `declared_absent` on it; its other two findings come from `capture_findings`,
+  which the protocol hands the capture alone -- so `presence` reported
+  `orphaned_deliverable: C-1` about the same meeting. The declared types now reach it at
+  registration, and what is counted out is printed and carried in `--json` rather than
+  dropped silently. Filed upstream: the hook takes one argument while its only caller
+  holds both.
+- **Both unfed lines called every name a deliverable.** On the shipped fixture the set
+  was an assumption, a ceremony and a milestone. Filtering the population fixes two of
+  three and leaves a milestone still called a deliverable, so each name now carries its
+  declared type and the head uses `commitment`.
+- **One `captures` key survived the 0.1.2 ban, and three documents said it had not.**
+  The ban iterated the floors; the key was in `probes.C6.measured`. It is now
+  `observations`, the generator was fixed and the record regenerated rather than
+  hand-edited, and the ban walks every mapping in the record so its scope is the scope
+  of its own sentence.
+
 ## 0.1.2 -- 2026-09-11
 
 Answers a second verification report, on 0.1.1, which again ran nothing. It confirmed
@@ -26,6 +59,8 @@ a reason the report did not give. `FINDINGS.md` 31-35.
   things in one record -- an observation count, a capture count, and a dict. Every key
   now names its unit, and two tests hold it: one bans the word, one asserts the gap
   between units is 0 or 1 per floor.
+  *(Corrected in 0.1.3: one key in the `probes` block survived this and the sentence
+  above was false on the day it shipped. See 0.1.3.)*
 - **Four tests skipped without the engine, and removing the skip alone would have been
   worse.** Measured in an engine-free environment, `detect` refuses with *needs the
   engine* and exits 2, which is exactly what the malformed-model tests assert -- so they

@@ -58,7 +58,10 @@ ten captures STABILITY still declines `insufficient_samples`, at eleven it answe
 probe that feeds the engine observations directly sees ten, and that is the number the
 record carries as `observations`; `captures_through_the_feeder` is the one to collect
 against. **There is no `captures` key in the record any more, deliberately**: that name
-held the observation count, which is how the wrong number reached this document, and
+held the observation count, which is how the wrong number reached this document,
+and the sentence was not true when it was first written here -- one survived in
+the `probes` block until 0.1.3, because the check holding this claim iterated the
+floors and the claim was about the record, and
 naming the unit in every key is what stops the next reader repeating it. A quantity the
 feeder DERIVES costs one capture more than the engine needs observations; one it READS
 costs the same, and `owned_by` is read. Before the burn-in one invariant answers; after it, both. One consequence worth stating: `boundary_gate` has nothing to probe

@@ -687,6 +687,14 @@ The external review that raised this recommended a statement and no floor. That 
 right call, and the reason is not in the review: it is Stage 1's `declared_type` filter,
 which only shows up by running both stages over the same declaration.
 
+**CORRECTED IN 0.1.3, AND THE CORRECTION IS THE INTERESTING PART. The sentence above is
+wrong about Stage 1.** Stage 1 filters `declared_absent` on `declared_type`; its other
+two findings come from `capture_findings`, which the protocol hands the capture and
+nothing else, so on the capture side it filtered nothing either. Measured: `presence`
+reported `orphaned_deliverable: C-1` about the weekly steering call. The conclusion above
+survives -- the set still carries no floor -- but for a different reason, and Stage 2 no
+longer audits the wider population at all. See Sec. 36.
+
 ## 32. One word, three units, in the file that exists to hold numbers
 
 Entry 25 fixed a burn-in published off by one: the record's `captures` key held an
@@ -698,6 +706,9 @@ The ambiguous key stayed in the data. That is where the next reader looks, so th
 moved rather than closing -- and by then `captures` meant three different things in one
 record: an observation count on STABILITY, a real capture count on CONNECTIVITY, and a
 DICT of cadence-to-count on learned HOMEOSTASIS.
+
+**CORRECTED IN 0.1.3: this entry's fix did not reach one key, and three documents said it
+had.** See Sec. 38.
 
 It is gone. Every key now names its unit -- `observations` for what the engine needs,
 `captures_through_the_feeder` for what a collector must take, `observations_by_cadence`
@@ -774,3 +785,97 @@ The opposite failure is the one nobody would think to check.
 **The near-miss list was one letter short.** It contained `Fixtures Ltd, a consultancy`
 -- plural, so it passed, and the singular form that does the damage was never tried.
 A near-miss case is only as good as the hazard it is near.
+
+## 36. Stage 2 judged a population Stage 1 does not, and the record said the reverse
+
+Entry 31 recorded why the unfed set carries no floor: `presence` reports `declared_absent`
+only for declared types a tracker was meant to carry, and `feeder.plan` had no such
+filter. Both halves were read from the source. Only one of them was true.
+
+`feeder.plan` filtered `auditable` on `disabled` alone, so every declared point in scope
+went to the engine as a `Deliverable` entity whatever its declared type. Measured through
+the installed console script, on the shipped fixture and model, with one row added to the
+shipped tracker -- the declared CEREMONY `C-1`, the weekly steering call:
+
+```
+missing_relationship: C-1 -- Missing required OWNED_BY relationship
+insufficient_samples: C-1 (STABILITY) -- too few observations to detect oscillation
+OUTCOME exit=1 verdict=findings
+```
+
+*Nobody owns this*, about a meeting; and the engine asked whether a meeting's transition
+rate oscillates. The finding scored into exit 1, so a consumer gating on the code acted
+on it. A check that fires precisely against the wrong subject is worse than one that
+stays silent, because a reader believes it.
+
+**AND THE SAME CONFLATION WAS IN STAGE 1, WHICH IS THE PART ENTRY 31 GOT WRONG.** Stage 1
+filters `declared_absent` on `declared_type`. Its other two findings -- `orphaned_deliverable`
+and `stalled_deliverable` -- come from `capture_findings`, which the `Vocabulary` protocol
+hands the capture and nothing else, so it cannot see a declared type at all. Measured on
+the same capture: `presence` reported `orphaned_deliverable: C-1 -- tracked and nobody
+owns it, so nobody is going to move it`. On the capture side NEITHER stage filtered, the
+record asserted the difference as a one-sided fact, and each document pointed at the other
+stage as the one that handled it. That is why no test on either side could fail.
+
+Two fixes, one predicate. `feeder.plan` now calls `is_expected_live`, the same function
+Stage 1 uses, so the populations are the same set rather than two sets that agree. And the
+declared types reach `capture_findings` through registration, because the upstream hook
+takes one argument while `presence_audit.diff._compare` -- its only caller -- holds both
+the declaration and the capture. Filed upstream; until it lands the types are supplied
+from the same `Engagement` passed to `compare`.
+
+Counted out, and SAID: `presence` prints `1 tracked and counted out of the capture
+findings: C-1 (ceremony)` and carries the same list in `--json`. Silence would have been
+the omission this package refuses on the absence side, where it already says *counted out
+and never reported absent*.
+
+Pinned by three tests. The two directions in one run, because *the ceremony was not
+judged* passes over a run that judged nothing -- the real orphan beside it must still be
+reported. The population derived from `AUDITED` rather than restated, so a type added
+upstream moves the feeder and the test together. And N=2 for a seam that has only ever had
+N=1: two declarations in one process disagreeing about the same id, each run answering for
+its own.
+
+## 37. Both lines named a kind, and the kind was wrong for every name in the set
+
+`_report_unfed` printed `N declared deliverable(s) ...` on both its lines. On the shipped
+fixture `never_seen` was `A-1, C-1, D-4` -- an assumption, a ceremony and a milestone.
+Nought of three.
+
+The review that raised it suggested filtering the population with `is_expected_live`, and
+said that would let the line say *deliverable* truthfully. It would not. `AUDITED` is
+`("deliverable", "milestone")`, so the filter removes the assumption and the ceremony and
+leaves `D-4`, a milestone -- and the line would have read `1 declared deliverable(s) in no
+capture at all: D-4`. Still the wrong word, over a smaller denominator, with the finding
+recorded as closed. Right finding, remedy short of it, in the direction of the finding
+itself.
+
+Each name now carries its declared type and the head uses `commitment`, this package's
+existing word for a thing a statement of work names whatever its kind. The test asserts
+the type is named AND that the old noun is absent, because a line that says `D-4
+(milestone)` and still says *deliverable* somewhere passes the first half alone.
+
+## 38. One key the ban could not reach, and three documents that said it was gone
+
+Entry 32 banned `captures` from the floors record. The test iterated
+`measured["floors"]`. `probes.C6.measured.captures` sat four hundred lines away in the
+block neither the sentence nor the loop reached -- an observation count under the
+ambiguous name, the sole survivor, the same defect one block over.
+
+The predicate was cheaper than the claim, which is the tell. And because nothing could go
+red, the cleared claim was published FOUR times -- the count found by grepping for the
+sentence rather than by remembering where it had been written. The probe's own comment
+(*THERE IS NO `captures` KEY IN THIS RECORD*), the test's docstring (*banned from this
+record*), a CHANGELOG entry (*`engine_floors.json` no longer has a `captures` key*), and
+`docs/burn-in.md` (*There is no `captures` key in the record any more, deliberately*).
+The external report that raised this found one of the four, which is the visible tail of
+a claim nothing can falsify: each site was written from the others rather than from the
+file.
+
+The ban now walks every mapping in the record at every depth, so the scope of the check is
+the scope of the sentence, and it asserts the walk reached enough mappings to be walking
+this record before believing its own verdict. The generator was fixed and the record
+regenerated, not hand-edited: CI re-runs the probe and compares `probes[*].measured` for
+equality, so editing the generated copy alone would have gone red, and fixing only the
+generator would have shipped the old key. Verified both ways -- the key renamed back
+reddens the ban naming `record.probes.C6.measured.captures`, and restored it greens.

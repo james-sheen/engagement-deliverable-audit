@@ -321,7 +321,8 @@ def test_what_was_not_fed_is_recorded_and_the_two_reasons_are_kept_apart() -> No
         _export({"D-2": {"value": 1, "owner": "bo"}}, stamp=now)])
 
     assert fed.vanished == ("D-1",), "the deliverable that went is not recorded"
-    # The fixture declares D-4, C-1 and A-1, which no capture here holds.
+    # The fixture declares D-4, C-1 and A-1 and no capture here holds any of them, but
+    # only D-4 is in the audited population -- see the type test below.
     assert "D-4" in fed.never_seen and "D-1" not in fed.never_seen, (
         "a name that vanished must not also be reported as never seen")
     assert set(fed.unfed) == set(fed.vanished) | set(fed.never_seen)
@@ -359,3 +360,76 @@ def test_an_owner_who_arrives_is_seen() -> None:
         _export({"D-1": {"value": 1, "owner": "ana"}}, stamp=now)])
     assert fed.unowned == ()
     assert [edge[0] for edge in fed.edges] == ["D-1"]
+
+
+def test_only_declared_types_a_tracker_carries_are_fed_to_the_engine() -> None:
+    """STAGE 2 AUDITS THE POPULATION STAGE 1 AUDITS, and it used to audit a wider one.
+
+    `auditable` filtered on `disabled` alone, so every declared point in scope was fed
+    as a `Deliverable` entity whatever its declared type. Measured through the installed
+    console script, with one row added to the shipped tracker: the declared CEREMONY
+    `C-1` -- the weekly steering call -- was fed, given an `owned_by` edge, and judged.
+    With nobody against it the engine answered `missing_relationship: C-1`, *nobody owns
+    this*, about a meeting, and STABILITY was asked whether a meeting's transition rate
+    oscillates. The finding scored into exit 1, so a consumer gating on the code acted
+    on it.
+
+    Asserted in both directions in one run, because *the ceremony was not fed* passes
+    over a feed that is empty for some other reason. The deliverable beside it must
+    still be there, and the milestone must also be fed: `is_expected_live` admits
+    milestones, and a filter that dropped them would narrow the audit rather than
+    correct it.
+    """
+    now = dt.datetime.now(dt.timezone.utc)
+    present = {"D-1": {"value": 1, "owner": "ana"},     # deliverable
+               "D-4": {"value": 1, "owner": "bo"},      # milestone, also audited
+               "C-1": {"value": 1, "owner": "cy"},      # ceremony
+               "A-1": {"value": 1, "owner": "dee"}}     # assumption
+    fed = feeder.plan(_engagement(), [_export(present, stamp=now)])
+
+    declared = {point.name: point.type for point in _engagement().points}
+    assert declared["C-1"] == "ceremony" and declared["A-1"] == "assumption", (
+        "this test is about declared types; the fixture no longer declares these")
+    assert declared["D-4"] == "milestone", "the milestone arm below checks nothing"
+
+    assert "C-1" not in fed.deliverables, (
+        "a declared ceremony was fed to the engine as a deliverable")
+    assert "A-1" not in fed.deliverables, (
+        "a declared assumption was fed to the engine as a deliverable")
+    assert {"D-1", "D-4"} <= set(fed.deliverables), (
+        "the deliverable and the milestone are the audited population and must be fed")
+    assert not [edge for edge in fed.edges if edge[0] in {"C-1", "A-1"}], (
+        "an ownership edge was fed for something nobody delivers")
+    # And they are not quietly moved into the unfed set either: a ceremony is not a
+    # commitment the tracker failed to carry, it is one the audit is not about.
+    assert not {"C-1", "A-1"} & set(fed.unfed), (
+        "a declared ceremony is out of the population, not missing from it")
+
+
+def test_the_fed_population_is_the_predicate_stage_one_uses_not_a_copy_of_it() -> None:
+    """The seam, pinned to the definition rather than to the two readers of it.
+
+    The bug was that two stages disagreed about which declared types the audit covers.
+    Restating the answer here as a literal would let them disagree again the day
+    `AUDITED` changes, with this test agreeing with neither. So the expected population
+    is DERIVED from the vocabulary, and a type added to or removed from `AUDITED` moves
+    this assertion and the feeder together.
+    """
+    from engagement_deliverable_audit.vertical import EngagementVocabulary
+
+    vocabulary = EngagementVocabulary()
+    engagement = _engagement()
+    expected = {point.name for point in engagement.points
+                if not point.disabled and vocabulary.is_expected_live(point.type)}
+    assert expected, "the fixture declares nothing auditable; this would check nothing"
+    assert expected != {point.name for point in engagement.points
+                        if not point.disabled}, (
+        "the fixture declares no non-audited type in scope, so this test cannot tell "
+        "the two populations apart")
+
+    now = dt.datetime.now(dt.timezone.utc)
+    everything = {point.name: {"value": 1, "owner": "ana"}
+                  for point in engagement.points}
+    fed = feeder.plan(engagement, [_export(everything, stamp=now)])
+    assert set(fed.deliverables) == expected, (
+        "the feed and `is_expected_live` disagree about the audited population")
