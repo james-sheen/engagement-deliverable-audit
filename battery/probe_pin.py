@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Install every release a pin claims, and run this package against each one.
 
-A version range is a claim about every release inside it. `presence-audit>=0.1.7,<0.2`
-says this package works on 0.1.7 and on everything released under 0.2 after it. No test
+A version range is a claim about every release inside it: `>=LOW,<HIGH` says this
+package works on LOW and on everything released under HIGH after it. No test
 suite can check that, because a suite runs against the one version the resolver picked
 -- by default the newest, which is the release the claim is least likely to be wrong
 about. The floor is the interesting end and it is the end nothing exercises.
