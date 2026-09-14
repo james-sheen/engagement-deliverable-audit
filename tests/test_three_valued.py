@@ -102,10 +102,21 @@ def test_work_the_statement_of_work_does_not_name_is_reported_and_not_scored() -
     assert exit_contract.floor("undeclared_present") == exit_contract.CLEAN
 
 
-def test_this_package_scores_what_the_core_does_not() -> None:
-    """THE REASON the exit code is computed here. The core scores only its own
-    regression kinds, so a capture whose only defect is one this domain alone can
-    see comes back clean from it."""
+def test_the_two_scorings_agree_about_a_domain_only_defect() -> None:
+    """THE REASON the exit code is computed here, and the reason has moved.
+
+    It used to be that the core scored only its OWN regression kinds, so a
+    capture whose single defect is one this domain alone can see came back clean
+    from it -- reported upstream, and this assertion pinned the limitation with
+    a message saying what to do when it lifted.
+
+    It lifted. `presence-audit` 0.1.8 lets a vocabulary name which of its own
+    kinds are regressions, and this package's does. So the two scorings now
+    AGREE on this capture, which is the stronger claim, and it is what this
+    asserts. Below that release the core cannot know, and the package's own
+    scoring is the only one that answers -- so both arms assert rather than one
+    of them skipping.
+    """
     from presence_audit import diff
 
     engagement = declaration.load(DECLARED)
@@ -120,8 +131,20 @@ def test_this_package_scores_what_the_core_does_not() -> None:
     report = diff.compare(trimmed, export)
     kinds = [f.kind for f in report.findings]
     assert kinds == ["orphaned_deliverable"]
-    assert report.exit_code == 0, "the core scored it; this test is now pointless"
-    assert exit_contract.code_for(kinds) == exit_contract.FINDINGS
+    assert exit_contract.code_for(kinds) == exit_contract.FINDINGS, (
+        "this package's own floor table stopped scoring its own finding")
+    from presence_audit import vocabulary as _core_vocabulary
+
+    if hasattr(_core_vocabulary, "regression_kinds"):
+        assert report.exit_code == exit_contract.FINDINGS, (
+            "the core reads `regression_kinds` from this release on and this "
+            "vertical declares `orphaned_deliverable`, so the two scorings must "
+            "agree rather than this package quietly carrying the verdict alone")
+    else:
+        assert report.exit_code == 0, (
+            "the installed core cannot score a domain's own kinds, which is why "
+            "this package computes its own code -- but it answered something "
+            "other than clean, so neither explanation holds")
 
 
 def test_an_incomplete_export_withholds_absence() -> None:

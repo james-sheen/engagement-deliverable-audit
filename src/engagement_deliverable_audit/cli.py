@@ -453,7 +453,27 @@ def cmd_detect(args: argparse.Namespace) -> int:
         # never lower one. Measured: `validate_attestation` accepts extra keys, with two
         # controls proving it still rejects a mangled format and a missing list.
         artifact["exit_code"] = code
-        artifact["verdict"] = MEANING[code]
+        # THE DECLARED SLOT, now that there is one. This package invented
+        # `verdict` as a bare string because the format carried nowhere to put a
+        # conclusion, and said so when reporting it: a slot nobody declared is a
+        # slot everybody spells differently. `presence-audit` 0.1.8 declares the
+        # block -- `{exit_code, meaning, scored_by}` -- and its validator refuses
+        # a `verdict` that is not an object, so the invented spelling is now a
+        # refusal rather than an extra key.
+        #
+        # `scored_by` is required there and is the honest half: the code is this
+        # package's claim, not the core's, and the core asserts only that the
+        # number is expressible and that the word beside it matches.
+        #
+        # Both shapes are written across the pinned range. `exit_code` stays at
+        # the top level because that is what this package's own `attest` reader
+        # composes with, and the validator has always tolerated extra keys.
+        from presence_audit import attestation as _pa_attestation
+        from . import __version__
+        block = getattr(_pa_attestation, "verdict_block", None)
+        artifact["verdict"] = (
+            block(code, scored_by=f"engagement-deliverable-audit {__version__}")
+            if callable(block) else MEANING[code])
         with open(args.attest_out, "w", encoding="utf-8") as handle:
             json.dump(artifact, handle, indent=2)
             handle.write("\n")
@@ -811,7 +831,15 @@ def cmd_attest(args: argparse.Namespace) -> int:
         _out(f"  {kind} has no row in this package's floor table, so this artifact "
              f"could not be scored")
 
+    # EITHER SPELLING. An artifact written from 0.1.8 on carries the declared
+    # `verdict` block, and one written before it carries this package's own
+    # top-level pair. A reader that knew only the second would silently stop
+    # composing the recorded code the day the block landed -- and a verdict that
+    # quietly stops being read is the failure this whole leg exists to prevent.
     recorded = artifact.get("exit_code")
+    block = artifact.get("verdict")
+    if not isinstance(recorded, int) and isinstance(block, dict):
+        recorded = block.get("exit_code")
     if isinstance(recorded, int) and recorded in MEANING:
         if recorded != code:
             _out(f"  the run that wrote this recorded exit={recorded} "

@@ -27,10 +27,16 @@ from typing import Any, Iterable
 
 from .problem import Problem
 
-#: The function in the writer that consumes the elements. Named rather than
+#: The functions in the writer that consume the elements. Named rather than
 #: searched for: a walk over the whole module would also sweep up attribute
 #: accesses on unrelated objects and quietly widen the requirement.
-_WRITER_FUNCTION = "_as_json"
+#:
+#: TWO NAMES SINCE `presence-audit` 0.1.8, because the reading moved. The inline
+#: comprehension inside `_as_json` became `_source_as_json`, a function whose
+#: whole job is one element -- which is a BETTER anchor than the one this guard
+#: started with, not a worse one. Both are named so the guard answers across the
+#: whole range this package pins.
+_WRITER_FUNCTIONS = ("_as_json", "_source_as_json")
 
 #: The loop variable the writer binds each element to.
 _ELEMENT = "source"
@@ -47,12 +53,19 @@ def required_members(writer: Any = None) -> frozenset[str]:
         from presence_audit import report as writer  # deferred: optional extra
     tree = ast.parse(inspect.getsource(writer))
     wanted = [n for n in ast.walk(tree)
-              if isinstance(n, ast.FunctionDef) and n.name == _WRITER_FUNCTION]
+              if isinstance(n, ast.FunctionDef) and n.name in _WRITER_FUNCTIONS]
     if not wanted:
         raise LookupError(
-            f"{writer.__name__} has no {_WRITER_FUNCTION!r}; the writer was "
-            f"renamed or restructured, and this guard is now asking about "
-            f"nothing. Re-derive the name from the writer before trusting it.")
+            f"{writer.__name__} has none of {list(_WRITER_FUNCTIONS)}; the "
+            f"writer was renamed or restructured, and this guard is now asking "
+            f"about nothing. Re-derive the name from the writer before trusting "
+            f"it.")
+    # A BARE ATTRIBUTE IS REQUIRED; A `getattr` WITH A DEFAULT IS NOT, and the
+    # difference is the whole answer from 0.1.8 on. That release made the writer
+    # read every member defensively, so an element answering NOTHING -- a plain
+    # path, which is what the protocol's wording suggests -- goes through. The
+    # requirement genuinely became empty, and a guard that cannot express *this
+    # writer requires nothing* would report the fix as the writer disappearing.
     found = {
         node.attr
         for fn in wanted
@@ -61,12 +74,38 @@ def required_members(writer: Any = None) -> frozenset[str]:
         and isinstance(node.value, ast.Name)
         and node.value.id == _ELEMENT
     }
-    if not found:
+    reached = _reached(wanted)
+    if not reached:
         raise LookupError(
-            f"{_WRITER_FUNCTION} reads nothing off {_ELEMENT!r}. Either the "
-            f"loop variable was renamed or the provenance block was removed; "
-            f"either way this guard cannot see what it was written to see.")
+            f"{list(_WRITER_FUNCTIONS)} touch {_ELEMENT!r} nowhere at all. "
+            f"Either the loop variable was renamed or the provenance block was "
+            f"removed; either way this guard cannot see what it was written to "
+            f"see.")
     return frozenset(found)
+
+
+def _reached(functions) -> set[str]:
+    """Every member the writer reaches for at all, however defensively.
+
+    Separate from the required set so the two questions stay apart: *what must
+    an element answer* and *does this guard still know where to look*. Collapsing
+    them is how an empty requirement -- a correct answer from 0.1.8 -- would read
+    as a guard that had lost its subject.
+    """
+    out = set()
+    for fn in functions:
+        for node in ast.walk(fn):
+            if (isinstance(node, ast.Attribute)
+                    and isinstance(node.value, ast.Name)
+                    and node.value.id == _ELEMENT):
+                out.add(node.attr)
+            elif (isinstance(node, ast.Call)
+                  and isinstance(node.func, ast.Name) and node.func.id == "getattr"
+                  and node.args and isinstance(node.args[0], ast.Name)
+                  and node.args[0].id == _ELEMENT
+                  and len(node.args) > 1 and isinstance(node.args[1], ast.Constant)):
+                out.add(str(node.args[1].value))
+    return out
 
 
 def missing(element: Any, writer: Any = None) -> tuple[str, ...]:

@@ -268,6 +268,23 @@ def test_attest_scores_an_artifact_that_records_no_verdict_of_its_own(
     capsys.readouterr()
 
 
+def _verdict(code: int):
+    """A verdict in whatever shape the installed core accepts.
+
+    The declared block from `presence-audit` 0.1.8, and this package's own
+    top-level string below it. Derived from the core rather than branched on a
+    version, because a version is a proxy for the capability and goes stale the
+    moment a backport is in play.
+    """
+    from presence_audit import attestation
+
+    block = getattr(attestation, "verdict_block", None)
+    if callable(block):
+        return block(code, scored_by="a fixture")
+    from engagement_deliverable_audit.cli import MEANING
+    return MEANING[code]
+
+
 def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
         tmp_path, capsys) -> None:
     """The composition rule, exercised in both directions.
@@ -284,7 +301,14 @@ def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
     capsys.readouterr()
     stored = json.loads(artifact.read_text(encoding="utf-8"))
 
-    lowered = dict(stored, exit_code=0, verdict="clean")
+    # THE VERDICT IS WRITTEN THE WAY THE INSTALLED CORE SPELLS IT. This fixture
+    # hand-built `verdict="clean"`, which was this package's own invented key --
+    # and from `presence-audit` 0.1.8 the core declares the slot as an object and
+    # its validator refuses a string. Left as a string the artifact stops being
+    # valid, `attest` reports the format problem instead of the disagreement, and
+    # this test measures the refusal rather than the compose rule it is named
+    # for.
+    lowered = dict(stored, exit_code=0, verdict=_verdict(0))
     (tmp_path / "lowered.json").write_text(json.dumps(lowered), encoding="utf-8")
     assert main(["attest", str(tmp_path / "lowered.json")]) == 2, (
         "a recorded clean must not lower a run the floors score at 2")
@@ -296,7 +320,7 @@ def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
     # the only thing that knows better.
     raised = {**stored, "findings": [], "evidence": [], "not_checked": [
         {"sensor": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
-         "detail": "too few observations"}], "exit_code": 1, "verdict": "findings"}
+         "detail": "too few observations"}], "exit_code": 1, "verdict": _verdict(1)}
     (tmp_path / "raised.json").write_text(json.dumps(raised), encoding="utf-8")
     assert main(["attest", str(tmp_path / "raised.json")]) == 1, (
         "a recorded 1 must survive lists that score 0")
@@ -328,7 +352,18 @@ def test_the_manifest_contract_is_derived_and_answered() -> None:
     from engagement_deliverable_audit import attestation_manifest as shim
 
     required, optional = shim.required_members(), shim.optional_members()
-    assert "translate_finding" in required
+    # WHICH SIDE `translate_finding` FALLS ON IS THE CORE'S DECISION, not this
+    # package's, and it moved: reported from here as a member the builder read
+    # bare while no protocol declared it, and `presence-audit` 0.1.8 made it a
+    # `getattr` with a default so an artifact degrades to the engine's own
+    # problem type instead of raising from inside a half-written file.
+    #
+    # So this asserts what stays true across the pinned range -- the builder
+    # REACHES for it, this shim answers it, and the two kinds of access are told
+    # apart -- and not which side of a line the core has since moved.
+    assert "translate_finding" in (required | optional), (
+        "the builder no longer reaches for it at all, so this shim is answering "
+        "a contract nobody asked for")
     assert "sensors" in optional
     assert not required & optional
     assert shim.EngagementManifest().answers() == ()

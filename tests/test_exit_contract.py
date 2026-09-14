@@ -78,9 +78,12 @@ def test_exactly_these_engine_declines_are_floored_clean_and_no_others() -> None
 
     Everything this table has never heard of floors at 2, so every CLEAN row is a
     decision: this package saying the axiom did not answer and that is nobody's fault.
-    There are three, and they are three different reasons for the same floor --
-    warming, a gap the model declares rather than invents, and a subject the engine
-    itself excludes.
+    There are four from `arbiter-engine` 0.1.14 and three below it, and they are
+    different reasons for the same floor -- warming, a gap the model declares
+    rather than invents, one arm of a multi-armed axiom while another answers,
+    and a subject the engine itself excludes. The list is the decision; which of
+    its members the installed engine has is the engine's business, so the
+    assertion intersects the two.
 
     Pinned as a set rather than a count: a count would survive one row being swapped
     for another, which is exactly the edit worth catching.
@@ -90,9 +93,23 @@ def test_exactly_these_engine_declines_are_floored_clean_and_no_others() -> None
     # check stops running without anybody noticing.
     from arbiter_engine.types import NotEvaluatedReason
 
-    clean = sorted(reason.value for reason in NotEvaluatedReason
-                   if x.FLOORS[reason.value][0] == x.CLEAN)
-    assert clean == ["insufficient_samples", "no_threshold", "not_applicable"], (
+    vocabulary = {member.value for member in NotEvaluatedReason}
+    clean = sorted(reason for reason in vocabulary
+                   if x.FLOORS[reason][0] == x.CLEAN)
+    # `partially_checked` joined at `arbiter-engine` 0.1.14, and it is CLEAN for
+    # the same reason `no_threshold` is: the engine split it out of that reason
+    # for the case where one arm of a multi-armed axiom has nothing to judge
+    # against while another arm answers. Floored differently from the reason it
+    # came from, one envelope would change verdict on a release that changed no
+    # behaviour.
+    # INTERSECTED WITH WHAT THIS ENGINE OFFERS. The list is the decision; which
+    # of its members exist is the engine's business, and this package's pin
+    # admits releases on both sides of `partially_checked` arriving. Asserting
+    # the full list unconditionally makes the test a claim about the resolver's
+    # pick rather than about the decisions in the table.
+    decided = {"insufficient_samples", "no_threshold", "not_applicable",
+               "partially_checked"}
+    assert clean == sorted(decided & vocabulary), (
         f"the engine declines floored CLEAN are {clean}; each is a decline this "
         f"package says is a declared gap or a warming axiom rather than an unanswered "
         f"question, and each is a decision rather than a default")

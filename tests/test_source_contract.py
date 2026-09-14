@@ -21,10 +21,32 @@ class _Source:
         self.supplied = ()
 
 
-def test_the_requirement_is_not_empty() -> None:
-    """NON-VACUITY. An empty requirement makes every check below pass over
-    nothing, which is indistinguishable from a clean tree."""
-    assert len(guard.required_members()) >= 2
+def test_the_guard_still_knows_where_to_look() -> None:
+    """NON-VACUITY, asked of the thing that can actually go vacuous.
+
+    It used to assert the REQUIREMENT was non-empty, which stopped being the
+    right question at `presence-audit` 0.1.8: that release made the writer read
+    every member defensively, so an element answering nothing goes through and
+    the requirement is legitimately empty. Asserting otherwise would report the
+    fix as a regression.
+
+    What must never be empty is what the guard can SEE. A writer it cannot find,
+    or one it finds and reads nothing off, makes every check below pass over
+    nothing -- and that is indistinguishable from a clean tree.
+    """
+    import ast
+    import inspect
+
+    from presence_audit import report
+
+    tree = ast.parse(inspect.getsource(report))
+    functions = [n for n in ast.walk(tree)
+                 if isinstance(n, ast.FunctionDef)
+                 and n.name in guard._WRITER_FUNCTIONS]
+    assert functions, "the guard names no function the writer has"
+    assert len(guard._reached(functions)) >= 2, (
+        "the guard can see fewer than two members being reached for, so it has "
+        "lost its subject rather than found a writer that requires nothing")
 
 
 def test_an_object_answering_the_derived_set_survives_the_real_writer() -> None:
@@ -63,13 +85,27 @@ def test_dropping_one_member_breaks_the_real_writer() -> None:
             report.as_json(built, target="a fixture")
 
 
-def test_a_path_string_is_refused() -> None:
+def test_a_path_string_is_judged_by_the_writer_that_is_installed() -> None:
     """The shape the protocol's wording suggests, the conformance kit's own
-    stand-in supplies, and the one shipped non-BMC vertical returns."""
+    stand-in supplies, and the one shipped non-BMC vertical returns.
+
+    BOTH ARMS ASSERT, because the answer legitimately differs across the range
+    this package pins. Below `presence-audit` 0.1.8 the writer reads the members
+    bare and a path is refused, naming the first one it would break on. From
+    0.1.8 the writer reads them defensively -- reported upstream and fixed there
+    -- so a path goes through and refusing it would be this guard enforcing a
+    contract the core has dropped.
+    """
+    required = guard.required_members()
     found = guard.problems(("register.yaml",))
-    assert len(found) == 1
-    assert "str" in found[0].where
-    assert "kind" in found[0].what
+    if required:
+        assert len(found) == 1
+        assert "str" in found[0].where
+        assert "kind" in found[0].what
+    else:
+        assert found == (), (
+            "the installed writer requires nothing off an element, so a path "
+            "string is not a problem; this guard reported one anyway")
 
 
 def test_an_empty_sources_tuple_is_accepted() -> None:

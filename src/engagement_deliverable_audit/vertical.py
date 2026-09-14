@@ -154,6 +154,27 @@ class EngagementVocabulary:
                                      f"two verdicts were reached under different rules"))
         return tuple(out)
 
+    @property
+    def regression_kinds(self):
+        """Which of this domain's OWN finding kinds mean something got worse.
+
+        `capture_findings` below produces two the core cannot see, and until
+        `presence-audit` 0.1.8 the core scored findings against a frozen set of
+        its own kinds -- so a domain finding could sit in the report and compose
+        a clean verdict. This package was not bitten, because `cmd_detect` scores
+        with the floor table rather than with the core's code; a third party
+        asking the CORE for a diff over this vertical was.
+
+        DERIVED from that same floor table, not listed here. Two records of one
+        decision drift, and the one that drifts is the copy nobody edits when the
+        floor moves. What this answers is exactly the kinds this vocabulary emits
+        that its own table floors at FINDINGS.
+        """
+        from .exit_contract import FINDINGS, FLOORS
+        return tuple(sorted(
+            kind for kind in ("orphaned_deliverable", "stalled_deliverable")
+            if FLOORS.get(kind, (None,))[0] == FINDINGS))
+
     def capture_findings(self, capture: Any):
         from presence_audit.diff import Finding  # deferred: optional extra
 

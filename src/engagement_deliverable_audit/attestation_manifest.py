@@ -102,14 +102,28 @@ def required_members(builder: Any = None) -> frozenset[str]:
     """
     if builder is None:
         from presence_audit import attestation as builder  # deferred: optional extra
-    found, _ = _read_by(_tree(builder))
-    if not found:
+    found, tolerated = _read_by(_tree(builder))
+    # AN EMPTY REQUIREMENT IS AN ANSWER, NOT A LOST SUBJECT, and telling them
+    # apart needs both halves. `presence-audit` 0.1.8 made `translate_finding`
+    # a `getattr` with a default -- reported from here, and fixed there -- so
+    # from that release the builder requires NOTHING and degrades to the
+    # engine's own problem type instead of raising mid-artifact. What must never
+    # be empty is what the builder reaches for AT ALL; that is the guard having
+    # lost its subject, and it is what this refusal is for.
+    if not found and not tolerated:
         raise LookupError(
-            f"{builder.__name__} reads nothing off {_ELEMENT!r}. Either the parameter "
+            f"{builder.__name__} touches {_ELEMENT!r} nowhere at all. Either the parameter "
             f"was renamed or the builder stopped taking one -- either way this module "
             f"is now answering a contract nobody asked for, and pretending otherwise "
             f"would ship an adapter for a function that has moved on")
-    if _BUILDER not in (inspect.getsource(builder) if found else ""):
+    # UNCONDITIONAL. This read `inspect.getsource(builder) if found else ""`,
+    # which could only ever be reached with `found` non-empty -- the refusal
+    # above returned first -- so the empty branch was dead and asked
+    # `_BUILDER not in ""`, which is always true. The moment an empty
+    # requirement became a legitimate answer, that dead branch became a refusal
+    # saying the builder had been deleted. The question it means to ask does not
+    # depend on how many members are required.
+    if _BUILDER not in inspect.getsource(builder):
         raise LookupError(f"{builder.__name__} no longer defines {_BUILDER!r}")
     return frozenset(found)
 

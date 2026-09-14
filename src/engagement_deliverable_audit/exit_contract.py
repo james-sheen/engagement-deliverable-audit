@@ -111,6 +111,26 @@ FLOORS: Mapping[str, tuple[int, str]] = {
         INCOMPLETE, "an indicator never declared what it IS to the axiom reading it, "
                     "so somebody owes a declaration"),
 
+    # TWO MORE, arriving with `arbiter-engine` 0.1.14 and decided the same way.
+    # The guard that derives this set from the enum is what reported them, which
+    # is what it was written for -- the comment below promised a thirteenth
+    # member would fail a test rather than land in the unclassified bucket, and
+    # a thirteenth and a fourteenth did.
+    "no_rule_for_role": (
+        INCOMPLETE, "the model declared a role and the axiom has no rule for that "
+                    "kind of quantity, so the pair cannot evaluate. Distinct from "
+                    "`missing_role`, where nobody declared one at all: there the "
+                    "model owes a declaration, here it owes a different pairing, "
+                    "and this package generates its own model so either is its own "
+                    "defect"),
+    "partially_checked": (
+        CLEAN, "one arm of a multi-armed axiom had nothing to judge against and "
+               "another arm ran. The engine split this out of `no_threshold` in "
+               "0.1.14, and the row above says why that is clean here: a declared "
+               "gap, with the rest of the axiom still answering. Floored the same "
+               "way as the reason it came from, because it is the same fact told "
+               "apart -- `arms_checked` on the decline names which arm ran"),
+
     # THE SIX REMAINING MEMBERS OF THE ENGINE'S DECLINE ENUM, each decided rather than
     # left to fall through.
     #

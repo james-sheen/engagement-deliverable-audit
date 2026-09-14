@@ -34,16 +34,36 @@ def test_the_repair_passes() -> None:
     assert guard.problems(model, [("Response", "page_count", "critical", 40.0)]) == ()
 
 
-def test_the_exclusive_axiom_is_not_false_positived() -> None:
-    """RESPONSIVENESS compares the other way: `warning: 120` is clean at 120.0
-    and fires just past it. A guard that had hardcoded *inclusive* would refuse
-    this correct declaration, so this is the control that keeps the guard honest
-    about probing rather than assuming."""
+def test_the_guard_agrees_with_the_engine_about_the_other_axiom() -> None:
+    """THE CONTROL: the guard probes rather than assumes, and this is what says so.
+
+    It used to assert that RESPONSIVENESS is EXCLUSIVE -- `warning: 120` clean at
+    120.0 and firing just past it -- which was measured and true when written.
+    `arbiter-engine` 0.1.14 made the two axioms agree, inclusively, after this
+    package's sibling reported that one engine holding both rules silently was
+    the defect. So the remembered answer is now the wrong one, and a control
+    pinned to it fails on a release that fixed the thing it exists to watch.
+
+    What keeps the control honest is not WHICH way the axiom compares but that
+    the guard says whatever the engine does. So this measures the engine and
+    asserts the guard agrees -- true under either comparator, and still red if
+    the guard ever starts assuming.
+    """
     model = _model({"name": "turnaround_hours", "type": "NUMERIC", "role": "latency",
                     "warning": 120.0, "critical": 600.0,
                     "axioms": ["RESPONSIVENESS"]})
-    assert guard.problems(model,
-                          [("Response", "turnaround_hours", "warning", 120.0)]) == ()
+    fires_at_the_number = guard._fires(model, "Response", "turnaround_hours", 120.0)
+    found = guard.problems(model,
+                           [("Response", "turnaround_hours", "warning", 120.0)])
+    if fires_at_the_number:
+        assert len(found) == 1, (
+            "the engine fires AT the declared number, so declaring the published "
+            "limit reports a compliant subject and the guard must say so")
+        assert "itself is reported as a violation" in found[0].what
+    else:
+        assert found == (), (
+            "the engine is clean at the declared number, so the declaration is "
+            "correct and the guard must not refuse it")
 
 
 def test_a_bound_that_fires_nowhere_is_reported() -> None:

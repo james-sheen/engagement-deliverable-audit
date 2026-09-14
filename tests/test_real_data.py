@@ -72,21 +72,39 @@ def test_absence_is_zero_here_by_construction_and_not_by_good_news(compared) -> 
     assert report.counts()["declared_absent"] == 0
 
 
-def test_the_core_reports_clean_over_two_hundred_real_findings(compared) -> None:
-    """The upstream gap, reproduced on real data. Filed as `presence-audit` #7.
+def test_the_core_and_this_package_agree_over_two_hundred_real_findings(compared) -> None:
+    """The upstream gap, reproduced on real data, and now closed.
 
-    EXPECTED TO FAIL when that is resolved, and that is the point: if the core
-    starts scoring a vertical's own findings, this test fails and says so, rather
-    than this package carrying a workaround nobody revisits.
+    This asserted the core reported CLEAN over two hundred real findings --
+    `presence-audit` #7 -- and said in as many words that it was EXPECTED TO
+    FAIL when that was resolved, so the workaround would be revisited rather
+    than carried. It failed, on the release that resolved it, saying exactly
+    that. The floor table was re-read against it and the vertical now declares
+    `regression_kinds`.
+
+    What it asserts from here is the stronger claim: the two scorings AGREE on
+    real data. Below 0.1.8 the core cannot know, so that arm asserts the gap
+    instead -- neither arm skips, because a skip is how a check stops running
+    without anybody noticing.
     """
     report, _e, _x = compared
     kinds = [f.kind for f in report.findings]
     assert len(report.findings) > 200
-    assert report.exit_code == exit_contract.CLEAN, (
-        "the core now scores this domain's own findings; presence-audit #7 may be "
-        "resolved, and this package's floor table should be re-read against it")
     assert exit_contract.code_for(kinds) == exit_contract.FINDINGS
-    assert report.counts()["regressions"] == 0
+
+    from presence_audit import vocabulary as _core_vocabulary
+
+    if hasattr(_core_vocabulary, "regression_kinds"):
+        assert report.exit_code == exit_contract.FINDINGS, (
+            "the core reads this vertical's own regression kinds from 0.1.8, so "
+            "two hundred findings it can now score must not compose a clean "
+            "verdict")
+        assert report.counts()["regressions"] > 0
+    else:
+        assert report.exit_code == exit_contract.CLEAN, (
+            "the installed core cannot score a domain's own findings, which is "
+            "the gap this package works around; it answered something else")
+        assert report.counts()["regressions"] == 0
 
 
 def test_the_committed_capture_has_the_exporter_shape_the_script_writes() -> None:
