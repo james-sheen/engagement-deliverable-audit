@@ -14,10 +14,22 @@ named, and one contract that covers five requests. Read them that way.
 
 ## Attribution, which the licence requires
 
-Both documents derive from **astropy/astropy-project**, licensed **CC BY 4.0**,
-at commit `74af2fa4de15c27b369e65f93432e1538d8b9476`. The derivative carries each
-funding request's file name and title, and for each tracking issue its number, URL,
-state, COTR and the age of its last change. No other field is copied.
+Both documents derive from **astropy/astropy-project**, licensed **CC BY 4.0**, at
+commit `74af2fa4de15c27b369e65f93432e1538d8b9476`, and the source tree is cited by
+URL in the declaration's `sources`.
+
+**The copied content is each funding request's title, plus the short fragments of
+the cycle template and the call quoted here to state the rules relied on.** Every
+field that identified a file, an issue or a person has been substituted: requests
+carry `D-NN`, the people who own them carry `C-NN`, and a tracking issue is cited by
+number as `issue-NNN` rather than by URL. Issue state is carried as it stood; the
+age of the last change is computed from it rather than copied. CC BY 4.0 asks for
+attribution and for modifications to be indicated -- the substitution is the
+modification, and `NOTICE` says why it was made.
+
+The identifiers were assigned across both documents at once, which is why the
+declaration has no `D-13`: that slot fell to the tracking issue that declares no
+deliverable at all, and it is named for what it is rather than numbered.
 
 ## The two instruments
 
@@ -33,7 +45,7 @@ path, so the key on both sides is the request's file name. Nothing matches title
 infers which proposal an issue is about -- which matters, because two of my own
 guesses were wrong: one request is tracked by an issue whose title names a
 person and an institution rather than the deliverable, and
-`cruz-leadership.md` by one titled *Astropy Finance and SPOC*. The body link was
+`D-09.md` by one titled *Astropy Finance and SPOC*. The body link was
 right both times and the title would have mismatched both.
 
 Reproduce with `python3 battery/fetch_astropy_cycle5.py --out-dir evidence`.
@@ -46,7 +58,7 @@ Reproduce with `python3 battery/fetch_astropy_cycle5.py --out-dir evidence`.
 |---|---|---|
 | `orphaned_deliverable` | 15 | the tracking issue names no COTR; the body reads `COTR: TBD` |
 | `stalled_deliverable` | 2 | owned, and the issue has not changed inside the declared window |
-| `undeclared_present` | 1 | issue 519 names no Scope of Work path, so nothing joins to it |
+| `undeclared_present` | 1 | `issue-519` names no Scope of Work path, so nothing joins to it |
 
 Nothing is absent: every funding request on `main` has a tracking issue. The first
 run of the fetch reported one absent deliverable, and it was the call document
@@ -90,7 +102,7 @@ The finding that survives every window is the one worth acting on.
 
 ## The change order is real, and the probe fires on it
 
-Issue 519 records one contract covering five requests, amended from US$58,600 to
+`issue-519` records one contract covering five requests, amended from US$58,600 to
 US$120,730 with a per-project breakdown. That is a change order. The declaration is
 at change order 0, so asserting the engagement's real state reports it:
 
@@ -116,7 +128,7 @@ by inventing a grouping the core's diff does not have.
 
 **A label is a predicate.** The capture selects issues by the tracker's own
 `cycle 5` label rather than by a title match. That caught an issue a title search
-missed: issue 522 tracks `aperio-documentation.md` under the title *Tracking Issue:
+missed: `issue-522` tracks `D-02.md` under the title *Tracking Issue:
 Unified Astropy Sphinx Theme Migration*, with no cycle in it. The label is the
 tracker's own classification and the title is prose; where they disagree the label
 is the one to trust, and it would have been easy to never learn they disagreed.
