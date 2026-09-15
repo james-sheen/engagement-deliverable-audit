@@ -1,145 +1,145 @@
 {
-  "format": "engagement-deliverable-audit/capture/1",
-  "captured_at": "2026-09-11T07:46:04Z",
-  "exporter": {
-    "source": "astropy/astropy-project issues labelled cycle 5️⃣",
-    "join": "the Scope of Work path in each issue body"
+ "format": "engagement-deliverable-audit/capture/1",
+ "captured_at": "2026-09-11T07:46:04Z",
+ "exporter": {
+  "source": "astropy/astropy-project issues labelled cycle 5\ufe0f\u20e3",
+  "join": "the Scope of Work path in each issue body"
+ },
+ "complete": true,
+ "points": [
+  {
+   "name": "D-11.md",
+   "path": "issue-534",
+   "owner": "C-01",
+   "state": "open",
+   "days_since_transition": 136
   },
-  "complete": true,
-  "points": [
-    {
-      "name": "hamogu.md",
-      "path": "https://github.com/astropy/astropy-project/issues/534",
-      "owner": "hamogu",
-      "state": "open",
-      "days_since_transition": 136
-    },
-    {
-      "name": "ginsburg-astroquery.md",
-      "path": "https://github.com/astropy/astropy-project/issues/533",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 156
-    },
-    {
-      "name": "homeier-core.md",
-      "path": "https://github.com/astropy/astropy-project/issues/528",
-      "owner": "pllim",
-      "state": "open",
-      "days_since_transition": 65
-    },
-    {
-      "name": "asdf-astropy.md",
-      "path": "https://github.com/astropy/astropy-project/issues/527",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 214
-    },
-    {
-      "name": "morris.md",
-      "path": "https://github.com/astropy/astropy-project/issues/525",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 219
-    },
-    {
-      "name": "aperio_robitaille_spoc.md",
-      "path": "https://github.com/astropy/astropy-project/issues/524",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 219
-    },
-    {
-      "name": "aperio_release.md",
-      "path": "https://github.com/astropy/astropy-project/issues/523",
-      "owner": "olebole",
-      "state": "open",
-      "days_since_transition": 114
-    },
-    {
-      "name": "aperio-documentation.md",
-      "path": "https://github.com/astropy/astropy-project/issues/522",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 121
-    },
-    {
-      "name": "aperio_benchmarking.md",
-      "path": "https://github.com/astropy/astropy-project/issues/521",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 233
-    },
-    {
-      "name": "votable_vo.md",
-      "path": "https://github.com/astropy/astropy-project/issues/520",
-      "owner": "tomdonaldson",
-      "state": "open",
-      "days_since_transition": 16
-    },
-    {
-      "name": "issue-519-names-no-scope-of-work",
-      "path": "https://github.com/astropy/astropy-project/issues/519",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 105
-    },
-    {
-      "name": "aperio_maintenance.md",
-      "path": "https://github.com/astropy/astropy-project/issues/518",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 233
-    },
-    {
-      "name": "pickering_specreduce.md",
-      "path": "https://github.com/astropy/astropy-project/issues/517",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 233
-    },
-    {
-      "name": "cruz-leadership.md",
-      "path": "https://github.com/astropy/astropy-project/issues/516",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 142
-    },
-    {
-      "name": "craig-nddata-astrowidgets.md",
-      "path": "https://github.com/astropy/astropy-project/issues/515",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 147
-    },
-    {
-      "name": "platform-of-stability.md",
-      "path": "https://github.com/astropy/astropy-project/issues/514",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 233
-    },
-    {
-      "name": "parviainen_specreduce.md",
-      "path": "https://github.com/astropy/astropy-project/issues/513",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 223
-    },
-    {
-      "name": "Streicher-Debian+Ubuntu.md",
-      "path": "https://github.com/astropy/astropy-project/issues/512",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 262
-    },
-    {
-      "name": "mhvk-units-masked-uncertainties.md",
-      "path": "https://github.com/astropy/astropy-project/issues/511",
-      "owner": null,
-      "state": "open",
-      "days_since_transition": 51
-    }
-  ],
-  "errors": []
+  {
+   "name": "D-10.md",
+   "path": "issue-533",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 156
+  },
+  {
+   "name": "D-12.md",
+   "path": "issue-528",
+   "owner": "C-03",
+   "state": "open",
+   "days_since_transition": 65
+  },
+  {
+   "name": "D-07.md",
+   "path": "issue-527",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 214
+  },
+  {
+   "name": "D-15.md",
+   "path": "issue-525",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 219
+  },
+  {
+   "name": "D-06.md",
+   "path": "issue-524",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 219
+  },
+  {
+   "name": "D-05.md",
+   "path": "issue-523",
+   "owner": "C-02",
+   "state": "open",
+   "days_since_transition": 114
+  },
+  {
+   "name": "D-02.md",
+   "path": "issue-522",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 121
+  },
+  {
+   "name": "D-03.md",
+   "path": "issue-521",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 233
+  },
+  {
+   "name": "D-19.md",
+   "path": "issue-520",
+   "owner": "C-04",
+   "state": "open",
+   "days_since_transition": 16
+  },
+  {
+   "name": "D-13.md",
+   "path": "issue-519",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 105
+  },
+  {
+   "name": "D-04.md",
+   "path": "issue-518",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 233
+  },
+  {
+   "name": "D-17.md",
+   "path": "issue-517",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 233
+  },
+  {
+   "name": "D-09.md",
+   "path": "issue-516",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 142
+  },
+  {
+   "name": "D-08.md",
+   "path": "issue-515",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 147
+  },
+  {
+   "name": "D-18.md",
+   "path": "issue-514",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 233
+  },
+  {
+   "name": "D-16.md",
+   "path": "issue-513",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 223
+  },
+  {
+   "name": "D-01.md",
+   "path": "issue-512",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 262
+  },
+  {
+   "name": "D-14.md",
+   "path": "issue-511",
+   "owner": null,
+   "state": "open",
+   "days_since_transition": 51
+  }
+ ],
+ "errors": []
 }

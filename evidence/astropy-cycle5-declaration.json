@@ -1,198 +1,198 @@
 {
-  "format": "engagement-deliverable-audit/declaration/1",
-  "engagement": "astropy-cycle-5",
-  "reviewed_by": "DERIVED -- not signed by anybody. Built by battery/fetch_astropy_cycle5.py from astropy/astropy-project@74af2fa4. The Astropy SPOC and Finance Committee selected these funding requests on a nominal date of 2025-12-19 and did not review this declaration",
-  "reviewed_on": "2026-09-11",
-  "change_order": 0,
-  "stall_window_days": 90.0,
-  "sources": [
-    {
-      "path": "https://github.com/astropy/astropy-project/tree/74af2fa4de15c27b369e65f93432e1538d8b9476/finance/proposal-calls/cycle5",
-      "derived_from": "Astropy Cycle 5 funding requests. The cycle template says this section will be used as the Scope of Work in the resulting contracts",
-      "captured_at": "2026-09-11T07:46:04Z"
-    }
-  ],
-  "window_basis": "90 days is the AUDITOR'S specification and not the engagement's. The call declares a one-year period of performance (Jan 1-Dec 31, 2026) and requires work updates in the tracking issue, but names no interval for them. A quarter of the period is the number used here; the verdict's dependence on it is swept in the evidence.",
-  "points": [
-    {
-      "id": "Streicher-Debian+Ubuntu.md",
-      "declared_type": "deliverable",
-      "text": "Packaging and maintenance of the Astropy ecosystem for Debian and Ubuntu",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/Streicher-Debian+Ubuntu.md",
-        "quote": "Streicher-Debian+Ubuntu.md"
-      }
-    },
-    {
-      "id": "aperio-documentation.md",
-      "declared_type": "deliverable",
-      "text": "Improve Integration of Astropy Documentation",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/aperio-documentation.md",
-        "quote": "aperio-documentation.md"
-      }
-    },
-    {
-      "id": "aperio_benchmarking.md",
-      "declared_type": "deliverable",
-      "text": "Reliable performance benchmarking for the Astropy project",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/aperio_benchmarking.md",
-        "quote": "aperio_benchmarking.md"
-      }
-    },
-    {
-      "id": "aperio_maintenance.md",
-      "declared_type": "deliverable",
-      "text": "Core/coordinated Package Maintenance and Development",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/aperio_maintenance.md",
-        "quote": "aperio_maintenance.md"
-      }
-    },
-    {
-      "id": "aperio_release.md",
-      "declared_type": "deliverable",
-      "text": "Release team and shared infrastructure",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/aperio_release.md",
-        "quote": "aperio_release.md"
-      }
-    },
-    {
-      "id": "aperio_robitaille_spoc.md",
-      "declared_type": "deliverable",
-      "text": "Strategic Planning and Organizing Committee (Robitaille)",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/aperio_robitaille_spoc.md",
-        "quote": "aperio_robitaille_spoc.md"
-      }
-    },
-    {
-      "id": "asdf-astropy.md",
-      "declared_type": "deliverable",
-      "text": "Expanding Astropy and Astropy-affiliated objects to be serialized to ASDF",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/asdf-astropy.md",
-        "quote": "asdf-astropy.md"
-      }
-    },
-    {
-      "id": "craig-nddata-astrowidgets.md",
-      "declared_type": "deliverable",
-      "text": "Array API and Astrowidgets",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/craig-nddata-astrowidgets.md",
-        "quote": "craig-nddata-astrowidgets.md"
-      }
-    },
-    {
-      "id": "cruz-leadership.md",
-      "declared_type": "deliverable",
-      "text": "Cruz & Gabela - Finance Committee and SPOC",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/cruz-leadership.md",
-        "quote": "cruz-leadership.md"
-      }
-    },
-    {
-      "id": "ginsburg-astroquery.md",
-      "declared_type": "deliverable",
-      "text": "Astroquery and other maintenance work by Adam Ginsburg",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/ginsburg-astroquery.md",
-        "quote": "ginsburg-astroquery.md"
-      }
-    },
-    {
-      "id": "hamogu.md",
-      "declared_type": "deliverable",
-      "text": "X-ray spectroscopy and `io.ascii` fixes",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/hamogu.md",
-        "quote": "hamogu.md"
-      }
-    },
-    {
-      "id": "homeier-core.md",
-      "declared_type": "deliverable",
-      "text": "Core Maintainer and Affiliated Editor support for Derek Homeier",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/homeier-core.md",
-        "quote": "homeier-core.md"
-      }
-    },
-    {
-      "id": "mhvk-units-masked-uncertainties.md",
-      "declared_type": "deliverable",
-      "text": "Quantities with Array API support, Improved Support for Masks and Uncertainties",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/mhvk-units-masked-uncertainties.md",
-        "quote": "mhvk-units-masked-uncertainties.md"
-      }
-    },
-    {
-      "id": "morris.md",
-      "declared_type": "deliverable",
-      "text": "Broadcasting workshops across space and time",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/morris.md",
-        "quote": "morris.md"
-      }
-    },
-    {
-      "id": "parviainen_specreduce.md",
-      "declared_type": "deliverable",
-      "text": "Specreduce Development and Project Management",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/parviainen_specreduce.md",
-        "quote": "parviainen_specreduce.md"
-      }
-    },
-    {
-      "id": "pickering_specreduce.md",
-      "declared_type": "deliverable",
-      "text": "Development, Coordination, and Community Engagement involving specreduce and other spectroscopy-related tools by Timothy Pickering",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/pickering_specreduce.md",
-        "quote": "pickering_specreduce.md"
-      }
-    },
-    {
-      "id": "platform-of-stability.md",
-      "declared_type": "deliverable",
-      "text": "Astropy as a platform of stability in the astronomy software landscape",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/platform-of-stability.md",
-        "quote": "platform-of-stability.md"
-      }
-    },
-    {
-      "id": "votable_vo.md",
-      "declared_type": "deliverable",
-      "text": "Improvements of astropy VO interoperability with a focus on improving VOTable",
-      "basis": {
-        "document": "astropy/astropy-project at 74af2fa4",
-        "location": "finance/proposal-calls/cycle5/votable_vo.md",
-        "quote": "votable_vo.md"
-      }
-    }
-  ]
+ "format": "engagement-deliverable-audit/declaration/1",
+ "engagement": "astropy-cycle-5",
+ "reviewed_by": "DERIVED -- not signed by anybody. Built by battery/fetch_astropy_cycle5.py from astropy/astropy-project@74af2fa4. The Astropy SPOC and Finance Committee selected these funding requests on a nominal date of 2025-12-19 and did not review this declaration",
+ "reviewed_on": "2026-09-11",
+ "change_order": 0,
+ "stall_window_days": 90.0,
+ "sources": [
+  {
+   "path": "https://github.com/astropy/astropy-project/tree/74af2fa4de15c27b369e65f93432e1538d8b9476/finance/proposal-calls/cycle5",
+   "derived_from": "Astropy Cycle 5 funding requests. The cycle template says this section will be used as the Scope of Work in the resulting contracts",
+   "captured_at": "2026-09-11T07:46:04Z"
+  }
+ ],
+ "window_basis": "90 days is the AUDITOR'S specification and not the engagement's. The call declares a one-year period of performance (Jan 1-Dec 31, 2026) and requires work updates in the tracking issue, but names no interval for them. A quarter of the period is the number used here; the verdict's dependence on it is swept in the evidence.",
+ "points": [
+  {
+   "id": "D-01.md",
+   "declared_type": "deliverable",
+   "text": "Packaging and maintenance of the Astropy ecosystem for Debian and Ubuntu",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-01.md",
+    "quote": "D-01.md"
+   }
+  },
+  {
+   "id": "D-02.md",
+   "declared_type": "deliverable",
+   "text": "Improve Integration of Astropy Documentation",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-02.md",
+    "quote": "D-02.md"
+   }
+  },
+  {
+   "id": "D-03.md",
+   "declared_type": "deliverable",
+   "text": "Reliable performance benchmarking for the Astropy project",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-03.md",
+    "quote": "D-03.md"
+   }
+  },
+  {
+   "id": "D-04.md",
+   "declared_type": "deliverable",
+   "text": "Core/coordinated Package Maintenance and Development",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-04.md",
+    "quote": "D-04.md"
+   }
+  },
+  {
+   "id": "D-05.md",
+   "declared_type": "deliverable",
+   "text": "Release team and shared infrastructure",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-05.md",
+    "quote": "D-05.md"
+   }
+  },
+  {
+   "id": "D-06.md",
+   "declared_type": "deliverable",
+   "text": "Strategic Planning and Organizing Committee (a named maintainer)",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-06.md",
+    "quote": "D-06.md"
+   }
+  },
+  {
+   "id": "D-07.md",
+   "declared_type": "deliverable",
+   "text": "Expanding Astropy and Astropy-affiliated objects to be serialized to ASDF",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-07.md",
+    "quote": "D-07.md"
+   }
+  },
+  {
+   "id": "D-08.md",
+   "declared_type": "deliverable",
+   "text": "Array API and Astrowidgets",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-08.md",
+    "quote": "D-08.md"
+   }
+  },
+  {
+   "id": "D-09.md",
+   "declared_type": "deliverable",
+   "text": "Cruz & Gabela - Finance Committee and SPOC",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-09.md",
+    "quote": "D-09.md"
+   }
+  },
+  {
+   "id": "D-10.md",
+   "declared_type": "deliverable",
+   "text": "Astroquery and other maintenance work by a named maintainer",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-10.md",
+    "quote": "D-10.md"
+   }
+  },
+  {
+   "id": "D-11.md",
+   "declared_type": "deliverable",
+   "text": "X-ray spectroscopy and `io.ascii` fixes",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-11.md",
+    "quote": "D-11.md"
+   }
+  },
+  {
+   "id": "D-12.md",
+   "declared_type": "deliverable",
+   "text": "Core Maintainer and Affiliated Editor support for a named maintainer",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-12.md",
+    "quote": "D-12.md"
+   }
+  },
+  {
+   "id": "D-14.md",
+   "declared_type": "deliverable",
+   "text": "Quantities with Array API support, Improved Support for Masks and Uncertainties",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-14.md",
+    "quote": "D-14.md"
+   }
+  },
+  {
+   "id": "D-15.md",
+   "declared_type": "deliverable",
+   "text": "Broadcasting workshops across space and time",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-15.md",
+    "quote": "D-15.md"
+   }
+  },
+  {
+   "id": "D-16.md",
+   "declared_type": "deliverable",
+   "text": "Specreduce Development and Project Management",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-16.md",
+    "quote": "D-16.md"
+   }
+  },
+  {
+   "id": "D-17.md",
+   "declared_type": "deliverable",
+   "text": "Development, Coordination, and Community Engagement involving specreduce and other spectroscopy-related tools by Timothy Pickering",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-17.md",
+    "quote": "D-17.md"
+   }
+  },
+  {
+   "id": "D-18.md",
+   "declared_type": "deliverable",
+   "text": "Astropy as a platform of stability in the astronomy software landscape",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-18.md",
+    "quote": "D-18.md"
+   }
+  },
+  {
+   "id": "D-19.md",
+   "declared_type": "deliverable",
+   "text": "Improvements of astropy VO interoperability with a focus on improving VOTable",
+   "basis": {
+    "document": "astropy/astropy-project at 74af2fa4",
+    "location": "finance/proposal-calls/cycle5/D-19.md",
+    "quote": "D-19.md"
+   }
+  }
+ ]
 }

@@ -56,8 +56,8 @@ def test_a_percent_encoded_file_name_joins_to_the_decoded_one() -> None:
     the tree, where it is a plus, so a capture that did not decode would report the
     request absent and the issue undeclared -- two findings for one encoding."""
     issue = {"body": "Scope of Work - https://github.com/astropy/astropy-project/blob/"
-                     "main/finance/proposal-calls/cycle5/Streicher-Debian%2BUbuntu.md"}
-    assert fetch.scope_of(issue) == "Streicher-Debian+Ubuntu.md"
+                     "main/finance/proposal-calls/cycle5/D-01-Debian%2BUbuntu.md"}
+    assert fetch.scope_of(issue) == "D-01-Debian+Ubuntu.md"
 
 
 def test_an_issue_naming_no_scope_of_work_is_reported_rather_than_dropped() -> None:
@@ -68,7 +68,7 @@ def test_an_issue_naming_no_scope_of_work_is_reported_rather_than_dropped() -> N
 # --- the owner rule --------------------------------------------------------
 
 def test_a_named_representative_is_an_owner() -> None:
-    assert fetch.cotr_of({"body": "COTR: @tomdonaldson\n"}) == "tomdonaldson"
+    assert fetch.cotr_of({"body": "COTR: @c-01\n"}) == "c-01"
 
 
 def test_a_representative_still_to_be_named_is_not_an_owner() -> None:
@@ -96,7 +96,7 @@ def test_the_template_and_the_call_are_not_funding_requests() -> None:
     assert not fetch._is_request("template.md", "finance/proposal-calls/cycle5")
     assert not fetch._is_request("cycle5.md", "finance/proposal-calls/cycle5")
     assert not fetch._is_request("aperio-docs.png", "finance/proposal-calls/cycle5")
-    assert fetch._is_request("hamogu.md", "finance/proposal-calls/cycle5")
+    assert fetch._is_request("D-01.md", "finance/proposal-calls/cycle5")
 
 
 # --- the window the engagement never declared -------------------------------
@@ -104,8 +104,8 @@ def test_the_template_and_the_call_are_not_funding_requests() -> None:
 def _assembled(window):
     import datetime as dt
     return fetch.declaration_for(
-        "74af2fa4de15c27b369e65f93432e1538d8b9476", ["hamogu.md"],
-        {"hamogu.md": "X-ray spectroscopy"},
+        "74af2fa4de15c27b369e65f93432e1538d8b9476", ["D-01.md"],
+        {"D-01.md": "X-ray spectroscopy"},
         dt.datetime(2026, 9, 11, tzinfo=dt.timezone.utc), window)
 
 

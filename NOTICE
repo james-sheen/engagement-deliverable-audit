@@ -16,11 +16,28 @@ should exist, which are moving, which are tracked and stalled, and which are
 absent. The first two are different answers and a tracker that reports only
 "open" cannot tell them apart.
 
-NO REDISTRIBUTED THIRD-PARTY CONTENT
+THIRD-PARTY CONTENT: A REAL PUBLIC SOURCE, PSEUDONYMOUS PEOPLE
 
-Nothing in this repository was copied from anywhere else. No statement of work,
-engagement, client or consultant named anywhere here is real, and every example
-will say so on its face.
+Both sentences that stood here were false, and they were published. They read
+*nothing in this repository was copied from anywhere else* and *no consultant
+named anywhere here is real*. `evidence/astropy-cycle5-*` is derived from the
+Astropy project's public Cycle 5 funding requests and the issues tracking them,
+and it named four real maintainers by their GitHub handles, against deliverables
+this package reports as stalled.
+
+The invented examples are still invented -- `examples/` is a fictional
+engagement and says so on its face. What is NOT invented is the astropy
+evidence, and it is now pseudonymous: deliverables carry stable `D-NN`
+identifiers, the people who own them carry `C-NN`, and no person is named in
+any field or any title.
+
+THAT IS PSEUDONYMITY AND NOT ANONYMITY, and it is not offered as any. The source
+is named openly, one commit deep, because an audit whose provenance you cannot
+check is worth nothing -- and anybody who opens it can map the pseudonyms back.
+The deliverable TEXT is quoted verbatim from a public document, so it is a join
+key in the way a filing's figures are. The pseudonyms buy one thing and it is
+worth having: this repository does not itself publish a named individual beside
+an adverse finding about their work.
 
 DEPENDENCIES, SEPARATELY LICENSED
 

@@ -31,7 +31,8 @@ state, COTR and the age of its last change. No other field is copied.
 **The join is mechanical.** Every tracking issue body links its Scope of Work by
 path, so the key on both sides is the request's file name. Nothing matches titles or
 infers which proposal an issue is about -- which matters, because two of my own
-guesses were wrong: `hamogu.md` is tracked by an issue titled *Moritz/MIT* and
+guesses were wrong: one request is tracked by an issue whose title names a
+person and an institution rather than the deliverable, and
 `cruz-leadership.md` by one titled *Astropy Finance and SPOC*. The body link was
 right both times and the title would have mismatched both.
 
