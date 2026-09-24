@@ -64,7 +64,18 @@ Source = "https://github.com/james-sheen/engagement-deliverable-audit"
 #
 # So the floor is 0.1.10, the pin now claims four releases instead of one, and
 # all four were installed and run rather than reasoned about.
-detect = ["arbiter-engine>=0.1.10,<0.2"]
+#
+# THE CEILING MOVED TO 0.2 ON A MEASUREMENT, 2026-09-24. `<0.2` had held since
+# the engine's 0.1 line and was never re-derived against a 0.2 release, so it
+# was a claim about a boundary nobody had crossed. Measured on 0.2.4: 292 passed, the same figure the suite
+# reports on 0.1.18, with the one collection error on both sides -- it is a
+# sibling package this harness did not install and has nothing to do with the
+# engine.
+# The floor is raised with it rather than left low: a range is a claim about
+# every release inside it, and the releases between the old floor and this one were not
+# re-run when the ceiling moved. What is above still says why 0.1.10 was the
+# floor; it is no longer the release this package is pinned to.
+detect = ["arbiter-engine>=0.2.4,<0.3"]
 
 # The grader's own need, and it is an extra because the grader is in `battery/`:
 # a package that audits deliverables should not make every consumer install a
