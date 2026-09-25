@@ -78,12 +78,19 @@ def test_the_live_gate_is_silent_on_a_model_with_nothing_unread() -> None:
 def test_a_model_that_declares_no_axiom_is_refused_by_the_live_gate() -> None:
     """A model the engine loads, reads entirely, and judges nothing with.
 
-    `something: else` is a valid `DomainModel` to this engine: `is_domain_model` says
-    True, there are no entity types and no indicators, and every silence list is
-    honestly empty. So all three checks above pass and a `detect` run against it
-    scores CLEAN, because no findings and no declines is the clean case. Pointing a
-    verb at the wrong YAML file was a clean audit.
+    It declares a domain and an entity type and NO indicators, so there is no
+    axiom anywhere in it: every silence list is honestly empty, and a `detect`
+    run scores CLEAN because no findings and no declines is the clean case.
+    Pointing a verb at a model like this was a clean audit.
+
+    THE FIXTURE CHANGED AND THE CLAIM DID NOT. This read `{"something": "else"}`
+    and said in this docstring that such a mapping was a valid `DomainModel`,
+    because `is_domain_model` answered True for anything. Engine 0.2.6 refuses
+    it -- `NotADomainModelError`, naming the keys a model must declare -- so the
+    engine now catches THAT input a layer before this gate sees it, which is
+    strictly better and is not what this test is for. The gate's own subject is
+    a real model that judges nothing, and that is what it is handed now.
     """
-    found = guard.silence(_session({"something": "else"}))
+    found = guard.silence(_session(_model([])))
     assert [p for p in found if p.where == "model.declared_axioms"], (
         f"a model declaring no axiom has to be refused, and the gate said {found}")
