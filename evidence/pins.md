@@ -10,9 +10,16 @@ Reproduce with:
     python3 battery/probe_pin.py                               # the declared ranges
     python3 battery/probe_pin.py --dist arbiter-engine --sweep-below
 
-The run below is the one that set the floors now in `pyproject.toml`. CI repeats the
+The run below set the floors `pyproject.toml` carried through 0.1.3. CI repeats the
 first command on every push, so a release landing inside a range is exercised
 without anybody editing a version number.
+
+**Two of its three rows are still in force; the engine's is history.** The
+`presence-audit` and `qa-orchestrator` floors below are the ones declared today.
+The engine range moved to `>=0.2.4,<0.3` on 2026-09-24, on a re-measurement
+recorded beside that line in `pyproject.toml`, and this page said it set the
+floors "now in" that file for two days after it stopped being true of one of
+them.
 
 ## The sweep that moved a floor
 
