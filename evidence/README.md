@@ -53,14 +53,18 @@ good news. Absence stays exercised by the suite.
 
 ## What the run reproduced about the core
 
-The report carries **247 findings** and the core's own `DiffReport.exit_code` is
-**0**, because both kinds raised here come from this domain's `capture_findings`
-and neither is in the core's `REGRESSION_KINDS`. The verdict of 1 comes from this
-package's floor table alone.
+The report carries **247 findings**, and on `presence-audit` 0.1.8 or later the
+core's own `DiffReport.exit_code` is **1**, the same verdict this package's floor
+table reaches: the vertical declares `regression_kinds`, derived from that table,
+and the core counts all 247 as regressions. Measured on 0.1.11.
 
-That is the gap filed upstream as `presence-audit` #7, reproduced on real data
-rather than on a fixture -- which is the stronger form, because a fixture can be
-built to show anything.
+**On 0.1.7, which this package's range still admits, the core reports 0** --
+both kinds raised here come from this domain's `capture_findings`, and that
+release scores only its own `REGRESSION_KINDS`. That was the gap filed upstream
+as `presence-audit` #7, reproduced on real data rather than on a fixture, and
+0.1.8 closed it. This paragraph went on saying the core reported 0 for twelve
+days after that stopped being true; `tests/test_real_data.py` now reads its
+numbers back against whichever core is installed.
 
 ## Re-deriving these files
 

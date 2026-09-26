@@ -107,6 +107,29 @@ def test_the_core_and_this_package_agree_over_two_hundred_real_findings(compared
         assert report.counts()["regressions"] == 0
 
 
+def test_the_evidence_readme_says_what_the_installed_core_reports(compared) -> None:
+    """The paragraph describing this run, held to the run.
+
+    `evidence/README.md` went on saying the core's exit code here was 0 for
+    twelve days after `presence-audit` 0.1.8 made it 1: the test above asserted
+    the behaviour and nothing asserted the sentence. Its numbers are read back
+    against whichever core is installed, so each arm of the range is checked
+    wherever that arm runs.
+    """
+    from presence_audit import vocabulary as _core_vocabulary
+
+    report, _e, _x = compared
+    text = " ".join((EVIDENCE / "README.md").read_text(encoding="utf-8").split())
+    assert f"**{len(report.findings)} findings**" in text
+    if hasattr(_core_vocabulary, "regression_kinds"):
+        claim = f"`DiffReport.exit_code` is **{report.exit_code}**"
+    else:
+        claim = f"the core reports {report.exit_code}**"
+    assert claim in text, (
+        f"evidence/README.md does not state what the installed core reports "
+        f"over this corpus: expected {claim!r}")
+
+
 def test_the_committed_capture_has_the_exporter_shape_the_script_writes() -> None:
     """Evidence that no longer matches its generator, caught without a network fetch.
 
