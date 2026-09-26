@@ -4,6 +4,65 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.4 -- 2026-09-26
+
+The engine range moves to the 0.2 line, the attestation writes the verdict block the core
+now declares, and `attest` reads the flag the core now keeps. Two notices this repository
+published were false and are corrected, and the source distribution runs its own suite
+for the first time.
+
+### Changed
+
+- **`pip install 'engagement-deliverable-audit[detect]'` installs the 0.2 engine.** The
+  range is `arbiter-engine>=0.2.4,<0.3`; `<0.2` had never been re-derived against a 0.2
+  release. The floor record was re-probed on 0.2.4, 0.2.6, 0.2.9 and 0.2.10: at 0.2.4 two
+  MONOTONICITY declines moved from `no_threshold` to `partially_checked`, and nothing in
+  it has moved since.
+- **With `presence-audit` 0.1.8 or later, the attestation's `verdict` is the block that
+  release declares** -- `{exit_code, meaning, scored_by}` -- where this package wrote a
+  bare string of its own, because the format had nowhere to put a conclusion. A reader
+  of `verdict` as text reads `verdict.meaning`. `exit_code` stays at the top level, and
+  `attest` reads either spelling, so an artifact written by 0.1.3 still composes.
+- **The core now scores this vertical's own findings.** The vocabulary declares
+  `regression_kinds`, derived from the floor table, so `presence-audit` 0.1.8 or later
+  counts `stalled_deliverable` and `orphaned_deliverable` as regressions: a diff asked of
+  the core over them returns exit 1 where it returned 0. `detect` was never affected; it
+  scores with the floor table.
+
+### Added
+
+- **Two decline reasons are floored**, from `arbiter-engine` 0.1.14: `no_rule_for_role`
+  (incomplete -- the model owes a different pairing) and `partially_checked` (clean --
+  one arm ran and the other had nothing to judge).
+
+### Fixed
+
+- **`attest` scored an unreachable floor as warming.** From `presence-audit` 0.1.8 the
+  attestation keeps `floor_unreachable_at_this_rate` under each row's `measurement`, and
+  `attest` read it only off the top of the row -- so an artifact carrying the distinction
+  and no recorded code scored 0 where the run's cadence can never present the floor,
+  which is 1.
+- **NOTICE said nothing here was copied and no person named was real.** Both were false:
+  `evidence/astropy-cycle5-*` derives from the Astropy project's public Cycle 5 funding
+  requests and named four maintainers by handle, against deliverables this package
+  reports as stalled. The evidence is pseudonymous now -- deliverables `D-NN`, owners
+  `C-NN` -- and NOTICE says it is pseudonymity, not anonymity.
+- **Three documents described a core that had moved.** `evidence/README.md` said the core
+  reports exit 0 over the Jira evidence, `evidence/pins.md` that its sweep set the floors
+  now in force, and the README that the core's format carries no verdict. Each now says
+  which release does what, and a test reads the first back against the installed core.
+- **The sdist could not run its own suite.** setuptools' default carried `tests/test*.py`
+  and none of the `battery/` and `tools/` modules five of them import, so 0.1.3's suite
+  stopped at collection. `MANIFEST.in` names the tracked tree; from the built sdist the
+  suite runs 312 passed.
+- **The guards read an empty requirement as a lost subject.** From `presence-audit` 0.1.8
+  the report writer and the attestation builder require nothing of a source element,
+  which is a correct answer; the guards now tell it apart from the writer having moved.
+- **A killed pin-probe run left one environment per release behind.**
+  `battery/probe_pin.py` reaps its own leftovers older than six hours on the way in.
+- **The index page named no author and no keywords.** Declared from this release; a
+  release's metadata is immutable, so 0.1.0 through 0.1.3 keep the gap.
+
 ## 0.1.3 -- 2026-09-12
 
 Answers a third verification report, on 0.1.2, which again ran nothing. It confirmed all
