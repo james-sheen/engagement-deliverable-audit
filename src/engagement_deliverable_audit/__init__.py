@@ -15,6 +15,6 @@ come before the vertical, deliberately: the checks that decide whether this
 package is right are the part most easily left until last.
 """
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 __all__ = ["__version__"]

@@ -196,7 +196,7 @@ def cmd_presence(args: argparse.Namespace) -> int:
             "window": {"stall_window_days": engagement.stall_window_days},
             "counts": counts,
             "findings": [{"kind": f.kind,
-                          "deliverable": keys.get(f.sensor, f.sensor),
+                          "deliverable": keys.get(f.point, f.point),
                           "detail": f.detail}
                          for f in report.findings]
                         + [{"kind": p.where, "deliverable": "(declaration)",
@@ -225,7 +225,7 @@ def cmd_presence(args: argparse.Namespace) -> int:
              f"{', '.join(counted_out)} -- declared as something a tracker was never "
              f"going to carry, so its row is not judged for an owner or a transition")
     for finding in report.findings:
-        _out(f"  {finding.kind}: {finding.sensor} -- {finding.detail}")
+        _out(f"  {finding.kind}: {finding.point} -- {finding.detail}")
     for problem in stale:
         _out(f"  {problem.where}: {problem.what}")
     for kind in exit_contract.unclassified(kinds):
@@ -254,6 +254,12 @@ def cmd_regression(args: argparse.Namespace) -> int:
     register()
     report = compare_walks(before, after)
     changes = list(getattr(report, "changes", ()))
+    # IN THIS PACKAGE'S OWN WORD. A kind naming the subject is the core's to spell
+    # -- `point_removed` from 0.2.0, the published `sensor_removed` before it -- and
+    # printing whichever the installed core emitted would make this document say
+    # different things across the range it admits. The core's own speller reads
+    # the registered noun, so both read `deliverable_removed`.
+    from presence_audit.vocabulary import spelled_kind as spelled
     code = FINDINGS if changes else CLEAN
 
     # The key is `findings` and not `changes`, and both verbs name it the same
@@ -264,7 +270,8 @@ def cmd_regression(args: argparse.Namespace) -> int:
     if args.json:
         print(json.dumps({
             "format": formats.REGRESSION,
-            "findings": [{"kind": c.kind, "deliverable": c.sensor, "detail": c.detail}
+            "findings": [{"kind": spelled(c.kind), "deliverable": c.point,
+                          "detail": c.detail}
                          for c in changes],
             "exit_code": code, "verdict": MEANING[code],
         }, indent=2))
@@ -273,7 +280,7 @@ def cmd_regression(args: argparse.Namespace) -> int:
     if not changes:
         _out("  nothing changed between the two exports")
     for change in changes:
-        _out(f"  {change.kind}: {change.sensor} -- {change.detail}")
+        _out(f"  {spelled(change.kind)}: {change.point} -- {change.detail}")
     _out(f"OUTCOME exit={code} verdict={MEANING[code]}")
     return code
 
@@ -452,7 +459,8 @@ def cmd_detect(args: argparse.Namespace) -> int:
 
         artifact = build_attestation(
             passed.session, envelope, passed.describe, EngagementManifest(),
-            target=args.attest_target or str(args.declaration), attest_fn=attest_fn)
+            target=args.attest_target or str(args.declaration), attest_fn=attest_fn,
+            spelled=True)
         # THIS RUN'S OWN CODE, BESIDE THE CORE'S KEYS. Below `presence-audit` 0.1.8
         # the core's format carries no verdict, and its `not_checked` copies four
         # fields -- so a decline the engine flagged `floor_unreachable_at_this_rate`
@@ -940,7 +948,7 @@ def build_parser() -> argparse.ArgumentParser:
                      help="repeatable, oldest first: the history the axioms read")
     det.add_argument("--require-complete", action="store_true")
     det.add_argument("--attest-out", default=None,
-                     help="write a presence-audit/attestation/1 artifact, which "
+                     help="write a presence-audit/attestation/2 artifact, which "
                           "`attest` reads back through the same front door a "
                           "recipient uses")
     det.add_argument("--attest-target-label", dest="attest_target", default=None,

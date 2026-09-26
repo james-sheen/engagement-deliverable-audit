@@ -83,7 +83,7 @@ def test_the_two_findings_only_this_domain_can_see() -> None:
         {"name": "D-1", "state": "In Progress", "owner": "anon-1", "days_since_transition": 2},
         {"name": "D-2", "state": "In Progress", "owner": "anon-2", "days_since_transition": 40},
         {"name": "D-3", "state": "In Progress", "owner": None, "days_since_transition": 1}])
-    found = {f.kind: f.sensor for f in v.capture_findings(export)}
+    found = {f.kind: f.point for f in v.capture_findings(export)}
     assert found == {"stalled_deliverable": "D-2", "orphaned_deliverable": "D-3"}
 
 

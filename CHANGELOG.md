@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.5 -- 2026-09-26
+
+The core's subject is `point` now, and this package writes and reads it by that name.
+
+### Changed
+
+- **Requires `presence-audit>=0.1.13,<0.3`.** 0.1.13 is the first release whose findings
+  and changes take `point`; 0.2.0, which removes the old names, was run against before
+  the ceiling admitted it.
+- **`detect --attest-out` writes a `presence-audit/attestation/2` artifact** on every core
+  the range admits: each finding and decline is keyed on the core's `point` and on
+  `deliverable`. `attest` still reads format 1.
+- **`regression` names change kinds in this package's own word**, `deliverable_removed`
+  where 0.1.4 printed the core's `sensor_removed`, whichever core is installed.
+
 ## 0.1.4 -- 2026-09-26
 
 The engine range moves to the 0.2 line, the attestation writes the verdict block the core

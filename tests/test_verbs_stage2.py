@@ -319,7 +319,7 @@ def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
     # The other direction: nothing in the lists floors this, and the recorded code is
     # the only thing that knows better.
     raised = {**stored, "findings": [], "evidence": [], "not_checked": [
-        {"sensor": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
+        {"point": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
          "detail": "too few observations"}], "exit_code": 1, "verdict": _verdict(1)}
     (tmp_path / "raised.json").write_text(json.dumps(raised), encoding="utf-8")
     assert main(["attest", str(tmp_path / "raised.json")]) == 1, (
@@ -343,7 +343,7 @@ def test_the_flag_the_core_keeps_under_measurement_is_read(tmp_path, capsys) -> 
           "--capture", cap, "--attest-out", str(artifact)])
     capsys.readouterr()
     stored = json.loads(artifact.read_text(encoding="utf-8"))
-    row = {"sensor": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
+    row = {"point": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
            "detail": "too few observations",
            "measurement": {"floor_unreachable_at_this_rate": True}}
     carried = {key: value for key, value in stored.items()
@@ -399,7 +399,7 @@ def test_the_manifest_contract_is_derived_and_answered() -> None:
     assert "translate_finding" in (required | optional), (
         "the builder no longer reaches for it at all, so this shim is answering "
         "a contract nobody asked for")
-    assert "sensors" in optional
+    assert "points" in optional
     assert not required & optional
     assert shim.EngagementManifest().answers() == ()
 

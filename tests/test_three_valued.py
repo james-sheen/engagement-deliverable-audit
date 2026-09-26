@@ -80,13 +80,13 @@ def test_the_three_answers_are_three_answers() -> None:
 def test_a_stalled_deliverable_is_named_with_its_window() -> None:
     report, _, export = _compare()
     stalled = [f for f in report.findings if f.kind == "stalled_deliverable"]
-    assert [f.sensor for f in stalled] == ["D-2"], "capture-side findings use the key"
+    assert [f.point for f in stalled] == ["D-2"], "capture-side findings use the key"
     assert "14 day(s)" in stalled[0].detail and "40 day(s)" in stalled[0].detail
 
 
 def test_a_descoped_deliverable_still_moving_is_reported() -> None:
     report, _, _ = _compare()
-    kinds = {f.kind: f.sensor for f in report.findings}
+    kinds = {f.kind: f.point for f in report.findings}
     # Asserted as a prefix, not an equality, and that is the convention rather
     # than laziness: a finding the CORE raises names the declared point by its
     # display name, while one this vertical raises from a capture names the

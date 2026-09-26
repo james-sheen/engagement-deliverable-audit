@@ -52,8 +52,8 @@ def _read_by(tree: ast.AST) -> tuple[frozenset[str], frozenset[str]]:
     A derivation that looked only for attribute access would report one member where
     the builder reaches for two, and the missing one is the one it is SAFE to miss --
     which is the worst way to be right, because the set looks complete. This found
-    exactly that: `translate_finding` by attribute, `sensors` by `getattr` with a
-    default, and only the first would have appeared.
+    exactly that: `translate_finding` by attribute, `sensors` -- `points` since the
+    core's 0.1.13 -- by `getattr` with a default, and only the first would have appeared.
     """
     required = {node.attr for node in ast.walk(tree)
                 if isinstance(node, ast.Attribute)
@@ -131,7 +131,7 @@ def required_members(builder: Any = None) -> frozenset[str]:
 class EngagementManifest:
     """What this domain answers to the attestation builder.
 
-    `sensors` is empty and that is the right answer rather than a stub. The core uses
+    `points` is empty and that is the right answer rather than a stub. The core uses
     it to map a sanitised entity id back to the name on a board, because a sibling's
     ids are unreadable six months later. Here the entity id IS the declared key -- the
     same string the declaration, the capture, every finding and every report use -- so
@@ -139,7 +139,7 @@ class EngagementManifest:
     for one set of names.
     """
 
-    sensors: tuple = ()
+    points: tuple = ()
 
     def translate_finding(self, finding: Any) -> str:
         """This domain's sentence for a finding, for a reader who has only the artifact.

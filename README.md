@@ -131,8 +131,9 @@ declaration carries, and a deliverable carries a due date and an owner rather th
 bound. So every point is excluded as `no_thresholds` and the manifest is the account of
 that -- an empty model on its own is indistinguishable from generation never having run.
 
-`detect --attest-out` writes a `presence-audit/attestation/1` artifact and `attest` reads
-one back through the door a recipient uses. The members the core's builder reads off its
+`detect --attest-out` writes a `presence-audit/attestation/2` artifact -- each finding keyed
+on the core's `point` and on `deliverable` -- and `attest` reads one back through the door a
+recipient uses, format 1 included. The members the core's builder reads off its
 manifest are declared by no protocol, so this package derives them from the builder's own
 source -- distinguishing an attribute access, which is required, from a `getattr` with a
 default, which is not. Filed upstream; `FINDINGS.md` has the rest.

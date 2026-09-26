@@ -125,16 +125,16 @@ class EngagementVocabulary:
             return ()
         out = []
         if getattr(old, "owner", None) and not getattr(new, "owner", None):
-            out.append(Change(kind="owner_removed", sensor=new.name,
+            out.append(Change(kind="owner_removed", point=new.name,
                               detail=f"{old.owner} was the owner and now nobody is",
                               before_path=old.path, after_path=new.path))
         if getattr(old, "is_reading", None) and not getattr(new, "is_reading", None):
-            out.append(Change(kind="stopped_moving", sensor=new.name,
+            out.append(Change(kind="stopped_moving", point=new.name,
                               detail=f"was moving, now {new.state}",
                               before_path=old.path, after_path=new.path))
         if (getattr(old, "state", None) != getattr(new, "state", None)
                 and getattr(old, "is_reading", None) and getattr(new, "is_reading", None)):
-            out.append(Change(kind="status_bounced", sensor=new.name,
+            out.append(Change(kind="status_bounced", point=new.name,
                               detail=f"{old.state} -> {new.state}",
                               before_path=old.path, after_path=new.path))
         return tuple(out)
@@ -144,10 +144,10 @@ class EngagementVocabulary:
 
         out = []
         if getattr(before, "exporter", None) != getattr(after, "exporter", None):
-            out.append(Change(kind="exporter_changed", sensor="(export)",
+            out.append(Change(kind="exporter_changed", point="(export)",
                               detail="the two exports came from different exporter pins"))
         if getattr(before, "stall_window_days", None) != getattr(after, "stall_window_days", None):
-            out.append(Change(kind="window_changed", sensor="(export)",
+            out.append(Change(kind="window_changed", point="(export)",
                               detail=f"the stall window moved from "
                                      f"{before.stall_window_days:g} to "
                                      f"{after.stall_window_days:g} day(s), so the "
@@ -188,13 +188,13 @@ class EngagementVocabulary:
                 continue
             if getattr(point, "owner", None) is None:
                 out.append(Finding(
-                    kind="orphaned_deliverable", sensor=point.name,
+                    kind="orphaned_deliverable", point=point.name,
                     detail="tracked and nobody owns it, so nobody is going to move it",
                     live_path=point.path))
             elif not point.is_reading:
                 since = point.reading
                 out.append(Finding(
-                    kind="stalled_deliverable", sensor=point.name,
+                    kind="stalled_deliverable", point=point.name,
                     detail=f"owned and not moving: last transition "
                            f"{'unknown' if since is None else format(since, 'g') + ' day(s)'} ago, "
                            f"against a declared window of "

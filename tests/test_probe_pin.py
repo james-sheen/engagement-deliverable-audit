@@ -44,7 +44,7 @@ def test_the_pins_are_read_from_the_file_that_declares_them() -> None:
     pins = probe_pin.declared_pins()
     assert pins, "no pins were read at all, which every later check would pass over"
     core = pins["presence-audit"]
-    assert core.contains("0.1.7") and not core.contains("0.1.6")
+    assert core.contains("0.1.13") and not core.contains("0.1.12")
     assert "arbiter-engine" in pins, "the extras were dropped, and an extra is a pin"
 
 
