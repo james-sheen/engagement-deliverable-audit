@@ -296,9 +296,18 @@ def _decline_kind(decline: Any) -> str:
     the collector is slower than the window can hold. The engine states which in the
     decline itself, so this is read rather than computed -- and the two floor at 0 and
     1, because warming ends and a cadence that can never present a floor does not.
+
+    READ IN EITHER PLACE. The engine puts the flag on the decline; the core's
+    attestation, from `presence-audit` 0.1.8, keeps it under the row's
+    `measurement` block. This read only the first, so an artifact that carried the
+    distinction was scored as if it had lost it: a run that could never reach a
+    floor re-scored 0 wherever the file held no recorded code.
     """
     reason = str(decline.get("reason") or "")
-    if reason == "insufficient_samples" and decline.get("floor_unreachable_at_this_rate"):
+    flagged = decline.get("floor_unreachable_at_this_rate")
+    if flagged is None and isinstance(decline.get("measurement"), dict):
+        flagged = decline["measurement"].get("floor_unreachable_at_this_rate")
+    if reason == "insufficient_samples" and flagged:
         return "warmup_unreachable"
     return reason
 
@@ -444,11 +453,14 @@ def cmd_detect(args: argparse.Namespace) -> int:
         artifact = build_attestation(
             passed.session, envelope, passed.describe, EngagementManifest(),
             target=args.attest_target or str(args.declaration), attest_fn=attest_fn)
-        # THIS RUN'S OWN CODE, BESIDE THE CORE'S KEYS. The core's format carries no
-        # verdict, and its `not_checked` copies four fields -- so a decline the engine
-        # flagged `floor_unreachable_at_this_rate` arrives indistinguishable from
-        # ordinary warming, and `warmup_unreachable` (floor 1) cannot be recovered from
-        # the artifact. Recording the code keeps the distinction readable; `attest`
+        # THIS RUN'S OWN CODE, BESIDE THE CORE'S KEYS. Below `presence-audit` 0.1.8
+        # the core's format carries no verdict, and its `not_checked` copies four
+        # fields -- so a decline the engine flagged `floor_unreachable_at_this_rate`
+        # arrives indistinguishable from ordinary warming, and `warmup_unreachable`
+        # (floor 1) cannot be recovered from the artifact. From 0.1.8 the flag rides
+        # under each row's `measurement` and `attest` reads it there; the range still
+        # admits 0.1.7, so the code is recorded either way. Recording it keeps the
+        # distinction readable; `attest`
         # composes it with its own scoring using `max`, so this can raise a verdict and
         # never lower one. Measured: `validate_attestation` accepts extra keys, with two
         # controls proving it still rejects a mangled format and a missing list.
@@ -789,13 +801,15 @@ def cmd_attest(args: argparse.Namespace) -> int:
     * **The reader scores, rather than trusting a number the writer put in the file.**
       A recipient holding an artifact from anywhere gets this package's floors applied
       to it, which is the whole reason the verdict is recomputed instead of read.
-    * **A recorded verdict still cannot be talked DOWN, only up.** The artifact cannot
-      carry everything the run knew: the core's `not_checked` copies four fields and
-      `floor_unreachable_at_this_rate` is not among them, so `warmup_unreachable`
-      (floor 1) is indistinguishable from `insufficient_samples` (floor 0) once
-      written. `detect` therefore records its own code beside the core's keys, and
-      this verb composes the two with `max`. Neither source can lower the other, and a
-      disagreement is reported rather than silently resolved.
+    * **A recorded verdict still cannot be talked DOWN, only up.** The artifact need
+      not carry everything the run knew: below `presence-audit` 0.1.8 the core's
+      `not_checked` copies four fields and `floor_unreachable_at_this_rate` is not
+      among them, so `warmup_unreachable` (floor 1) is indistinguishable from
+      `insufficient_samples` (floor 0) once written. From 0.1.8 the flag rides under
+      each row's `measurement`, and `_decline_kind` reads it there. `detect` records
+      its own code beside the core's keys either way, and this verb composes the two
+      with `max`. Neither source can lower the other, and a disagreement is reported
+      rather than silently resolved.
     """
     try:
         artifact = _read(args.attestation)

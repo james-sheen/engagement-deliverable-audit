@@ -140,9 +140,11 @@ default, which is not. Filed upstream; `FINDINGS.md` has the rest.
 **`attest` scores the artifact rather than trusting a verdict written into it.** A
 recipient holding an artifact from anywhere gets this package's floor table applied to
 it, which is the only reason re-reporting is worth doing. `detect` also records its own
-code in the artifact, because the core's format carries no verdict and its `not_checked`
-drops the flag that separates a cadence which can never reach a floor from one that has
-not reached it yet. The two compose with `max`, so a recorded verdict can raise a score
+code in the artifact -- in the `verdict` block the core's format declares from
+`presence-audit` 0.1.8, `{exit_code, meaning, scored_by}`, and as a bare string before
+it. Below 0.1.8 the core's `not_checked` drops the flag that separates a cadence which
+can never reach a floor from one that has not reached it yet; from 0.1.8 it keeps it
+under each row's `measurement`, and `attest` reads it there. The two compose with `max`, so a recorded verdict can raise a score
 and never lower one, and a disagreement between them is printed rather than resolved.
 
 **`detect` also asks the engine whether it read the model.** A declaration the engine

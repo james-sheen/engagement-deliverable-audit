@@ -40,6 +40,10 @@ The gap is invisible in the family's one fully worked vertical, because
 `bmc-sensor-audit`'s own domain finding happens to use `interface_divergence`,
 which is already in the set.
 
+**Closed upstream at `presence-audit` 0.1.8**, which reads a vocabulary's own
+`regression_kinds`. This package declares them from 0.1.4, derived from the floor
+table, and on the Jira evidence the core's exit code is now 1, as this package's is.
+
 ## 3. `is_reading` alone does not produce a finding
 
 Measured on the same release. A point with `reading: 3.0` and `is_reading: False`
@@ -453,6 +457,14 @@ that says nothing unless the validator can be shown to refuse anything.
 the code, and `max` recovered the 2 without any scoring happening. A test named for a
 defect that cannot fail on it is worse than no test, because it is counted. It now
 asserts the floors line, which only appears when the artifact is scored.
+
+**`presence-audit` 0.1.8 declared the slot, and kept the flag.** From there `detect`
+writes the declared `verdict` block, `{exit_code, meaning, scored_by}`, and `attest`
+reads either spelling. The same release keeps every decline field under the row's
+`measurement`, `floor_unreachable_at_this_rate` included -- and `attest` did not look
+there until this package's 0.1.4, so an artifact that carried the distinction was
+scored as if it had lost it. The code is still recorded, because the range admits
+0.1.7.
 
 ## 22. A model the engine did not read, and a clean run over it
 

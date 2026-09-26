@@ -327,6 +327,41 @@ def test_a_recorded_verdict_can_raise_the_score_and_never_lower_it(
     capsys.readouterr()
 
 
+def test_the_flag_the_core_keeps_under_measurement_is_read(tmp_path, capsys) -> None:
+    """A run that can never reach a floor, re-scored from the artifact alone.
+
+    From `presence-audit` 0.1.8 the core keeps every decline field under the row's
+    `measurement`, `floor_unreachable_at_this_rate` included. `attest` read the flag
+    only off the top of the row, so this artifact -- which carries the distinction
+    and no recorded code -- scored 0, clean, over a cadence that cannot present the
+    floor. The shape is written here rather than taken from the installed core: an
+    artifact comes from anywhere, and the reader has to answer for the file.
+    """
+    decl, cap = _unowned_capture(tmp_path)
+    artifact = tmp_path / "att.json"
+    main(["detect", "--declaration", decl, "--model", MODEL,
+          "--capture", cap, "--attest-out", str(artifact)])
+    capsys.readouterr()
+    stored = json.loads(artifact.read_text(encoding="utf-8"))
+    row = {"sensor": "D-1", "axiom": "STABILITY", "reason": "insufficient_samples",
+           "detail": "too few observations",
+           "measurement": {"floor_unreachable_at_this_rate": True}}
+    carried = {key: value for key, value in stored.items()
+               if key not in ("exit_code", "verdict")}
+    carried.update(findings=[], evidence=[], not_checked=[row])
+    (tmp_path / "carried.json").write_text(json.dumps(carried), encoding="utf-8")
+    assert main(["attest", str(tmp_path / "carried.json")]) == 1, (
+        "the artifact says the floor is unreachable at this cadence and was "
+        "scored as ordinary warming")
+    assert "warmup_unreachable" in capsys.readouterr().out
+
+    # The control: the same row saying the floor IS reachable scores as warming.
+    row["measurement"]["floor_unreachable_at_this_rate"] = False
+    (tmp_path / "warming.json").write_text(json.dumps(carried), encoding="utf-8")
+    assert main(["attest", str(tmp_path / "warming.json")]) == 0
+    capsys.readouterr()
+
+
 def test_an_attestation_that_does_not_validate_is_never_clean(tmp_path, capsys) -> None:
     broken = tmp_path / "broken.json"
     broken.write_text(json.dumps({"format": "presence-audit/attestation/1",
