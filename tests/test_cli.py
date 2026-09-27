@@ -161,8 +161,12 @@ def test_a_malformed_model_is_two_and_never_one(verb, body, tmp_path, capsys) ->
     import arbiter_engine  # noqa: F401
     model = tmp_path / "model.yaml"
     model.write_text(body, encoding="utf-8")
+    # THE MATCHED PAIR. This paired the example declaration with the Astropy
+    # capture, which share no deliverable, so the engine was fed nothing -- and a
+    # run that judges nothing is now refused for that. A 2 for that reason would
+    # satisfy this test without the model ever being read.
     argv = ([verb, "--model", str(model)] if verb == "gate" else
-            [verb, "--declaration", DECL, "--model", str(model),
+            [verb, "--declaration", CAPTURE_DECL, "--model", str(model),
              "--capture", CAPTURE])
 
     assert main(argv) == 2
@@ -203,7 +207,8 @@ def test_a_model_the_engine_silently_dropped_is_never_a_clean_run(
     assert main(["gate", "--model", str(model)]) == 2, "the gate never saw this either"
     capsys.readouterr()
 
-    assert main(["detect", "--declaration", DECL, "--model", str(model),
+    # The matched pair, for the reason given in the test above.
+    assert main(["detect", "--declaration", CAPTURE_DECL, "--model", str(model),
                  "--capture", CAPTURE]) == 2
     printed = capsys.readouterr().out
     assert "model_not_read" in printed, (

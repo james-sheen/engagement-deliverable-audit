@@ -168,7 +168,24 @@ def load(payload: Mapping[str, Any]) -> Engagement:
             f"stall_window_days is {window!r}; it has to be a positive number of days")
 
     points, source_path = [], payload.get("engagement") or "(unnamed engagement)"
-    for entry in payload.get("points") or ():
+    listed = payload.get("points")
+    if listed is not None and not isinstance(listed, list):
+        raise DeclarationError(
+            f"`points` is {type(listed).__name__}; a declaration lists its points")
+    for index, entry in enumerate(listed or ()):
+        # BY POSITION, because a point with no id has nothing else to be called.
+        # This read `entry["id"]` and raised KeyError, which exits 1 -- and 1 is
+        # this package's code for findings, so a declaration nobody could read
+        # reported as one with something wrong in it.
+        if not isinstance(entry, Mapping):
+            raise DeclarationError(
+                f"points[{index}] is {type(entry).__name__}, not a declared point; "
+                f"each has to be a mapping carrying an id")
+        if entry.get("id") is None or not str(entry["id"]).strip():
+            raise DeclarationError(
+                f"points[{index}] has no id, so nothing in a tracker can be matched "
+                f"to it -- and dropping it would narrow the denominator without "
+                f"saying so")
         declared_type = entry.get("declared_type")
         if declared_type not in formats.DECLARED_TYPES:
             raise DeclarationError(
@@ -203,6 +220,31 @@ def load(payload: Mapping[str, Any]) -> Engagement:
         unreadable=tuple(tuple(u) for u in payload.get("unreadable") or ()),
     )
     return engagement
+
+
+def nothing_to_judge(engagement: Engagement) -> str | None:
+    """Why a run against this declaration could judge nothing, or `None`.
+
+    A declaration naming no deliverable and no milestone -- none at all, or only
+    ceremonies and assumptions, which this audit counts out -- loads, and `declare`
+    and `generate` describe it with a zero count, which is true. But a verb that
+    JUDGES against it compares nothing: `presence` found every tracker row
+    undeclared and scored what it could, `detect` fed the engine nothing and exited
+    clean, and `gate` passed it as ready. An answer over an empty denominator is
+    not an answer, so those verbs refuse it by this sentence.
+
+    A descoped deliverable still counts: the core reports one the tracker is still
+    delivering, and that finding needs the declaration to name it.
+    """
+    from .vertical import AUDITED
+
+    if any(point.type in AUDITED for point in engagement.points):
+        return None
+    counted_out = (f"; its {len(engagement.points)} point(s) are all ceremonies or "
+                   f"assumptions, which this audit counts out" if engagement.points
+                   else "")
+    return (f"this declaration names no deliverable and no milestone{counted_out}, "
+            f"so a run against it would judge nothing and could only come back clean")
 
 
 def check_sources(engagement: Engagement) -> tuple[Any, ...]:

@@ -46,10 +46,19 @@ def as_capture(snapshot: Mapping[str, Any], *, captured_at: str | None = None,
         raise SnapshotError(f"this reader reads {MEMORY} and the snapshot "
                             f"declares {declared!r}")
     entities = snapshot.get("entities")
-    if not isinstance(entities, Mapping):
-        raise SnapshotError("the snapshot carries no entities mapping. An empty "
+    # AN EMPTY MAPPING IS THE SAME SUBSTRATE. This refused a missing mapping for
+    # exactly the reason below and then wrote `{}` out as a capture of 0 points,
+    # exit 0 -- the one shape its own sentence warns about, passed through.
+    if not isinstance(entities, Mapping) or not entities:
+        raise SnapshotError("the snapshot carries no entities. An empty "
                             "substrate would make every declared deliverable "
                             "absent and every phase pass")
+    blank = [str(name) for name in entities if not str(name).strip()]
+    if blank:
+        count = "an entity" if len(blank) == 1 else f"{len(blank)} entities"
+        raise SnapshotError(f"the snapshot carries {count} with a blank name. A "
+                            f"deliverable is matched by its name, so one with none "
+                            f"can be matched to nothing declared")
 
     points = []
     for name, record in entities.items():

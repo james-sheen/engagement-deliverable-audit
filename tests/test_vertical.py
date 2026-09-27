@@ -77,6 +77,13 @@ def _export(points, **kw):
                          "points": points, **kw}, stall_window_days=14)
 
 
+#: One tracked row, for the tests whose subject is the exporter or the window. They
+#: used exports of nothing, which the reader now refuses -- a tracker export that
+#: carries nothing is one that did not run.
+ONE = {"name": "D-1", "state": "In Progress", "owner": "anon-1",
+       "days_since_transition": 2}
+
+
 def test_the_two_findings_only_this_domain_can_see() -> None:
     v = EngagementVocabulary()
     export = _export([
@@ -100,8 +107,8 @@ def test_two_exports_from_different_exporters_are_skipped_not_compared() -> None
     """False here means SKIPPED. A difference between two exporters is not a
     change in the engagement."""
     v = EngagementVocabulary()
-    a = _export([], exporter={"export_sha256": "a" * 64})
-    b = _export([], exporter={"export_sha256": "b" * 64})
+    a = _export([ONE], exporter={"export_sha256": "a" * 64})
+    b = _export([ONE], exporter={"export_sha256": "b" * 64})
     assert v.captures_comparable(a, a) is True
     assert v.captures_comparable(a, b) is False
     changed = [c.kind for c in v.capture_changes(a, b)]
@@ -113,7 +120,7 @@ def test_a_moved_window_is_reported_as_a_change_of_rules() -> None:
     and saying so is the difference between a regression and a re-definition."""
     v = EngagementVocabulary()
     narrow = capture.load({"format": "engagement-deliverable-audit/capture/1",
-                           "points": []}, stall_window_days=7)
+                           "points": [ONE]}, stall_window_days=7)
     wide = capture.load({"format": "engagement-deliverable-audit/capture/1",
-                         "points": []}, stall_window_days=30)
+                         "points": [ONE]}, stall_window_days=30)
     assert "window_changed" in [c.kind for c in v.capture_changes(narrow, wide)]

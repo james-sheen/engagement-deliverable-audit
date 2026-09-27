@@ -4,6 +4,32 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+An input that holds nothing, or names nothing, is refused wherever it enters, where
+several verbs answered clean over it or exited 1 on a traceback.
+
+### Fixed
+
+- **An export holding no points is refused by every verb that judges one** --
+  `presence`, `regression`, `detect` and `validate-capture` -- and `capture` no longer
+  writes one, from a snapshot of no entities or from an export of nothing.
+- **A point with no name, and a declared entry with no id, are refused by their
+  position.** Each was a KeyError, which exits 1 and reads as findings.
+- **An export declaring itself incomplete has to name what failed**; one recording no
+  error reached the shared core as an IndexError.
+- **`presence`, `detect` and `gate` refuse a declaration naming no deliverable and no
+  milestone**, and `detect` refuses a run that would feed the engine nothing.
+- **`attest` refuses an attestation recording no invariant attempted or no entity
+  checked**, which it scored clean.
+
+### Changed
+
+- **`presence` and `regression` answer 2 on an export of nothing** where they reported
+  every deliverable absent or removed. An export that carries nothing cannot say which
+  deliverables are absent. `draft` still proposes nothing from one, and `declare`
+  still counts an empty declaration, and both say so.
+
 ## 0.1.5 -- 2026-09-26
 
 The core's subject is `point` now, and this package writes and reads it by that name.

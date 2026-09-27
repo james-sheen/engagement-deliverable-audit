@@ -11,7 +11,11 @@ three "open" has collapsed the one answer somebody would act on.
 
 A fourth state is kept separate from all of them: *the export did not finish*.
 An incomplete capture withholds every absence rather than reporting a deliverable
-as missing because a page of the export failed.
+as missing because a page of the export failed, and it has to name what failed.
+
+An export that holds nothing is none of the four, and every verb that judges one
+refuses it: a tracker export carrying nothing is one that did not run. So is a point
+or a declared entry with no name, refused by its position rather than dropped.
 
 ## Status
 
@@ -121,7 +125,8 @@ a tracker holds no contract, so a declaration derived from one is the same recor
 another name, and nothing in a tracker decides the window a stall is measured against.
 
 `gate` names, in one pass, everything that is not ready to be judged against: every
-unsigned declaration, and with `--model` the model gates too. It exits 2 rather than 1,
+unsigned declaration, every one naming no deliverable and no milestone, and with
+`--model` the model gates too. It exits 2 rather than 1,
 because a document nobody signed has produced no verdict to report as findings, and it
 refuses to exit clean when handed nothing.
 

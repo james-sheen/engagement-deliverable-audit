@@ -273,6 +273,18 @@ def run(engagement: Any, exports: Sequence[Any], model_text: str) -> Run:
     except Exception as problem:                                  # noqa: BLE001
         raise FeedError(
             f"the engine would not load this model: {problem}") from problem
+    # NOTHING FED IS NOT A CLEAN RUN. With no declared deliverable in any capture --
+    # or none still in the latest -- the engine was handed a session with no entity,
+    # answered an unavailable envelope with nothing in it, and this package scores
+    # findings and declines, so the run exited 0. Which of them are absent is
+    # `presence`'s finding; this verb can only say it judged nothing. AFTER the model
+    # loads, so a model nobody could read is still reported as that.
+    if not fed.deliverables:
+        raise FeedError(
+            f"no declared deliverable or milestone is in the latest capture "
+            f"({len(fed.never_seen)} in no capture at all, {len(fed.vanished)} gone "
+            f"from the latest), so the engine would judge nothing and a clean run "
+            f"would assert nothing; `presence` reports which are absent")
     for name in fed.deliverables:
         properties = {}
         points = fed.series.get(name)
@@ -287,6 +299,14 @@ def run(engagement: Any, exports: Sequence[Any], model_text: str) -> Run:
         session.add_observations(name, DERIVED, list(points))
 
     envelope = check(session).to_dict()
+    # THE FAMILY'S OTHER GUARD, kept as the backstop: an unavailable envelope carries
+    # no measurement at all, whatever produced it. `factory-line-audit` refuses on
+    # the same key.
+    meta = envelope.get("meta") or {}
+    if meta.get("source") == "unavailable":
+        raise FeedError(f"the engine answered with an unavailable envelope, so "
+                        f"nothing in it is a measurement: "
+                        f"{meta.get('reason') or 'no reason given'}")
     # From `model_describe` and not from `check`. The engine grew a dropped-declaration
     # leg on `check` after 0.1.10, and 0.1.10 is this package's own floor -- so a
     # reader that took it from there would have a silent hole on the oldest release it

@@ -131,6 +131,12 @@ def cmd_capture(args: argparse.Namespace) -> int:
             return _refuse(f"unknown source scheme {scheme!r}; known: qa-memory, export")
     except ValueError as problem:
         return _refuse(str(problem))
+    # WHAT THIS WRITES, EVERY VERB THAT JUDGES HAS TO READ. An export of nothing, or
+    # one whose points carry no name, used to be written out as a capture with exit
+    # 0 -- a file every judging verb then refused, or crashed on.
+    found = capture_module.problems(payload)
+    if found:
+        return _refuse("; ".join(found))
 
     with open(args.out, "w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
@@ -157,6 +163,9 @@ def cmd_presence(args: argparse.Namespace) -> int:
     if not engagement.reviewed:
         return _refuse("the declaration is unreviewed; sign it before judging "
                        "anything against it")
+    empty = declaration_module.nothing_to_judge(engagement)
+    if empty:
+        return _refuse(empty)
     try:
         export = capture_module.load(
             _read(args.capture), stall_window_days=engagement.stall_window_days)
@@ -243,13 +252,17 @@ def cmd_regression(args: argparse.Namespace) -> int:
 
     from .vertical import register
 
-    try:
-        before = capture_module.load(_read(args.before),
-                                     stall_window_days=args.stall_window_days)
-        after = capture_module.load(_read(args.after),
-                                    stall_window_days=args.stall_window_days)
-    except (OSError, ValueError) as problem:
-        return _refuse(str(problem))
+    loaded = {}
+    for side, path in (("before", args.before), ("after", args.after)):
+        try:
+            loaded[side] = capture_module.load(
+                _read(path), stall_window_days=args.stall_window_days)
+        except (OSError, ValueError) as problem:
+            # Which of the two. With an empty export refused, `nothing changed`
+            # can no longer come from two exports of nothing -- and a refusal
+            # that did not say which side it read would send a reader to both.
+            return _refuse(f"--{side} {path}: {problem}")
+    before, after = loaded["before"], loaded["after"]
 
     register()
     report = compare_walks(before, after)
@@ -384,6 +397,9 @@ def cmd_detect(args: argparse.Namespace) -> int:
     if not engagement.reviewed:
         return _refuse("the declaration is unreviewed; sign it before judging "
                        "anything against it")
+    empty = declaration_module.nothing_to_judge(engagement)
+    if empty:
+        return _refuse(empty)
     try:
         with open(args.model, encoding="utf-8") as handle:
             model_text = handle.read()
@@ -391,12 +407,12 @@ def cmd_detect(args: argparse.Namespace) -> int:
         return _refuse(f"cannot read the model {args.model}: {problem}")
 
     exports = []
-    try:
-        for path in args.capture:
+    for path in args.capture:
+        try:
             exports.append(capture_module.load(
                 _read(path), stall_window_days=engagement.stall_window_days))
-    except (OSError, ValueError) as problem:
-        return _refuse(str(problem))
+        except (OSError, ValueError) as problem:
+            return _refuse(f"{path}: {problem}")
 
     try:
         passed = feeder.run(engagement, exports, model_text)
@@ -565,7 +581,8 @@ def cmd_draft(args: argparse.Namespace) -> int:
     nobody made.
     """
     try:
-        export = capture_module.load(_read(args.capture), stall_window_days=1.0)
+        export = capture_module.load(_read(args.capture), stall_window_days=1.0,
+                                     allow_empty=True)
     except (OSError, ValueError) as problem:
         return _refuse(str(problem))
 
@@ -636,6 +653,10 @@ def cmd_gate(args: argparse.Namespace) -> int:
         if not engagement.reviewed:
             refused.append(f"{path}: no reviewed_by and reviewed_on, so it is a "
                            f"candidate and not a statement")
+            continue
+        empty = declaration_module.nothing_to_judge(engagement)
+        if empty:
+            refused.append(f"{path}: {empty}")
             continue
         signature = (f"NOT SIGNED, disclosed as {engagement.disclosure}"
                      if engagement.disclosure else
@@ -834,6 +855,18 @@ def cmd_attest(args: argparse.Namespace) -> int:
             _out(f"  INVALID {line}")
         return _refuse(f"{len(broken)} invariant(s) of the attestation format do not hold")
 
+    # AN ATTESTATION OF NOTHING IS NOT A CLEAN ONE. A run whose engine judged no
+    # entity and attempted no invariant has no findings and no declines, and this
+    # verb scores those two lists -- so it attested clean, over the run `detect`
+    # now refuses and over any artifact written by one that did not.
+    checked = artifact.get("checked")
+    if isinstance(checked, dict) and 0 in (checked.get("invariants"),
+                                           checked.get("entities")):
+        return _refuse(f"this attestation records invariants attempted: "
+                       f"{checked.get('invariants')}, entities checked: "
+                       f"{checked.get('entities')} -- so it attests nothing, and a "
+                       f"clean verdict over an empty denominator is not a clean one")
+
     findings = artifact.get("findings") or []
     not_checked = artifact.get("not_checked") or []
     _out(f"  target {artifact.get('target')}")
@@ -882,9 +915,10 @@ def cmd_validate_capture(args: argparse.Namespace) -> int:
         formats.require(raw, formats.CAPTURE)
     except (OSError, ValueError) as problem:
         return _refuse(str(problem))
-    points = raw.get("points")
-    if not isinstance(points, list):
-        return _refuse("this export carries no points list")
+    found = capture_module.problems(raw)
+    if found:
+        return _refuse("; ".join(found))
+    points = raw["points"]
     complete = bool(raw.get("complete", True))
     _out(f"  {len(points)} point(s), complete={complete}")
     if args.print_digest:
