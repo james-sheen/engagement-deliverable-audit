@@ -327,8 +327,14 @@ def _attestation_of_nothing() -> dict:
     artifact = build_attestation(session, envelope, described, EngagementManifest(),
                                  target="an empty run", attest_fn=attest, spelled=True)
     artifact["exit_code"] = 0
-    assert validate_attestation(artifact) == [], "the artifact must be valid, so the " \
-        "refusal below is the empty denominator and not the format"
+    # VALID, OR INVALID FOR THIS ONE REASON. `presence-audit` 0.2.2 flags an
+    # attestation over no entity itself, and the range admits both sides of that
+    # release; either way the refusal below is the empty denominator. Any OTHER
+    # problem means the artifact is malformed for a reason this test is not
+    # about, and it fails here.
+    problems = validate_attestation(artifact)
+    assert problems == [] or (len(problems) == 1 and "attests nothing" in problems[0]), (
+        f"the artifact must be valid apart from attesting nothing: {problems}")
     assert artifact["checked"] == {"invariants": 0, "entities": 0}
     return artifact
 
