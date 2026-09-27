@@ -127,6 +127,11 @@ class TestTheCaptureReader:
     def test_a_readable_export_raises_no_problem(self):
         assert capture.problems(_snapshot_capture()) == []
 
+    def test_points_that_are_not_a_list_are_refused_as_that(self):
+        with pytest.raises(capture.CaptureError) as refused:
+            capture.load(dict(_export([]), points={"D-1": {}}), stall_window_days=14)
+        assert "`points` is dict" in str(refused.value)
+
 
 class TestTheDeclarationReader:
 
@@ -143,6 +148,14 @@ class TestTheDeclarationReader:
         with pytest.raises(declaration.DeclarationError) as refused:
             declaration.load(declared)
         assert "points[0] is str" in str(refused.value)
+
+    def test_points_that_are_not_a_list_are_refused_as_that(self):
+        """Iterated, a mapping yields its keys, and the first would be refused as
+        an entry that is not a point -- true, and about the wrong thing."""
+        declared = json.loads(Path(DECL).read_text(encoding="utf-8"))
+        with pytest.raises(declaration.DeclarationError) as refused:
+            declaration.load(dict(declared, points={"D-1": {}}))
+        assert "`points` is dict" in str(refused.value)
 
     def test_nothing_to_judge_is_said_and_a_descoped_deliverable_still_counts(self):
         declared = json.loads(Path(DECL).read_text(encoding="utf-8"))
