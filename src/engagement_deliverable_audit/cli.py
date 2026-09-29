@@ -472,7 +472,13 @@ def cmd_detect(args: argparse.Namespace) -> int:
         # `None` fails halfway through writing the artifact. What it reads is DERIVED
         # from its own source rather than transcribed -- see `attestation_manifest`.
         from .attestation_manifest import EngagementManifest
+        from .vertical import register
 
+        # The core spells each finding's subject in the domain's own word only when
+        # this package's vocabulary is installed. `presence` and `regression` always
+        # installed it; `detect` never did, so every attestation keyed its findings
+        # on `point` alone while the README promised `deliverable` beside it.
+        register(engagement)
         artifact = build_attestation(
             passed.session, envelope, passed.describe, EngagementManifest(),
             target=args.attest_target or str(args.declaration), attest_fn=attest_fn,

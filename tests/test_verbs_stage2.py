@@ -173,6 +173,26 @@ def test_an_attestation_round_trips_through_the_front_door(tmp_path, capsys) -> 
         "a finding with no statement reads as one nobody could describe")
 
 
+def test_each_finding_in_the_attestation_names_its_deliverable(tmp_path, capsys) -> None:
+    """The README says an attestation keys each finding on `point` and on `deliverable`.
+
+    The core writes the domain's own word only while this package's vocabulary is
+    installed, and `detect` never installed it -- so every finding carried `point`
+    alone. Reset first: a `presence` run earlier in the process leaves the vocabulary
+    installed, and this would then pass without the fix.
+    """
+    from presence_audit import vocabulary
+
+    vocabulary.reset()
+    artifact = tmp_path / "att.json"
+    main(["detect", "--declaration", "evidence/astropy-cycle5-declaration.json",
+          "--model", MODEL, "--capture", CAPTURE, "--attest-out", str(artifact)])
+    capsys.readouterr()
+    stored = json.loads(artifact.read_text(encoding="utf-8"))
+    assert stored["findings"], "an artifact with no findings proves nothing here"
+    assert all(f.get("deliverable") == f.get("point") for f in stored["findings"])
+
+
 def _unowned_capture(tmp_path) -> tuple[str, str]:
     """A declaration and a capture where NOBODY owns anything.
 

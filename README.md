@@ -19,7 +19,7 @@ or a declared entry with no name, refused by its position rather than dropped.
 
 ## Status
 
-**Released at 0.1.0. Stage 1 and Stage 2 both run.**
+**Released on PyPI. Stage 1 and Stage 2 both run.**
 
     pip install engagement-deliverable-audit            # Stage 1
     pip install 'engagement-deliverable-audit[detect]'   # and the engine
