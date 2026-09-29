@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.7 -- 2026-09-29
+
+### Fixed
+
+- **Every finding in an attestation names its deliverable.** `detect --attest-out` keyed
+  each finding on the core's `point` alone, because `detect` never installed this
+  package's vocabulary -- `presence` and `regression` always did -- while the README
+  promised `deliverable` beside it.
+
+### Documentation
+
+- The status line says the package is released on PyPI rather than naming 0.1.0.
+
 ## 0.1.6 -- 2026-09-27
 
 An input that holds nothing, or names nothing, is refused wherever it enters, where
