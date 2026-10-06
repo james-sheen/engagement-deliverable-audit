@@ -4,6 +4,32 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.1.8 -- 2026-10-06
+
+The two guards a user's own transcription had no way into run in a verb.
+
+### Added
+
+- **`gate --published FILE` checks the figures the documents published, beside `--model`.**
+  Each figure names its entity type, indicator, bound, number and the quote that publishes
+  it. The quote must contain the number, and the model must pass the number and fire just
+  past it: `model_gate.basis_problems` and `boundary_gate`, which the README listed and which
+  ran only in this package's tests. A model declaring `critical: 40` for a volume that *shall
+  not exceed 40 pages* passed `gate --model`; with its figure it is refused. A bound in the
+  model that no figure speaks for is reported as not checked.
+
+### Fixed
+
+- **`boundary_gate` judges each bound at its own severity.** It counted any finding, so with a
+  warning line inside a limit, a subject at the limit -- correctly a warning -- read as the
+  critical bound firing at its own published number.
+
+### Documentation
+
+- The battery's detect scenario said ten daily captures, and that a scenario cannot wait for
+  them. Burn-in needs eleven, and `capture --captured-at` back-dates a capture; the battery
+  passes no stamp.
+
 ## 0.1.7 -- 2026-09-29
 
 ### Fixed
