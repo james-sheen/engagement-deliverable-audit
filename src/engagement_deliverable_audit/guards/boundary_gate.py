@@ -17,12 +17,20 @@ WHAT THIS ASSERTS. For each bound, the caller supplies the number the document
 published. The published number must be CLEAN and the next representable value
 past it must FIRE. Where that does not hold, the model is transcribing the
 document wrongly even though the citation is real.
+
+ONE BOUND AT A TIME, AT ITS OWN SEVERITY. The engine reports a value at the
+worst severity it reaches, so a page count of 40 against `warning: 38` and a
+critical line just past 40 is a WARNING -- correctly: the volume is past its
+warning line and inside its limit. Counting any finding, as this did while it
+had only ever met one bound per indicator, read that warning as the critical
+bound firing at its own published number, and refused a model that transcribed
+both lines right. A bound's probe counts findings at its severity or worse.
 """
 
 from __future__ import annotations
 
 import math
-from typing import Any, Iterable, Mapping
+from typing import Any, Iterable, Mapping, Optional
 
 from .problem import Problem
 
@@ -35,15 +43,29 @@ DIRECTION: Mapping[str, float] = {
     "lower_critical": -math.inf,
 }
 
+#: The severity a bound's own finding carries, and the order a probe counts up from.
+SEVERITY: Mapping[str, str] = {
+    "warning": "warning",
+    "lower_warning": "warning",
+    "critical": "critical",
+    "lower_critical": "critical",
+}
+_RANK: Mapping[str, int] = {"warning": 1, "critical": 2}
+
 
 def _fires(model: Mapping[str, Any], entity_type: str, indicator: str,
-           value: float) -> bool:
+           value: float, severity: Optional[str] = None) -> bool:
+    """Whether a finding comes back for `value` -- at `severity` or worse, when named."""
     from arbiter_engine.api import EngineSession, check  # deferred: optional extra
 
     session = EngineSession()
     session.load_model(model)
     session.add_entity("probe", entity_type, properties={indicator: value})
-    return bool(check(session).to_dict()["findings"])
+    findings = check(session).to_dict()["findings"]
+    if severity is None:
+        return bool(findings)
+    floor = _RANK[severity]
+    return any(_RANK.get(str(f.get("severity")), 0) >= floor for f in findings)
 
 
 def problems(model: Mapping[str, Any],
@@ -63,9 +85,9 @@ def problems(model: Mapping[str, Any],
                 what=f"is not one of {', '.join(DIRECTION)}",
                 remedy="name the bound the engine reads"))
             continue
-        at = _fires(model, entity_type, indicator, float(number))
+        at = _fires(model, entity_type, indicator, float(number), SEVERITY[bound])
         past = _fires(model, entity_type, indicator,
-                      math.nextafter(float(number), DIRECTION[bound]))
+                      math.nextafter(float(number), DIRECTION[bound]), SEVERITY[bound])
         if at:
             out.append(Problem(
                 where=f"{entity_type}.{indicator}.{bound}",

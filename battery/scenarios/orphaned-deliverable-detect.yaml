@@ -12,11 +12,13 @@
 # `--capture` repeatably and is handed every capture oldest first, because an axiom
 # about a series needs the series.
 #
-# WHAT THIS CANNOT SHOW, and `docs/burn-in.md` says so at more length: ten daily
-# captures are needed before the STABILITY arm answers, and a scenario cannot wait ten
-# days. So the phases below exercise the invariant that answers immediately, and the
-# derived-series path is exercised in `tests/test_feeder.py` against a series built
-# from the real clock.
+# WHAT THIS DOES NOT SHOW, and `docs/burn-in.md` says why at more length: eleven daily
+# captures are needed before the STABILITY arm answers -- ten days of history, since
+# the first capture has no predecessor to have moved from. `capture --captured-at`
+# back-dates a capture, so a scenario need not wait for them, but this battery passes
+# no stamp. So the phases below exercise the invariant that answers immediately, and
+# the derived-series path is exercised in `tests/test_feeder.py` against a series
+# built from the real clock.
 format: qa-scenario/2
 name: ownership judged by the engine, where an orphan needs no history to see
 substrate: engagement

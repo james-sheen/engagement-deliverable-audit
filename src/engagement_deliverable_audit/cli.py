@@ -637,19 +637,115 @@ def cmd_draft(args: argparse.Namespace) -> int:
 
 # --- gate ------------------------------------------------------------------
 
+#: What a published figure carries, each read by name. `source` -- where the document
+#: published it -- is tolerated by name and never compared; any other key is refused,
+#: because a key nothing reads is a check its author believes ran.
+PUBLISHED_KEYS = ("entity_type", "indicator", "bound", "number", "quote")
+
+
+def _published_figures(path: str) -> tuple[list[dict], list[str]]:
+    """The figures a document published, as the user transcribed them, and what is wrong
+    with the ones that cannot be checked.
+
+    A figure is kept OUT of the model on purpose: a `basis:` quote inside an indicator is a
+    key the engine does not read, so `gate --model` refuses it as unread and never judges
+    the quote, and `boundary_gate` needs the number the document states beside the number
+    the model fires at -- they differ exactly when the phrasing is *shall not exceed*.
+    """
+    import yaml
+
+    with open(path, encoding="utf-8") as handle:
+        document = yaml.safe_load(handle)
+    figures = document.get("published") if isinstance(document, dict) else None
+    if not isinstance(figures, list) or not figures:
+        raise ValueError("expected a mapping whose `published:` is a list of figures, and "
+                         "a gate over no figures would pass having checked nothing")
+    kept: list[dict] = []
+    wrong: list[str] = []
+    for n, figure in enumerate(figures, 1):
+        if not isinstance(figure, dict):
+            wrong.append(f"figure {n} is {type(figure).__name__}, not a mapping")
+            continue
+        problems = []
+        missing = [key for key in PUBLISHED_KEYS if figure.get(key) in (None, "")]
+        if missing:
+            problems.append(f"has no {', '.join(missing)}")
+        unread = sorted(set(figure) - set(PUBLISHED_KEYS) - {"source"})
+        if unread:
+            problems.append(f"carries {', '.join(map(str, unread))}, which nothing reads")
+        number = figure.get("number")
+        if number is not None and (isinstance(number, bool)
+                                   or not isinstance(number, (int, float))):
+            problems.append(f"states {number!r}, which is not a number")
+        if problems:
+            wrong.append(f"figure {n} {'; '.join(problems)}")
+        else:
+            kept.append(figure)
+    return kept, wrong
+
+
+def _gate_published(path: str, model: dict, model_path: str, refused: list[str]) -> None:
+    """Put the published figures through the two guards that read them, beside the model.
+
+    `model_gate.basis_problems`: each figure's quote contains its number -- the
+    transcription survived. `boundary_gate`: the model passes the published number and
+    fires just past it -- the model reads the document the way the document is phrased.
+    """
+    import yaml
+
+    from .guards import boundary_gate, model_gate
+
+    try:
+        figures, wrong = _published_figures(path)
+    except (OSError, ValueError, yaml.YAMLError) as problem:
+        refused.append(f"{path}: {problem}")
+        return
+    refused.extend(f"{path}: {line}" for line in wrong)
+    found = list(model_gate.basis_problems([
+        {"name": f"{f['entity_type']}.{f['indicator']}", "basis": {"quote": str(f["quote"])},
+         f["bound"]: f["number"]} for f in figures]))
+    try:
+        found += list(boundary_gate.problems(model, [
+            (f["entity_type"], f["indicator"], f["bound"], f["number"]) for f in figures]))
+    except ImportError:
+        refused.append(f"{path}: the published figures are probed through the engine, "
+                       f"which is not installed")
+        return
+    except Exception as problem:                                  # noqa: BLE001
+        refused.append(f"{path}: the engine could not probe the model: {problem}")
+        return
+    for problem in found:
+        refused.append(f"{path}:{problem.where}: {problem.what}")
+    # A bound no figure speaks for was compared with no document. Said, not refused: the
+    # model may be right, and this run cannot tell.
+    given = {(f["entity_type"], f["indicator"], f["bound"]) for f in figures}
+    domain = model.get("domain", model)
+    for entity_type, indicators in (domain.get("indicators") or {}).items():
+        for indicator in indicators or ():
+            for bound in boundary_gate.DIRECTION:
+                if bound in indicator and (entity_type, indicator.get("name"), bound) not in given:
+                    _out(f"  not checked  {model_path}:{entity_type}.{indicator.get('name')}"
+                         f".{bound}: no published figure was given for it")
+    if figures and not wrong and not found:
+        _out(f"  ok  {path}: {len(figures)} published figure(s), each quote containing its "
+             f"number, each number passing the model and the next value past it firing")
+
+
 def cmd_gate(args: argparse.Namespace) -> int:
     """Refuse, by name, everything that is not ready to be judged against.
 
     A pipeline step rather than a second `declare`. `declare` answers about one
     document and stops at the first thing wrong with it; this takes every declaration
     a run would use, names each one that is not signed, and optionally puts the model
-    through the four guards as well -- so one command answers *may this run happen*.
+    through the guards that read one, and the figures the documents published through
+    the two that read those -- so one command answers *may this run happen*.
 
     Exit 2 and not 1 when something is refused. A declaration nobody signed has
     produced no verdict to report as findings, which is the rule the rest of this
     package follows for a document it could not act on.
     """
     refused: list[str] = []
+    model = None
     for path in args.declarations:
         try:
             engagement = declaration_module.load(_read(path))
@@ -674,7 +770,7 @@ def cmd_gate(args: argparse.Namespace) -> int:
         try:
             import yaml
 
-            from .guards import boundary_gate, describe_gate, model_gate
+            from .guards import describe_gate, model_gate
         except ImportError as missing:
             refused.append(f"{args.model}: the model gates need the engine extra "
                            f"and a YAML reader: {missing}")
@@ -718,7 +814,14 @@ def cmd_gate(args: argparse.Namespace) -> int:
                     _out(f"  ok  {args.model}: every declared axiom has something to "
                          f"judge against, and the engine read every key")
 
-    if not args.declarations and not args.model:
+    if args.published:
+        if not args.model:
+            refused.append(f"{args.published}: published figures are checked against a "
+                           f"model, and none was given: pass --model")
+        elif model is not None:
+            _gate_published(args.published, model, args.model, refused)
+
+    if not args.declarations and not args.model and not args.published:
         return _refuse("nothing was given to gate, and a clean exit over nothing is "
                        "the one answer this verb must not produce")
     if refused:
@@ -1007,6 +1110,10 @@ def build_parser() -> argparse.ArgumentParser:
     gat.add_argument("declarations", nargs="*")
     gat.add_argument("--model", default=None,
                      help="also put the model through the gates that read one")
+    gat.add_argument("--published", default=None,
+                     help="the figures the documents published (with --model): each "
+                          "quote must contain its number, and the model must pass it "
+                          "and fire just past it")
     gat.set_defaults(run=cmd_gate)
 
     gen = verbs.add_parser("generate", help="a model and a manifest, as a pair")

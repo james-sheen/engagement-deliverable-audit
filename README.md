@@ -117,6 +117,13 @@ written so that removing its rule turns its own tests red.
 `model_gate` deliberately permits MONOTONICITY with no `monotonicity` block,
 because the reversal arm answers without one.
 
+`gate --model` runs the model's guards. The basis check and `boundary_gate` read the
+figures the documents published, which the model does not carry -- a `basis:` quote
+inside an indicator is a key the engine does not read -- so `gate --published` takes
+them in a file of their own, below. `boundary_gate` probes each bound at its own
+severity: a subject past its warning line and inside its limit is a warning, not the
+limit firing.
+
 ### The verbs Stage 2 adds
 
 `draft` proposes a declaration from a tracker export and refuses to call it reviewed --
@@ -126,9 +133,32 @@ another name, and nothing in a tracker decides the window a stall is measured ag
 
 `gate` names, in one pass, everything that is not ready to be judged against: every
 unsigned declaration, every one naming no deliverable and no milestone, and with
-`--model` the model gates too. It exits 2 rather than 1,
+`--model` the model gates too, and with `--published` the figures the documents
+published. It exits 2 rather than 1,
 because a document nobody signed has produced no verdict to report as findings, and it
 refuses to exit clean when handed nothing.
+
+A published figure is what a document states, transcribed -- each needs the model it
+is checked against:
+
+```yaml
+published:
+  - entity_type: Volume
+    indicator: page_count
+    bound: critical
+    number: 40
+    quote: "Each technical volume shall not exceed 40 pages."
+    source: RFP Section L.3      # optional, printed and never compared
+```
+
+    engagement-deliverable-audit gate --model volume.model.yaml --published published.yaml
+
+The quote must contain the number, and the model must pass the number and fire just past
+it. A model declaring `critical: 40` here is refused, because *shall not exceed 40* leaves
+forty compliant and the engine fires at the number; declare the next representable value
+past it. A figure missing a field, carrying a key nothing reads, or stating a number as
+text is refused by its position, and a bound in the model that no figure speaks for is
+reported as `not checked`.
 
 `generate` writes a model and a manifest as a pair or neither. **This domain's generated
 model is empty**, by construction: generation derives indicators from thresholds a

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import math
 
+import pytest
+
 
 def _model(indicator):
     return {"domain": {"id": "t", "name": "t", "description": "t",
@@ -84,3 +86,22 @@ def test_a_floor_is_probed_downwards() -> None:
                     "axioms": ["BOUNDEDNESS"]})
     assert guard.problems(model,
                           [("Response", "days_of_runway", "lower_critical", 24.0)]) == ()
+
+
+@pytest.mark.parametrize("line, limit, warning, critical", [
+    (38.0, 40.0, "warning", "critical"),
+    (5.0, 2.0, "lower_warning", "lower_critical"),
+], ids=["a warning line under a ceiling", "a warning line over a floor"])
+def test_two_bounds_on_one_indicator_are_each_judged_at_their_own_severity(line, limit, warning, critical) -> None:
+    """The common shape, which the guard had never met: a warning line inside a limit. At the
+    published limit the subject is past its warning line -- the engine says WARNING, correctly --
+    and inside the limit, so the critical bound is clean there and fires just past it. Counting
+    any finding read that warning as the critical bound firing at its own number."""
+    away = math.inf if warning == "warning" else -math.inf
+    model = _model({"name": "page_count", "type": "NUMERIC", "axioms": ["BOUNDEDNESS"],
+                    warning: math.nextafter(line, away), critical: math.nextafter(limit, away)})
+    assert guard.problems(model, [("Response", "page_count", warning, line),
+                                  ("Response", "page_count", critical, limit)]) == ()
+    model["domain"]["indicators"]["Response"][0][critical] = limit       # the defect, still caught
+    found = guard.problems(model, [("Response", "page_count", critical, limit)])
+    assert len(found) == 1 and "itself is reported as a violation" in found[0].what
