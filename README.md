@@ -148,7 +148,7 @@ published:
     bound: critical
     number: 40
     quote: "Each technical volume shall not exceed 40 pages."
-    source: RFP Section L.3      # optional, printed and never compared
+    source: RFP Section L.3      # optional, for your own record: gate does not read it
 ```
 
     engagement-deliverable-audit gate --model volume.model.yaml --published published.yaml
