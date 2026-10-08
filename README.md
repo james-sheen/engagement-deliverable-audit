@@ -208,10 +208,13 @@ deliverables should not make every consumer install a test harness:
     qa-orchestrator --plugin battery/qa_vertical.py run battery/scenarios/orphaned-deliverable.yaml
     python3 battery/probe_qa_vertical.py            # every claim above, as one leg each
 
-Four verbs are added -- `orphan`, `reassign`, `slip`, `bounce` -- because an entity's
-value in the harness's snapshot is days since the last transition, so `remove` and
-`set` already say *absent* and *moving* without help, and what they cannot say is
-anything about an owner or a status. Every phase asserts both channels: the
+Five verbs are added -- `orphan`, `reassign`, `slip`, `bounce` and `days_pass` -- because
+an entity's value in the harness's snapshot is days since the last transition, so `remove`
+and `set` already say *absent* and *moving* without help, and what they cannot say is
+anything about an owner or a status, or about days going by. The battery stamps a run's
+captures a day apart, ending before the run, so `days_pass` -- the work moving, the named
+deliverables left alone -- gives the detect scenario the eleven daily captures the
+history arm needs, and its last phase asserts what that arm finds. Every phase asserts both channels: the
 referee's verdict and the substrate's own state. If an injection silently failed,
 the substrate expectation is the only thing that could show the referee was right to
 stay quiet.

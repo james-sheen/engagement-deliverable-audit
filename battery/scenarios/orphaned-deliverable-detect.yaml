@@ -12,13 +12,12 @@
 # `--capture` repeatably and is handed every capture oldest first, because an axiom
 # about a series needs the series.
 #
-# WHAT THIS DOES NOT SHOW, and `docs/burn-in.md` says why at more length: eleven daily
-# captures are needed before the STABILITY arm answers -- ten days of history, since
-# the first capture has no predecessor to have moved from. `capture --captured-at`
-# back-dates a capture, so a scenario need not wait for them, but this battery passes
-# no stamp. So the phases below exercise the invariant that answers immediately, and
-# the derived-series path is exercised in `tests/test_feeder.py` against a series
-# built from the real clock.
+# THE HISTORY ARM, LAST. Eleven daily captures are needed before STABILITY answers --
+# ten days of history, since the first capture has no predecessor to have moved from
+# (`docs/burn-in.md`). The battery stamps a run's captures a day apart with
+# `capture --captured-at`, ending before the run, because `detect` judges at the clock;
+# so the last phase lets eleven days pass, with the work moving and D-4 left alone, and
+# the arm reads D-4's transition count -- flat at nothing -- as frozen.
 format: qa-scenario/2
 name: ownership judged by the engine, where an orphan needs no history to see
 substrate: engagement
@@ -64,3 +63,14 @@ phases:
         exit: 1
         findings: {not_names: [D-3]}
       substrate: {D-3: reading}
+
+  # Eleven days pass. The deliverables being worked move on rhythms of their own, so their
+  # count of transitions in a trailing week varies; D-4 is left alone and its count stays
+  # at nothing. With ten days of history the series axiom answers, and it names D-4 alone.
+  - note: eleven days pass, D-4 sits while the rest is worked, and the history arm names it
+    captures: 11
+    action: {days_pass: {still: [D-4]}}
+    expect:
+      referee:
+        exit: 1
+        findings: {text: "frozen_series", names: [D-4], not_names: [D-1, D-2, D-3]}

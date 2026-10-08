@@ -114,15 +114,76 @@ def test_orphan_takes_a_name_and_not_a_mapping() -> None:
         qa_vertical.ORPHAN.validate({"entity": "D-1"}, "phase 1", 1)
 
 
+@pytest.mark.parametrize("payload", ["D-1", {"still": "D-1"}, {"still": [""]}, {"quiet": ["D-1"]}])
+def test_days_pass_refuses_a_payload_it_cannot_act_on(payload) -> None:
+    with pytest.raises(ScenarioError):
+        qa_vertical.DAYS_PASS.validate(payload, "phase 1", 3)
+
+
+# --- days, which the history arm needs ---------------------------------------
+
+def _days(tier, still, days):
+    for index in range(days):
+        tier.days_pass(still, index)
+
+
+def test_days_pass_ages_the_still_and_moves_the_work() -> None:
+    """A tracker held where it was reads every deliverable as frozen, because the feeder
+    counts a transition when days-since-last falls. A day passing must age what nobody
+    touches and let what is being worked fall back."""
+    tier = qa_vertical.EngagementSubstrate({"entities": [
+        {"name": name, "value": 2, "owner": "ana", "state": "In Progress"}
+        for name in ("D-1", "D-2", "D-3", "D-4")]})
+    seen = {name: [] for name in ("D-1", "D-2", "D-3", "D-4")}
+    for index in range(11):
+        tier.days_pass(["D-4"], index)
+        for name in seen:
+            seen[name].append(tier.record(name)["value"])
+    assert seen["D-4"] == [3.0 + i for i in range(11)]
+    for name in ("D-1", "D-2", "D-3"):
+        assert any(later < earlier for earlier, later in zip(seen[name], seen[name][1:])), name
+
+
+def test_days_pass_refuses_a_deliverable_the_engagement_does_not_declare() -> None:
+    with pytest.raises(SubstrateUnavailable, match="does not declare"):
+        _tier().days_pass(["D-9"], 0)
+
+
+def test_days_pass_leaves_a_deliverable_with_no_recorded_transition_alone() -> None:
+    tier = _tier()
+    tier.disable("D-1")
+    _days(tier, [], 4)
+    assert tier.record("D-1")["value"] is None
+
+
+def test_a_runs_captures_are_a_series_of_days_that_ends_before_it(tmp_path) -> None:
+    import datetime as dt
+    stamps = []
+    for n in (1, 2, 14, qa_vertical.DAYS):
+        argv = qa_vertical._capture_argv(str(tmp_path / "snap.json"), tmp_path / f"capture_{n:03d}.json")
+        stamps.append(dt.datetime.strptime(argv[argv.index("--captured-at") + 1],
+                                           "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc))
+    assert [(b - a).days for a, b in zip(stamps, stamps[1:])] == [1, 12, qa_vertical.DAYS - 14]
+    assert stamps[-1] < dt.datetime.now(dt.timezone.utc)
+
+
+@pytest.mark.parametrize("name", ["capture.json", "snapshot_003.json", f"capture_{qa_vertical.DAYS + 1:03d}.json"])
+def test_a_capture_that_cannot_be_stamped_is_refused(name, tmp_path) -> None:
+    """A renamed capture would leave every stamp guessed; one past the run's days would
+    stamp the future."""
+    with pytest.raises(ScenarioError):
+        qa_vertical._capture_argv(str(tmp_path / "snap.json"), tmp_path / name)
+
+
 def test_every_verb_this_vertical_adds_is_one_the_core_does_not_ship() -> None:
     """`register_verb` refuses a name already taken, so a collision is a hard error
     at registration rather than a shadowed built-in. This is the cheaper place to
-    find out, and it names the four rather than counting them."""
+    find out, and it names the five rather than counting them."""
     from qa_orchestrator import actions
 
     shipped = set(actions.known_verbs())
     mine = {verb.name for verb in qa_vertical.VERBS}
-    assert mine == {"orphan", "reassign", "slip", "bounce"}
+    assert mine == {"orphan", "reassign", "slip", "bounce", "days_pass"}
     assert not mine & shipped, f"{mine & shipped} already exist in this build"
 
 

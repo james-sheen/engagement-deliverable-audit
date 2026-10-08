@@ -84,7 +84,7 @@ def leg_registration() -> tuple[bool, str]:
         return False, f"unregister() left something behind: {set(after[0]) - set(before[0])}, " \
                       f"{set(after[1]) - set(before[1])}, {set(after[2]) - set(before[2])}"
     added = set(during[2]) - set(before[2])
-    if added != {"orphan", "reassign", "slip", "bounce"}:
+    if added != {"orphan", "reassign", "slip", "bounce", "days_pass"}:
         return False, f"the verbs registered were {sorted(added)}"
     return True, f"registries restored, and {len(added)} verb(s) plus a tier and a " \
                  f"referee were added in between"

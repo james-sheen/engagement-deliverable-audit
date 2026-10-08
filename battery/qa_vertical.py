@@ -25,19 +25,22 @@ and measuring changed four things a plausible reading would have got wrong:
   with NO report -- so every expectation naming an absence would have passed over
   nothing. Fixed in the tool; `tests/test_cli.py` holds the guard.
 
-**Four verbs are registered, and the count is measured rather than assumed.** The
+**Five verbs are registered, and the count is measured rather than assumed.** The
 core ships `disable`, `drive`, `fail`, `remove`, `set` and the alias `drift`. An
 entity's `value` is days since the last transition, so `remove` makes a deliverable
 absent and `set` moves one back inside the window with no help from here. What the
 built-ins cannot say is anything about an OWNER or a STATUS, which is where this
 domain's faults live -- so `orphan`, `reassign`, `slip` and `bounce` are added, and
+`days_pass`, a day of work before each of a phase's daily captures, and
 `register_verb` refuses a name already taken rather than shadowing it.
 """
 
 from __future__ import annotations
 
+import datetime as dt
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any, Sequence
@@ -133,6 +136,31 @@ class EngagementSubstrate(MemorySubstrate):
                 f"{days}. A missing number is not a transition at zero")
         record["value"] = float(current) + float(days)
 
+    def days_pass(self, still: Sequence[str], index: int) -> None:
+        """A day passes before a capture: every deliverable with a transition ages a day, the
+        ones being worked move every third day, and the `still` never move.
+
+        A tracker held where it was would read every deliverable as frozen: the feeder counts
+        a transition when days-since-last FALLS, so a value that stayed put across a day is a
+        deliverable nobody touched. Moving every third day, a deliverable's count of
+        transitions in a trailing week varies, which is what the model asks of a moving one.
+        """
+        unknown = sorted(set(still) - set(self._entities))
+        if unknown:
+            raise SubstrateUnavailable(f"days_pass names {', '.join(unknown)}, which this "
+                                       f"engagement does not declare")
+        for name in sorted(self._entities):
+            if name in self._gone:
+                continue
+            record = self.record(name)
+            current = record.get("value")
+            if not isinstance(current, (int, float)):
+                continue                       # no transition recorded: nothing to age
+            if name not in still and index % 3 == 0:
+                record["value"] = 0.0
+            else:
+                record["value"] = float(current) + 1.0
+
     def bounce(self, entity: str, to: str) -> None:
         """The ticket goes back to an earlier status, still owned and still moving."""
         self.record(entity)["state"] = to
@@ -165,10 +193,12 @@ class EngagementSubstrate(MemorySubstrate):
 
 
 # ----------------------------------------------------------------------- verbs
-def _v_entity(payload: Any, where: str, captures: int) -> str:
-    _needs(isinstance(payload, str) and bool(payload.strip()),
-           f"{where}: orphan takes a deliverable name, got {payload!r}")
-    return payload
+def _v_entity(verb: str):
+    def validate(payload: Any, where: str, captures: int) -> str:
+        _needs(isinstance(payload, str) and bool(payload.strip()),
+               f"{where}: {verb} takes a deliverable name, got {payload!r}")
+        return payload
+    return validate
 
 
 def _v_to(verb: str):
@@ -193,6 +223,16 @@ def _v_slip(payload: Any, where: str, captures: int) -> dict:
     return {"entity": str(entity), "days": days}
 
 
+def _v_days_pass(payload: Any, where: str, captures: int) -> dict:
+    _needs(isinstance(payload, dict) and set(payload) <= {"still"},
+           f"{where}: days_pass takes {{still: [deliverable, ...]}}, got {payload!r}")
+    still = payload.get("still") or []
+    _needs(isinstance(still, list) and all(isinstance(n, str) and n.strip() for n in still),
+           f"{where}: days_pass's `still` is a list of deliverable names, got {still!r}")
+    _needs(captures >= 1, f"{where}: days_pass happens at captures, and this phase takes none")
+    return {"still": list(still)}
+
+
 def _reaches(target: Any, method: str, cannot: str):
     found = getattr(target, method, None)
     if found is None:
@@ -201,7 +241,7 @@ def _reaches(target: Any, method: str, cannot: str):
 
 
 ORPHAN = Verb("orphan", "the owner goes away and the deliverable stays",
-              _v_entity,
+              _v_entity("orphan"),
               apply=lambda target, payload: _reaches(
                   target, "orphan", "take the owner off a deliverable")(payload))
 REASSIGN = Verb("reassign", "the deliverable moves to a different owner",
@@ -219,19 +259,50 @@ BOUNCE = Verb("bounce", "the ticket goes back to an earlier status",
               apply=lambda target, payload: _reaches(
                   target, "bounce", "change a deliverable's status")(
                       payload["entity"], payload["to"]))
+DAYS_PASS = Verb("days_pass", "a day passes at every capture: the work moves, the still do not",
+                 _v_days_pass,
+                 per_capture=lambda target, payload, index: _reaches(
+                     target, "days_pass", "let days pass")(payload["still"], index))
 
-VERBS = (ORPHAN, REASSIGN, SLIP, BOUNCE)
+VERBS = (ORPHAN, REASSIGN, SLIP, BOUNCE, DAYS_PASS)
 
 
 # --------------------------------------------------------------------- referee
+#: How many daily captures a run may stamp: the first is stamped this many days before the run
+#: started, each later one a day after the one before. A capture stamped at the moment it ran sat
+#: seconds from its neighbours, so the history arm -- eleven daily captures, `docs/burn-in.md` --
+#: never answered in any scenario. The days end before the run because `detect` judges at the
+#: clock, and the model counts observations inside a window that ends there.
+DAYS = 28
+FIRST_CAPTURE = (dt.datetime.now(dt.timezone.utc).replace(minute=0, second=0, microsecond=0)
+                 - dt.timedelta(days=DAYS))
+#: How the harness names the n-th capture of a run, measured off the installed core (`run.py`).
+_NUMBERED = re.compile(r"capture_(\d+)\.json$")
+
+
 def _capture_argv(handle: str, out: Path) -> tuple[str, ...]:
-    """`capture --source qa-memory:<snapshot> --out W --print-digest`.
+    """`capture --source qa-memory:<snapshot> --out W --captured-at T --print-digest`.
 
     The memory tier's handle is the path of the snapshot it just wrote, which is
-    exactly what this tool's `qa-memory:` source reads.
+    exactly what this tool's `qa-memory:` source reads. The n-th capture of a run is
+    stamped n - 1 days after `FIRST_CAPTURE`, n read from the name the harness gives it:
+    a scenario's captures are a series of days, as a tracker's would be.
     """
+    numbered = _NUMBERED.search(Path(out).name)
+    if numbered is None:
+        raise ScenarioError(
+            f"the harness named a capture {Path(out).name!r}; this battery stamps the n-th "
+            f"capture of a run n - 1 days after the first and reads n from capture_NNN.json, "
+            f"so a renamed capture would leave every stamp guessed")
+    number = int(numbered.group(1))
+    if number > DAYS:
+        raise ScenarioError(
+            f"capture {number}: this battery stamps a run's captures a day apart over the "
+            f"{DAYS} days before it started, and a run of more than {DAYS} would stamp the "
+            f"future")
+    stamp = FIRST_CAPTURE + dt.timedelta(days=number - 1)
     return ("capture", "--source", f"qa-memory:{handle}", "--out", str(out),
-            "--print-digest")
+            "--captured-at", stamp.strftime("%Y-%m-%dT%H:%M:%SZ"), "--print-digest")
 
 
 def _window_in(config: str) -> str:
